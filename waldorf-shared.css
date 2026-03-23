@@ -74,8 +74,13 @@ nav {
   position: fixed; inset: 0 0 auto; z-index: 200; height: 76px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 56px;
-  background: rgba(250,248,245,.97);
-  backdrop-filter: blur(24px);
+  transition: background .5s, backdrop-filter .5s, box-shadow .5s;
+  /* Subpages start solid since there's no full-screen hero */
+  background: rgba(250,248,245,.96); backdrop-filter: blur(24px);
+  box-shadow: 0 1px 0 rgba(0,0,0,.06);
+}
+nav.solid {
+  background: rgba(250,248,245,.96); backdrop-filter: blur(24px);
   box-shadow: 0 1px 0 rgba(0,0,0,.06);
 }
 .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
@@ -128,27 +133,40 @@ nav {
 
 /* ── PAGE HERO ────────────────────────────────────────────────── */
 .page-hero {
-  height: 300px;
-  background:
-    linear-gradient(135deg, rgba(122,78,135,.9) 0%, rgba(15,8,24,.95) 50%, rgba(26,14,40,.98) 100%),
-    linear-gradient(to right, #2a1040, #0f0818);
+  height: 360px;
   display: flex; align-items: flex-end;
-  padding: 0 72px 48px;
+  padding: 0 72px 56px;
   margin-top: 76px;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, rgba(122,78,135,.9) 0%, rgba(15,8,24,.95) 50%, rgba(26,14,40,.98) 100%);
+}
+.page-hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+.page-hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+  display: block;
+}
+.page-hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(135deg, rgba(15,8,24,.72) 0%, rgba(26,14,40,.85) 100%);
 }
 .page-hero::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 2;
   background: radial-gradient(ellipse 70% 80% at 20% 50%, rgba(166,118,173,.18) 0%, transparent 60%);
   pointer-events: none;
 }
-.page-hero-inner { position: relative; z-index: 1; }
+.page-hero-content { position: relative; z-index: 3; }
+/* Legacy support for .page-hero-inner (old markup) */
+.page-hero-inner { position: relative; z-index: 3; }
 .page-hero-label {
   display: flex; align-items: center; gap: 14px;
   margin-bottom: 20px;
 }
+.page-hero-line { width: 32px; height: 1px; background: var(--mauve2); }
+/* Legacy support for .page-hero-label-line */
 .page-hero-label-line { width: 32px; height: 1px; background: var(--mauve2); }
 .page-hero-label span {
   font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
@@ -162,6 +180,7 @@ nav {
   line-height: 1.1;
   letter-spacing: -.02em;
 }
+.page-hero h1 em { font-style: italic; color: var(--mauve2); }
 
 /* ── COLOR STRIP ─────────────────────────────────────────────── */
 .color-strip {
