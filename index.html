@@ -274,6 +274,34 @@
   .mword::after { content:''; position:absolute; inset:0; background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%); transform:translateX(-110%); transition:transform .7s ease; pointer-events:none; }
   .mword:hover::after { transform:translateX(110%); }
 
+  /* ── Card symbols ──────────────────────────── */
+  .mword-symbol { position:absolute; top:58px; right:44px; opacity:0; pointer-events:none; transition:opacity .8s ease, transform .3s ease; }
+  .mword-symbol.vis { opacity:.55; }
+  .mword:hover .mword-symbol { opacity:.82; }
+
+  /* Float: Kopf */
+  @keyframes mwFloat {
+    0%,100% { transform:translateY(0px); }
+    50%      { transform:translateY(13px); }
+  }
+  .mword-symbol-kopf { animation:mwFloat 3.8s ease-in-out infinite; }
+
+  /* Pulse: Herz */
+  @keyframes mwPulse {
+    0%,100% { transform:scale(1); }
+    40%     { transform:scale(1.18); }
+    60%     { transform:scale(1.12); }
+  }
+  .mword-symbol-herz { animation:mwPulse 2s ease-in-out infinite; transform-origin:center; }
+
+  /* Wave: Hand */
+  @keyframes mwWave {
+    0%,100% { transform:rotate(0deg) translateY(0); }
+    25%     { transform:rotate(-7deg) translateY(-5px); }
+    75%     { transform:rotate(7deg) translateY(3px); }
+  }
+  .mword-symbol-hand { animation:mwWave 2.8s ease-in-out infinite; transform-origin:bottom center; }
+
   /* ══ STEINER QUOTE ═════════════════════════════ */
   .steiner-quote { background:var(--dark); padding:120px 72px; display:flex; align-items:center; justify-content:center; gap:72px; position:relative; overflow:hidden; }
   /* ── Scroll-Frame Canvas ── */
@@ -776,6 +804,15 @@
 
   <div class="mfst-grid">
     <div class="mword r">
+      <!-- Kopf-Symbol: schwebt sanft auf und ab -->
+      <svg class="mword-symbol mword-symbol-kopf" width="78" height="86" viewBox="0 0 78 86" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M39 7C24 7 12 18 12 34C12 46 18 57 28 62L28 72L50 72L50 62C60 57 66 46 66 34C66 18 54 7 39 7Z" stroke="#1f4e8a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="30" cy="33" r="3" fill="#1f4e8a"/>
+        <circle cx="48" cy="33" r="3" fill="#1f4e8a"/>
+        <path d="M26 26Q30 23 34 26" stroke="#1f4e8a" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        <path d="M44 26Q48 23 52 26" stroke="#1f4e8a" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        <path d="M30 48Q39 54 48 48" stroke="#1f4e8a" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      </svg>
       <span class="mword-ghost">01</span>
       <span class="mword-idx">01</span>
       <span class="mword-de">Kopf</span>
@@ -783,6 +820,10 @@
       <p class="mword-desc">Denken, Urteilen, Verstehen — wir wecken echte Neugier und fördern eigenständiges Denken von Klasse 1 bis zum Abitur.</p>
     </div>
     <div class="mword r rd2">
+      <!-- Herz-Symbol: pulsiert sanft -->
+      <svg class="mword-symbol mword-symbol-herz" width="76" height="70" viewBox="0 0 76 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M38 64C24 52 7 42 7 25C7 14 15 6 26 6C30 6 34 8 38 13C42 8 46 6 50 6C61 6 69 14 69 25C69 42 52 52 38 64Z" stroke="#a676ad" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
       <span class="mword-ghost">02</span>
       <span class="mword-idx">02</span>
       <span class="mword-de">Herz</span>
@@ -790,6 +831,15 @@
       <p class="mword-desc">Empfinden, Gestalten, Erleben — Musik, Kunst und Eurythmie sind kein Anhang, sie sind der Kern unserer Pädagogik.</p>
     </div>
     <div class="mword r rd4">
+      <!-- Hand-Symbol: schaukelt sanft -->
+      <svg class="mword-symbol mword-symbol-hand" width="72" height="80" viewBox="0 0 72 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M15 56C13 46 13 38 17 30C19 26 23 26 25 30L27 46" stroke="#2a8075" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M27 46L27 18C27 14 31 14 33 18L33 44" stroke="#2a8075" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M33 44L33 12C33 8 37 8 39 12L39 44" stroke="#2a8075" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M39 44L39 16C39 12 43 12 45 16L45 46" stroke="#2a8075" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M45 46L45 26C45 22 49 22 51 26L53 50" stroke="#2a8075" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M15 56Q14 68 26 72L46 72Q58 68 53 50" stroke="#2a8075" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
       <span class="mword-ghost">03</span>
       <span class="mword-idx">03</span>
       <span class="mword-de">Hand</span>
@@ -1511,6 +1561,14 @@ if (campusImg) {
     }
   });
 })();
+
+/* ── Card symbols: fade in on scroll ── */
+ScrollTrigger.create({
+  trigger: '.manifesto',
+  start: 'top 70%',
+  onEnter: () => document.querySelectorAll('.mword-symbol').forEach(el => el.classList.add('vis')),
+  onLeaveBack: () => document.querySelectorAll('.mword-symbol').forEach(el => el.classList.remove('vis')),
+});
 
 /* ── Steiner quote line-by-line ── */
 document.querySelectorAll('.sq-line').forEach((line, i) => {
