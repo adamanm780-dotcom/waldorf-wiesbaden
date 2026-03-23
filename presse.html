@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presse — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .presseschau-section { padding: 80px 72px 0; }
+    .pressemitteilungen-section { padding: 0 72px 80px; }
+    @media (max-width: 1024px) {
+      .presseschau-section { padding: 60px 40px 0; }
+      .pressemitteilungen-section { padding: 0 40px 60px; }
+    }
+    @media (max-width: 640px) {
+      .presseschau-section { padding: 40px 20px 0; }
+      .pressemitteilungen-section { padding: 0 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="logo-nobg.png" alt="Waldorfschule Wiesbaden Logo" style="border-radius:0;background:var(--mauve);" onerror="this.style.display='none'" />
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:28px;height:28px;top:50%;left:50%;transform:translate(-50%,-50%)"><circle cx="22" cy="22" r="10" stroke="#fff" stroke-width="1.5"/><path d="M22 12 L22 32 M12 22 L32 22" stroke="#fff" stroke-width="1"/></svg>
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop"><a href="index.html">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="index.html#philosophy">Pädagogisches Profil</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+        </ul>
+      </li>
+      <li><a href="termine.html">Termine</a></li>
+      <li class="has-drop"><a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li><a href="presse.html">Presse</a></li>
+      <li class="has-drop"><a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-label">
+        <div class="page-hero-label-line"></div>
+        <span>Öffentlichkeitsarbeit</span>
+      </div>
+      <h1>Presse</h1>
+    </div>
+  </div>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span class="bc-current">Presse</span>
+    </div>
+  </div>
+
+  <!-- PRESSESCHAU -->
+  <div class="presseschau-section">
+    <div class="content-inner" style="padding:0;">
+      <p class="sec-label r">Medienberichte</p>
+      <h2 class="sec-h r rd1">Presseschau</h2>
+      <p class="sec-sub r rd2">Berichte aus lokalen und überregionalen Medien über unsere Schulgemeinschaft.</p>
+
+      <div class="press-list r rd2">
+        <div class="press-item">
+          <div class="press-meta">
+            <div class="press-source">Wiesbadener Kurier</div>
+            <div class="press-date">Juli 2022</div>
+          </div>
+          <div class="press-title">Journalistischer Nachwuchs an Wiesbadener Schulen</div>
+        </div>
+        <div class="press-item">
+          <div class="press-meta">
+            <div class="press-source">Wiesbadener Kurier</div>
+            <div class="press-date">Dezember 2019</div>
+          </div>
+          <div class="press-title">Sanktionsfreiheit für Schüler</div>
+        </div>
+        <div class="press-item">
+          <div class="press-meta">
+            <div class="press-source">NASPA</div>
+            <div class="press-date">September 2019</div>
+          </div>
+          <div class="press-title">Naspa fordert ehrenamtliches Engagement ihrer Mitarbeiter mit 25.000 Euro</div>
+        </div>
+        <div class="press-item">
+          <div class="press-meta">
+            <div class="press-source">Der Gesundheitsberater</div>
+            <div class="press-date">Mai 2019</div>
+          </div>
+          <div class="press-title">Aus der Praxis: Wie schält man Kohlrabi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-divider" style="margin: 0 72px;">
+    <div style="height:1px;background:rgba(0,0,0,.07);"></div>
+  </div>
+
+  <!-- PRESSEMITTEILUNGEN -->
+  <div class="pressemitteilungen-section">
+    <div class="content-inner" style="padding-top:72px;padding-left:0;padding-right:0;padding-bottom:0;">
+      <p class="sec-label r">Eigene Veröffentlichungen</p>
+      <h2 class="sec-h r rd1">Pressemitteilungen</h2>
+      <p class="sec-sub r rd2">Offizielle Mitteilungen und Berichte aus unserem Schulleben.</p>
+
+      <div class="press-release-list r rd2">
+
+        <!-- PM 1 -->
+        <div class="press-release-item">
+          <div class="press-release-text">
+            <div class="date">25. März 2019</div>
+            <h3>Fotoausstellung „Die Kunst, Das Museum, Die Schule, Wir"</h3>
+            <p>26 Schülerinnen und Schüler der Freien Waldorfschule Wiesbaden nahmen an einem Fotowettbewerb zum Jubiläum „100 Jahre Waldorfschulen" teil und stellten ihre Werke im Museum Wiesbaden aus.</p>
+            <p>Im Rahmen des Wettbewerbs wurden besondere Leistungen ausgezeichnet: In der Kategorie <em>Konventionelle Fotografie</em> erhielten Rosa Tinico Mittler und Alisa Schmidt Preise. Anouk Mewes und Yasmin Touzini wurden in der Kategorie <em>Porträts</em> geehrt. Die Gruppe aus Sonja Fischer, Flora von Debschitz, Hannah Schloz und Katja Huss überzeugte in der Kategorie <em>Unter Wasser</em>.</p>
+            <p>Die Ausstellung war Teil der bundesweiten Feierlichkeiten zum 100-jährigen Bestehen der Waldorfschulbewegung und zog zahlreiche Besucherinnen und Besucher ins Museum Wiesbaden.</p>
+          </div>
+          <div class="press-release-img">
+            <span class="press-release-img-placeholder">Foto­ausstellung<br>Museum Wiesbaden<br>März 2019</span>
+          </div>
+        </div>
+
+        <!-- PM 2 -->
+        <div class="press-release-item">
+          <div class="press-release-text">
+            <div class="date">17. Dezember 2018</div>
+            <h3>100 Jahre Waldorfschule — Staffelholz an Freie Waldorfschule Wiesbaden übergeben</h3>
+            <p>Im Rahmen der bundesweiten Jubiläumsfeierlichkeiten zu „100 Jahre Waldorfschule" wurde das symbolische Staffelholz an die Freie Waldorfschule Wiesbaden übergeben. Die Übergabe fand in feierlichem Rahmen statt und würdigte die Bedeutung der Waldorfpädagogik für die Bildungslandschaft in Deutschland.</p>
+            <p>Die Freie Waldorfschule Wiesbaden, gegründet 1985, gehört zu den lebendigen Vertreterinnen dieser traditionsreichen Pädagogik im Rhein-Main-Gebiet.</p>
+          </div>
+          <div class="press-release-img">
+            <span class="press-release-img-placeholder">Staffelholz­übergabe<br>Dezember 2018</span>
+          </div>
+        </div>
+
+        <!-- PM 3 -->
+        <div class="press-release-item">
+          <div class="press-release-text">
+            <div class="date">26. November 2018</div>
+            <h3>Oberbürgermeister Sven Gerich besucht Herbstmarkt der Waldorfschule Wiesbaden</h3>
+            <p>Oberbürgermeister Sven Gerich besuchte den traditionellen Herbstmarkt der Freien Waldorfschule Wiesbaden und zeigte sich beeindruckt von der Vielfalt und Qualität der handgefertigten Produkte sowie der warmherzigen Atmosphäre in der Schulgemeinschaft.</p>
+            <p>Der Herbstmarkt gehört zu den jährlichen Höhepunkten des Schullebens und bringt Schülerinnen, Schüler, Eltern, Lehrende und die Wiesbadener Öffentlichkeit zusammen.</p>
+          </div>
+          <div class="press-release-img">
+            <span class="press-release-img-placeholder">Herbst­markt<br>November 2018</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo"><img src="logo-nobg.png" alt="Logo" style="border-radius:50%;background:var(--mauve);padding:6px;" onerror="this.style.display='none'"/></div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">© 2026 Freie Waldorfschule Wiesbaden · Gegründet 1985</span>
+  </footer>
+
+  <script>
+    const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true,smoothTouch:false});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      document.getElementById('scrollProgress').style.width = (scrolled * 100) + '%';
+    });
+    const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('v'); }), {threshold: .12});
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

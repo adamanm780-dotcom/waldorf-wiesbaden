@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wegbeschreibung — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .address-strip {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+      padding: 20px 28px; background: #fff; border-radius: 14px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.06); margin-top: 32px;
+      border-left: 3px solid var(--mauve);
+    }
+    .address-strip p { font-size: 15px; color: var(--text2); font-weight: 300; line-height: 1.7; }
+    .address-strip strong { color: var(--text); font-weight: 500; }
+    .address-maps-btn {
+      margin-left: auto; display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; background: var(--mauve); color: #fff;
+      border-radius: 30px; text-decoration: none; font-size: 12px;
+      font-family: 'Inter', sans-serif; letter-spacing: .08em; white-space: nowrap;
+      transition: background .3s, transform .2s;
+    }
+    .address-maps-btn:hover { background: var(--mauve-dk); transform: translateY(-1px); }
+
+    /* Building plan placeholder */
+    .building-plan-visual {
+      margin-top: 32px; border-radius: 20px; overflow: hidden;
+      background: #fff; box-shadow: 0 4px 32px rgba(0,0,0,.08);
+      padding: 40px;
+    }
+    .building-plan-grid {
+      display: grid; gap: 8px;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+    }
+    .bp-block {
+      border-radius: 12px; padding: 20px 18px;
+      display: flex; flex-direction: column; justify-content: flex-end; min-height: 80px;
+    }
+    .bp-block-label {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; opacity: .85;
+      line-height: 1.3;
+    }
+    .bp-block-sub { font-size: 10px; opacity: .6; margin-top: 3px; font-family: 'Inter', sans-serif; }
+    .bp-unterstufe { background: rgba(184,60,53,.15); color: #8a2020; grid-column: 1; grid-row: 1; min-height: 120px; }
+    .bp-mittelstufe { background: rgba(192,160,32,.15); color: #7a6010; grid-column: 2; grid-row: 1; }
+    .bp-garten { background: rgba(74,122,74,.15); color: #2a5a2a; grid-column: 3; grid-row: 1; }
+    .bp-altbau { background: rgba(192,96,32,.15); color: #7a4010; grid-column: 1 / 3; grid-row: 2; min-height: 80px; }
+    .bp-turnhalle { background: rgba(139,120,100,.15); color: #5a4832; grid-column: 3; grid-row: 2; }
+
+    @media (max-width: 640px) {
+      .address-maps-btn { margin-left: 0; }
+      .building-plan-grid { grid-template-columns: 1fr 1fr; }
+      .bp-altbau { grid-column: 1 / 3; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="logo-nobg.png" alt="Waldorfschule Wiesbaden Logo" style="border-radius:0;background:var(--mauve);" onerror="this.style.display='none'" />
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:28px;height:28px;top:50%;left:50%;transform:translate(-50%,-50%)"><circle cx="22" cy="22" r="10" stroke="#fff" stroke-width="1.5"/><path d="M22 12 L22 32 M12 22 L32 22" stroke="#fff" stroke-width="1"/></svg>
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop"><a href="index.html">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="index.html#philosophy">Pädagogisches Profil</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+        </ul>
+      </li>
+      <li><a href="termine.html">Termine</a></li>
+      <li class="has-drop"><a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li><a href="presse.html">Presse</a></li>
+      <li class="has-drop"><a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-label">
+        <div class="page-hero-label-line"></div>
+        <span>Service &amp; Download</span>
+      </div>
+      <h1>Wegbeschreibung &amp; Lageplan</h1>
+    </div>
+  </div>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="service.html">Service &amp; Download</a>
+      <span>›</span>
+      <span class="bc-current">Wegbeschreibung</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="content-inner">
+      <p class="sec-label r">Anfahrt</p>
+      <h2 class="sec-h r rd1">So finden Sie zu uns</h2>
+      <p class="sec-sub r rd2">Die Freie Waldorfschule Wiesbaden liegt im Stadtteil Biebrich und ist sowohl mit dem Auto als auch mit öffentlichen Verkehrsmitteln gut erreichbar.</p>
+
+      <div class="address-strip r rd2">
+        <p><strong>Freie Waldorfschule Wiesbaden</strong><br>Albert-Schweitzer-Allee 42<br>65203 Wiesbaden</p>
+        <a href="https://maps.google.com/?q=Albert-Schweitzer-Allee+42,+65203+Wiesbaden" target="_blank" rel="noopener" class="address-maps-btn">In Google Maps öffnen ↗</a>
+      </div>
+
+      <div class="route-cards r rd3" style="margin-top:48px;">
+        <!-- Route 1 -->
+        <div class="route-card">
+          <div class="route-card-icon">🚗</div>
+          <h3>Über Albert-Schweitzer-Allee</h3>
+          <p>Von der Albert-Schweitzer-Allee biegen Sie in die Metzer Straße ein. Folgen Sie dieser Straße und biegen Sie dann rechts in die Nürnberger Straße ab. Die Schule ist auf der rechten Seite ausgeschildert.</p>
+          <p style="margin-top: 12px; font-size: 13px; color: var(--muted);">Parkmöglichkeiten sind im Bereich der Schule vorhanden.</p>
+        </div>
+
+        <!-- Route 2 -->
+        <div class="route-card">
+          <div class="route-card-icon">🛣️</div>
+          <h3>Über das Industriegebiet Rheinfeld</h3>
+          <p>Von der A 643 kommend, nehmen Sie die Ausfahrt Wiesbaden-Appellalee. Folgen Sie der Ausfahrt Richtung Biebrich und fahren Sie durch das Industriegebiet Rheinfeld. Biegen Sie an der Kreuzung Albert-Schweitzer-Allee ab und folgen Sie der Beschilderung zur Schule.</p>
+        </div>
+
+        <!-- Route 3 -->
+        <div class="route-card">
+          <div class="route-card-icon">🚌</div>
+          <h3>Mit öffentlichen Verkehrsmitteln</h3>
+          <p>Die Schule ist mit dem öffentlichen Nahverkehr sehr gut erreichbar. Nutzen Sie den <strong>RMV</strong>-Netz.</p>
+          <p style="margin-top: 10px;"><strong>Buslinie 14</strong><br>Haltestelle: <strong>Nansenstraße</strong><br>Die Schule ist von dort in wenigen Gehminuten erreichbar.</p>
+          <a href="https://www.rmv.de" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;font-size:13px;color:var(--mauve-dk);">→ RMV Fahrplanauskunft</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAGEPLAN / MAP -->
+  <div class="map-section">
+    <div style="max-width:1100px;margin:0 auto;">
+      <p class="sec-label r">Lageplan</p>
+      <h2 class="sec-h r rd1">Interaktive Karte</h2>
+      <div class="map-container r rd2">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2561.5!2d8.2254!3d50.0326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bd93b89e1f21f5%3A0x0!2sAlbert-Schweitzer-Allee+42%2C+65203+Wiesbaden!5e0!3m2!1sde!2sde!4v1700000000000!5m2!1sde!2sde"
+          width="100%" height="440"
+          style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Lageplan Freie Waldorfschule Wiesbaden">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEBÄUDEPLAN -->
+  <div class="page-content">
+    <div class="content-inner">
+      <p class="sec-label r">Schulgelände</p>
+      <h2 class="sec-h r rd1">Gebäudeplan</h2>
+      <p class="sec-sub r rd2">Orientierungshilfe für das Schulgelände der Freien Waldorfschule Wiesbaden.</p>
+
+      <div class="building-plan r rd2">
+        <div class="building-plan-visual">
+          <div class="building-plan-grid">
+            <div class="bp-block bp-unterstufe">
+              <span class="bp-block-label">Unterstufe</span>
+              <span class="bp-block-sub">Klassen 1 – 4</span>
+            </div>
+            <div class="bp-block bp-mittelstufe">
+              <span class="bp-block-label">Mittelstufe</span>
+              <span class="bp-block-sub">Klassen 5 – 8</span>
+            </div>
+            <div class="bp-block bp-garten">
+              <span class="bp-block-label">Gartenbau &amp; Werkstatt</span>
+              <span class="bp-block-sub">Praxisbereiche</span>
+            </div>
+            <div class="bp-block bp-altbau">
+              <span class="bp-block-label">Altbau</span>
+              <span class="bp-block-sub">Oberstufe · Klassen 9 – 13 · Verwaltung</span>
+            </div>
+            <div class="bp-block bp-turnhalle">
+              <span class="bp-block-label">Turnhalle</span>
+              <span class="bp-block-sub">Sport &amp; Eurythmie</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="building-legend" style="margin-top: 24px;">
+          <div class="legend-item">
+            <div class="legend-color" style="background:rgba(184,60,53,.4);"></div>
+            <span class="legend-label">Unterstufe</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:rgba(192,160,32,.4);"></div>
+            <span class="legend-label">Mittelstufe</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:rgba(74,122,74,.4);"></div>
+            <span class="legend-label">Gartenbau &amp; Werkstatt</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:rgba(192,96,32,.4);"></div>
+            <span class="legend-label">Altbau</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:rgba(139,120,100,.4);"></div>
+            <span class="legend-label">Turnhalle</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo"><img src="logo-nobg.png" alt="Logo" style="border-radius:50%;background:var(--mauve);padding:6px;" onerror="this.style.display='none'"/></div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">© 2026 Freie Waldorfschule Wiesbaden · Gegründet 1985</span>
+  </footer>
+
+  <script>
+    const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true,smoothTouch:false});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      document.getElementById('scrollProgress').style.width = (scrolled * 100) + '%';
+    });
+    const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('v'); }), {threshold: .12});
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

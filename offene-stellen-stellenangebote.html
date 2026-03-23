@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stellenangebote — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .fachkomb-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 44px;
+      box-shadow: 0 2px 20px rgba(0,0,0,.06);
+      margin-top: 40px;
+    }
+    .fachkomb-box p { font-size: 15px; line-height: 1.85; color: var(--text2); font-weight: 300; }
+    .fachkomb-box p + p { margin-top: 14px; }
+    .no-stelle-section {
+      padding: 0 72px 80px;
+    }
+    @media (max-width: 1024px) {
+      .no-stelle-section { padding: 0 40px 60px; }
+    }
+    @media (max-width: 640px) {
+      .no-stelle-section { padding: 0 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="logo-nobg.png" alt="Waldorfschule Wiesbaden Logo" style="border-radius:0;background:var(--mauve);" onerror="this.style.display='none'" />
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:28px;height:28px;top:50%;left:50%;transform:translate(-50%,-50%)"><circle cx="22" cy="22" r="10" stroke="#fff" stroke-width="1.5"/><path d="M22 12 L22 32 M12 22 L32 22" stroke="#fff" stroke-width="1"/></svg>
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop"><a href="index.html">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="index.html#philosophy">Pädagogisches Profil</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+        </ul>
+      </li>
+      <li><a href="termine.html">Termine</a></li>
+      <li class="has-drop"><a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li><a href="presse.html">Presse</a></li>
+      <li class="has-drop"><a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-label">
+        <div class="page-hero-label-line"></div>
+        <span>Offene Stellen</span>
+      </div>
+      <h1>Stellenangebote</h1>
+    </div>
+  </div>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="offene-stellen.html">Offene Stellen</a>
+      <span>›</span>
+      <span class="bc-current">Stellenangebote</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="content-inner">
+      <p class="sec-label r">Aktuelle Ausschreibungen</p>
+      <h2 class="sec-h r rd1">Werden Sie Teil unseres Teams</h2>
+      <p class="sec-sub r rd2">Wir suchen engagierte Pädagoginnen und Pädagogen, die unsere Schulgemeinschaft bereichern möchten.</p>
+
+      <!-- Job Card -->
+      <div class="job-card r rd2">
+        <div class="job-card-header">
+          <h3 class="job-title">Lehrkraft für Eurythmie (m/w/d)</h3>
+          <span class="job-badge">Ab sofort</span>
+        </div>
+        <div class="job-body">
+          <div class="job-details">
+            <dl class="job-detail-item">
+              <dt>Schulart</dt>
+              <dd>Freie Waldorfschule</dd>
+            </dl>
+            <dl class="job-detail-item">
+              <dt>Klassen</dt>
+              <dd>1 – 13</dd>
+            </dl>
+            <dl class="job-detail-item">
+              <dt>Umfang</dt>
+              <dd>Teil- oder Vollzeit</dd>
+            </dl>
+            <dl class="job-detail-item">
+              <dt>Beginn</dt>
+              <dd>Zum nächstmöglichen Zeitpunkt</dd>
+            </dl>
+          </div>
+          <p>Die Freie Waldorfschule Wiesbaden sucht eine qualifizierte Lehrkraft für das Fach Eurythmie. Wir sind eine lebendige Waldorfschule im Herzen von Wiesbaden und bieten ein warmherziges, kollegiales Arbeitsumfeld mit WABE-Konzept.</p>
+          <p>Unsere Schule ist zertifiziert und arbeitet nach dem bewährten WABE-Konzept (Waldorfschule – Bildung – Erziehung), das eine enge Verzahnung von künstlerischen und kognitiven Lerninhalten ermöglicht. Die Eurythmie nimmt in unserem Schulalltag einen wichtigen Platz ein und wird von Klasse 1 bis 13 unterrichtet.</p>
+          <p>Wir freuen uns über Bewerbungen von Absolventinnen und Absolventen einer Eurythmieausbildung an einer anerkannten Waldorfausbildungsstätte sowie von erfahrenen Eurythmiepädagoginnen und -pädagogen.</p>
+        </div>
+        <div class="job-apply">
+          <p style="font-size:14px;color:var(--text2);font-weight:300;margin-bottom:20px;">
+            <strong>Bewerbungen richten Sie bitte schriftlich oder per E-Mail an:</strong><br><br>
+            Freie Waldorfschule Wiesbaden<br>
+            Personalkreis<br>
+            Albert-Schweitzer-Allee 42<br>
+            65203 Wiesbaden
+          </p>
+          <a href="mailto:bewerbung@waldorfschule-wiesbaden.de" class="btn-primary">bewerbung@waldorfschule-wiesbaden.de</a>
+        </div>
+      </div>
+
+      <!-- Fachkombinationen -->
+      <div class="fachkomb-box r rd3">
+        <p class="sec-label" style="margin-bottom:16px;">Allgemeiner Hinweis</p>
+        <p>Grundsätzlich sind verschiedene Fachkombinationen willkommen. Wenn Sie eine Ausbildung als Waldorflehrerin oder Waldorflehrer haben oder ein entsprechendes Studium absolvieren, freuen wir uns über Ihre Kontaktaufnahme — auch unabhängig von aktuellen Ausschreibungen.</p>
+        <p>Wir stehen einem breiten Spektrum an Qualifikationen offen gegenüber: von klassischen Unterrichtsfächern über künstlerische Fächer bis hin zu handwerklichen und musischen Bereichen.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="no-stelle-section">
+    <div class="content-inner" style="padding:0;">
+      <div class="info-box r">
+        <div class="info-box-label">Keine passende Stelle gefunden?</div>
+        <p>
+          Wir freuen uns auch über Initiativbewerbungen! Senden Sie uns Ihre Unterlagen per E-Mail an <a href="mailto:personal@waldorfschule-wiesbaden.de">personal@waldorfschule-wiesbaden.de</a> oder nutzen Sie unsere <a href="offene-stellen-praktikanten.html">Informationen für Praktikant:innen</a>.<br><br>
+          Für Fragen zu Freiwilligendiensten (FSJ/FÖJ) besuchen Sie bitte unsere <a href="offene-stellen-freiwilligendienste.html">Seite zu Freiwilligendiensten</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo"><img src="logo-nobg.png" alt="Logo" style="border-radius:50%;background:var(--mauve);padding:6px;" onerror="this.style.display='none'"/></div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">© 2026 Freie Waldorfschule Wiesbaden · Gegründet 1985</span>
+  </footer>
+
+  <script>
+    const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true,smoothTouch:false});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      document.getElementById('scrollProgress').style.width = (scrolled * 100) + '%';
+    });
+    const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('v'); }), {threshold: .12});
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+    document.querySelectorAll('.img-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.remove('ripple'); void this.offsetWidth; this.classList.add('ripple');
+        setTimeout(() => this.classList.remove('ripple'), 600);
+      });
+    });
+  </script>
+</body>
+</html>

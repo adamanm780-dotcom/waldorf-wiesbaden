@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elternbeiträge — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .finanzierung-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+      margin-bottom: 56px;
+    }
+    .fin-pillar {
+      text-align: center;
+      padding: 28px 18px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.06);
+      transition: transform .3s;
+    }
+    .fin-pillar:hover { transform: translateY(-3px); }
+    .fin-pillar-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px; font-weight: 300; line-height: 1;
+      margin-bottom: 8px;
+    }
+    .fin-pillar:nth-child(1) .fin-pillar-num { color: var(--w-blue); }
+    .fin-pillar:nth-child(2) .fin-pillar-num { color: var(--mauve); }
+    .fin-pillar:nth-child(3) .fin-pillar-num { color: var(--w-teal); }
+    .fin-pillar:nth-child(4) .fin-pillar-num { color: var(--w-orange); }
+    .fin-pillar-label {
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      font-family: 'Inter', sans-serif; color: var(--muted);
+    }
+    .sonstige-list {
+      display: flex; flex-direction: column; gap: 12px; margin-top: 28px;
+    }
+    .sonstige-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 18px 22px; background: #fff; border-radius: 12px;
+      box-shadow: 0 1px 10px rgba(0,0,0,.05);
+    }
+    .sonstige-dot {
+      width: 8px; height: 8px; min-width: 8px; border-radius: 50%;
+      background: var(--mauve); margin-top: 7px;
+    }
+    .sonstige-item p { font-size: 14px; line-height: 1.8; color: var(--text2); font-weight: 300; }
+    .sonstige-item a { color: var(--mauve-dk); text-decoration: none; }
+    .sonstige-item a:hover { text-decoration: underline; }
+    @media (max-width: 768px) {
+      .finanzierung-pillars { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .finanzierung-pillars { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="logo-nobg.png" alt="Waldorfschule Wiesbaden Logo" style="border-radius:0;background:var(--mauve);" onerror="this.style.display='none'" />
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:28px;height:28px;top:50%;left:50%;transform:translate(-50%,-50%)"><circle cx="22" cy="22" r="10" stroke="#fff" stroke-width="1.5"/><path d="M22 12 L22 32 M12 22 L32 22" stroke="#fff" stroke-width="1"/></svg>
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop"><a href="index.html">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="index.html#philosophy">Pädagogisches Profil</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+        </ul>
+      </li>
+      <li><a href="termine.html">Termine</a></li>
+      <li class="has-drop"><a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li><a href="presse.html">Presse</a></li>
+      <li class="has-drop"><a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-label">
+        <div class="page-hero-label-line"></div>
+        <span>Service &amp; Download</span>
+      </div>
+      <h1>Elternbeiträge</h1>
+    </div>
+  </div>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="service.html">Service &amp; Download</a>
+      <span>›</span>
+      <span class="bc-current">Schulbeitrag</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="content-inner">
+      <p class="sec-label r">Transparenz &amp; Finanzierung</p>
+      <h2 class="sec-h r rd1">So finanziert sich unsere Schule</h2>
+      <p class="sec-sub r rd2">Der Schulbetrieb der Freien Waldorfschule Wiesbaden wird über vier Bausteine finanziert. Diese Mischfinanzierung ermöglicht es uns, allen Kindern — unabhängig von der finanziellen Lage der Familie — den Zugang zu unserer Schule zu ermöglichen.</p>
+
+      <!-- 4 Pillars -->
+      <div class="finanzierung-pillars r rd2">
+        <div class="fin-pillar">
+          <div class="fin-pillar-num">I</div>
+          <div class="fin-pillar-label">Staatliche<br>Zuschüsse</div>
+        </div>
+        <div class="fin-pillar">
+          <div class="fin-pillar-num">II</div>
+          <div class="fin-pillar-label">Elternbeiträge<br>(Schulgeld)</div>
+        </div>
+        <div class="fin-pillar">
+          <div class="fin-pillar-num">III</div>
+          <div class="fin-pillar-label">Schulzeit­darlehen<br>der Eltern</div>
+        </div>
+        <div class="fin-pillar">
+          <div class="fin-pillar-num">IV</div>
+          <div class="fin-pillar-label">Spenden</div>
+        </div>
+      </div>
+
+      <!-- Accordion -->
+      <p class="sec-label r">Detailinformationen</p>
+      <div class="accordion r rd2">
+
+        <!-- 1 - Staatliche Zuschüsse (open by default) -->
+        <div class="acc-item">
+          <button class="acc-trigger open" type="button">
+            <span class="acc-trigger-text">Staatliche Zuschüsse</span>
+            <span class="acc-trigger-icon">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 5L6 9L10 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9V3" stroke="currentColor" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="acc-body open">
+            <div class="acc-body-inner">
+              <p>Die staatlichen Zuschüsse aus dem <strong>Ersatzschulfinanzierungsgesetz</strong> bilden die wichtigste Säule unserer Finanzierung. Das Land Hessen fördert anerkannte Ersatzschulen auf Basis der Schülerzahlen. Diese Zuschüsse decken jedoch nicht alle anfallenden Kosten des Schulbetriebs, weshalb ergänzende Einnahmen notwendig sind.</p>
+              <p>Die Höhe der staatlichen Förderung ist gesetzlich geregelt und wird regelmäßig angepasst. Sie ermöglicht uns, Lehrkräfte und wesentliche Betriebskosten zu finanzieren.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 - Elternbeiträge -->
+        <div class="acc-item">
+          <button class="acc-trigger" type="button">
+            <span class="acc-trigger-text">Elternbeiträge (Schulgeld)</span>
+            <span class="acc-trigger-icon">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 5L6 9L10 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9V3" stroke="currentColor" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Das Schulgeld an der Freien Waldorfschule Wiesbaden wird einkommensabhängig festgesetzt. Wir orientieren uns dabei am Nettoeinkommen der Familie, sodass das Schulgeld für alle Familien tragbar ist.</p>
+              <p>Unser Ziel ist es, dass <strong>kein Kind aus finanziellen Gründen</strong> die Schule verlassen oder ihr nicht beitreten muss. In Härtefällen können individuelle Vereinbarungen getroffen werden. Sprechen Sie uns gerne vertraulich an.</p>
+              <ul>
+                <li>Einkommensabhängige Staffelung</li>
+                <li>Transparente Berechnungsgrundlage</li>
+                <li>Geschwisterkindervergünstigung möglich</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 - Schulzeitdarlehen -->
+        <div class="acc-item">
+          <button class="acc-trigger" type="button">
+            <span class="acc-trigger-text">Schulzeitdarlehen der Eltern</span>
+            <span class="acc-trigger-icon">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 5L6 9L10 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9V3" stroke="currentColor" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Als Mitglieder der Schulgemeinschaft werden Eltern gebeten, ein zinsloses Darlehen für die Dauer der Schulzeit ihres Kindes zu leisten. Dieses Darlehen wird nach dem Austritt des Kindes aus der Schule zurückgezahlt.</p>
+              <p>Die Höhe des Darlehens richtet sich nach den finanziellen Möglichkeiten der Familie. Mit dem Schulzeitdarlehen tragen Eltern dazu bei, die Investitionen der Schule — etwa in Gebäude und Ausstattung — mitzufinanzieren.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 - Spenden -->
+        <div class="acc-item">
+          <button class="acc-trigger" type="button">
+            <span class="acc-trigger-text">Spenden</span>
+            <span class="acc-trigger-icon">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 5L6 9L10 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9V3" stroke="currentColor" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Freiwillige Spenden von Eltern, Ehemaligen und Freunden der Schule ermöglichen es uns, besondere Projekte und Anschaffungen zu realisieren, die über den normalen Schulbetrieb hinausgehen.</p>
+              <p>Spenden an die Freie Waldorfschule Wiesbaden sind steuerlich absetzbar. Auf Wunsch stellen wir Ihnen gerne eine Spendenbescheinigung aus.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sonstige Kosten -->
+      <div style="margin-top: 64px;">
+        <p class="sec-label r">Weitere Informationen</p>
+        <h3 class="sec-h r rd1" style="font-size: clamp(24px, 2.5vw, 36px);">Sonstige Kosten</h3>
+
+        <div class="sonstige-list r rd2">
+          <div class="sonstige-item">
+            <div class="sonstige-dot"></div>
+            <p>Für die <strong>Klassenkasse</strong> wird monatlich ein Beitrag von etwa 10–15 Euro erbeten. Dieser Betrag wird für gemeinsame Aktivitäten, Materialien und klassenbezogene Ausgaben verwendet.</p>
+          </div>
+          <div class="sonstige-item">
+            <div class="sonstige-dot"></div>
+            <p>Für <strong>Klassenfahrten und Schulausflüge</strong> entstehen zusätzliche Kosten, die je nach Jahrgang und Ziel variieren. Mehrwöchige Praktika in den höheren Klassen können gesonderte Aufwendungen verursachen. Wir kommunizieren diese transparent und frühzeitig.</p>
+          </div>
+          <div class="sonstige-item">
+            <div class="sonstige-dot"></div>
+            <p>Informationen zur <strong>Ganztagsbetreuung</strong> und den damit verbundenen Kosten finden Sie auf unserer <a href="service-anmeldung.html">Anmeldeseite</a>. Die Ganztagsbetreuung wird separat abgerechnet und richtet sich ebenfalls nach dem Familieneinkommen.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box r rd3">
+        <div class="info-box-label">Haben Sie Fragen zu den Beiträgen?</div>
+        <p>
+          Wir sprechen gerne und vertraulich mit Ihnen über individuelle Möglichkeiten. Kein Kind soll aus finanziellen Gründen nicht bei uns sein können.<br><br>
+          Wenden Sie sich an unser Schulsekretariat oder nutzen Sie unser <a href="index.html#kontakt">Kontaktformular</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo"><img src="logo-nobg.png" alt="Logo" style="border-radius:50%;background:var(--mauve);padding:6px;" onerror="this.style.display='none'"/></div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">© 2026 Freie Waldorfschule Wiesbaden · Gegründet 1985</span>
+  </footer>
+
+  <script>
+    const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true,smoothTouch:false});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      document.getElementById('scrollProgress').style.width = (scrolled * 100) + '%';
+    });
+    const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('v'); }), {threshold: .12});
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+    // Accordion
+    document.querySelectorAll('.acc-trigger').forEach(t => {
+      t.addEventListener('click', () => {
+        const body = t.nextElementSibling;
+        const isOpen = t.classList.contains('open');
+        document.querySelectorAll('.acc-trigger').forEach(x => {
+          x.classList.remove('open');
+          x.nextElementSibling.classList.remove('open');
+        });
+        if (!isOpen) { t.classList.add('open'); body.classList.add('open'); }
+      });
+    });
+  </script>
+</body>
+</html>

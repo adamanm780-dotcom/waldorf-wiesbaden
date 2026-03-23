@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termine — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .event-item-enhanced {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 28px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      align-items: start;
+    }
+    .event-item-enhanced:last-child { border-bottom: none; }
+    .event-cal {
+      text-align: center;
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      border-top: 3px solid var(--mauve);
+      flex-shrink: 0;
+    }
+    .event-cal-day {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 300; color: var(--text); line-height: 1;
+      display: block;
+    }
+    .event-cal-month {
+      font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--muted); font-family: 'Inter', sans-serif;
+      display: block; margin-top: 4px;
+    }
+    .event-content { }
+    .event-weekday {
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--mauve); font-family: 'Inter', sans-serif; margin-bottom: 6px;
+    }
+    .event-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2vw, 24px); font-weight: 400; color: var(--text);
+      line-height: 1.3; margin-bottom: 8px;
+    }
+    .event-meta-row {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .event-meta-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; letter-spacing: .06em; color: var(--muted);
+      font-family: 'Inter', sans-serif;
+    }
+    .event-desc {
+      font-size: 14px; line-height: 1.75; color: var(--text2);
+      font-weight: 300; margin-top: 10px;
+    }
+    .events-section { padding: 80px 72px 0; }
+    .events-section .content-inner { padding: 0; }
+    .weitere-termine-section { padding: 0 72px 80px; }
+    .weitere-termine-section .content-inner { padding: 72px 0 0; }
+    .weitere-notice {
+      display: flex; align-items: flex-start; gap: 24px;
+      padding: 36px 40px; background: var(--dark); border-radius: 20px;
+    }
+    .weitere-notice-icon { font-size: 32px; flex-shrink: 0; }
+    .weitere-notice-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: #fff; margin-bottom: 10px; }
+    .weitere-notice-text p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,.5); font-weight: 300; }
+    .weitere-notice-text a { color: var(--mauve2); text-decoration: none; }
+    .weitere-notice-text a:hover { text-decoration: underline; }
+    @media (max-width: 1024px) {
+      .events-section { padding: 60px 40px 0; }
+      .weitere-termine-section { padding: 0 40px 60px; }
+    }
+    @media (max-width: 640px) {
+      .events-section { padding: 40px 20px 0; }
+      .weitere-termine-section { padding: 0 20px 40px; }
+      .event-item-enhanced { grid-template-columns: 70px 1fr; gap: 16px; }
+      .weitere-notice { flex-direction: column; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="logo-nobg.png" alt="Waldorfschule Wiesbaden Logo" style="border-radius:0;background:var(--mauve);" onerror="this.style.display='none'" />
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:28px;height:28px;top:50%;left:50%;transform:translate(-50%,-50%)"><circle cx="22" cy="22" r="10" stroke="#fff" stroke-width="1.5"/><path d="M22 12 L22 32 M12 22 L32 22" stroke="#fff" stroke-width="1"/></svg>
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop"><a href="index.html">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="index.html#philosophy">Pädagogisches Profil</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+        </ul>
+      </li>
+      <li><a href="termine.html">Termine</a></li>
+      <li class="has-drop"><a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li><a href="presse.html">Presse</a></li>
+      <li class="has-drop"><a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-label">
+        <div class="page-hero-label-line"></div>
+        <span>Schuljahr 2025 / 2026</span>
+      </div>
+      <h1>Termine</h1>
+    </div>
+  </div>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span class="bc-current">Termine</span>
+    </div>
+  </div>
+
+  <!-- Öffentliche Veranstaltungen -->
+  <div class="events-section">
+    <div class="content-inner">
+      <p class="sec-label r">Veranstaltungskalender</p>
+      <h2 class="sec-h r rd1">Öffentliche Veranstaltungen</h2>
+      <p class="sec-sub r rd2">Herzlich willkommen bei unseren Schulveranstaltungen — offen für alle Interessierten.</p>
+
+      <div class="event-list r rd2" style="margin-top:40px;">
+
+        <!-- Event 1 -->
+        <div class="event-item-enhanced">
+          <div class="event-cal">
+            <span class="event-cal-day">26</span>
+            <span class="event-cal-month">Mär 2026</span>
+          </div>
+          <div class="event-content">
+            <div class="event-weekday">Donnerstag</div>
+            <div class="event-name">Klassenspiel der 8. Klasse: „Was Ihr wollt" von William Shakespeare</div>
+            <div class="event-meta-row">
+              <span class="event-meta-chip">⏰ 19:30 Uhr</span>
+              <span class="event-meta-chip">📍 Aula der Waldorfschule Wiesbaden</span>
+            </div>
+            <p class="event-desc">Die 8. Klasse lädt herzlich zur Aufführung von Shakespeares Komödie „Was Ihr wollt" ein. Freuen Sie sich auf eine stimmungsvolle Inszenierung von Schülerinnen und Schülern, die viele Monate an diesem Projekt gearbeitet haben.</p>
+          </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event-item-enhanced">
+          <div class="event-cal">
+            <span class="event-cal-day">27</span>
+            <span class="event-cal-month">Mär 2026</span>
+          </div>
+          <div class="event-content">
+            <div class="event-weekday">Freitag</div>
+            <div class="event-name">Klassenspiel der 8. Klasse: „Was Ihr wollt" von William Shakespeare</div>
+            <div class="event-meta-row">
+              <span class="event-meta-chip">⏰ 19:30 Uhr</span>
+              <span class="event-meta-chip">📍 Aula der Waldorfschule Wiesbaden</span>
+            </div>
+            <p class="event-desc">Zweite Aufführung des Klassenspiel der 8. Klasse. Der Eintritt ist frei, um Spenden wird gebeten.</p>
+          </div>
+        </div>
+
+        <!-- Event 3 -->
+        <div class="event-item-enhanced">
+          <div class="event-cal">
+            <span class="event-cal-day">09</span>
+            <span class="event-cal-month">Mai 2026</span>
+          </div>
+          <div class="event-content">
+            <div class="event-weekday">Samstag</div>
+            <div class="event-name">Tag der offenen Tür mit Frühlingsmarkt</div>
+            <div class="event-meta-row">
+              <span class="event-meta-chip">⏰ Ab 10:00 Uhr</span>
+              <span class="event-meta-chip">📍 Schulgelände, Albert-Schweitzer-Allee 42</span>
+            </div>
+            <p class="event-desc">Kommen Sie und erleben Sie unsere Schule in ihrem vollen Leben: Unterrichtsbesuche, Handwerk, Eurythmie, Musik, Frühlingsmarkt mit biologischen Produkten und vieles mehr. Ideal für Familien, die sich über eine Aufnahme an unserer Schule informieren möchten.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Weitere Termine -->
+  <div class="weitere-termine-section">
+    <div class="content-inner">
+      <p class="sec-label r">Schulinterne Termine</p>
+      <h2 class="sec-h r rd1">Weitere Termine</h2>
+
+      <div class="weitere-notice r rd2">
+        <div class="weitere-notice-icon">📅</div>
+        <div class="weitere-notice-text">
+          <h3>Schulkalender auf der offiziellen Website</h3>
+          <p>Den vollständigen Schulkalender mit allen Schulveranstaltungen, Elternabenden, Ferienplänen und internen Terminen finden Sie auf der offiziellen Website der Freien Waldorfschule Wiesbaden.<br><br>
+          <a href="https://www.waldorfschule-wiesbaden.de/termine" target="_blank" rel="noopener">→ Zum vollständigen Terminkalender auf waldorfschule-wiesbaden.de</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo"><img src="logo-nobg.png" alt="Logo" style="border-radius:50%;background:var(--mauve);padding:6px;" onerror="this.style.display='none'"/></div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">© 2026 Freie Waldorfschule Wiesbaden · Gegründet 1985</span>
+  </footer>
+
+  <script>
+    const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true,smoothTouch:false});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      document.getElementById('scrollProgress').style.width = (scrolled * 100) + '%';
+    });
+    const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('v'); }), {threshold: .12});
+    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
