@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekte & Schulleben — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .intro-section { padding: 80px 72px 64px; }
+    .intro-section .content-inner { padding: 0; }
+    .two-col-text { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
+    .two-col-text p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--muted); }
+
+    /* ── PROJEKTE ────────────────────────────────── */
+    .projekte-section { padding: 0 72px 100px; background: var(--cream); }
+    .projekte-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .projekt-card {
+      background: #fff; border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
+      display: flex; flex-direction: column;
+    }
+    .projekt-card:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(0,0,0,.09); }
+    .projekt-card-head {
+      padding: 44px 40px 36px; position: relative; overflow: hidden;
+    }
+    .pk-num {
+      position: absolute; top: 20px; right: 28px;
+      font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 300;
+      line-height: 1; opacity: .06; color: var(--text); user-select: none;
+    }
+    .pk-klasse {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      font-weight: 500; margin-bottom: 16px;
+    }
+    .pk-klasse-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .pk-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 400; color: var(--text); margin-bottom: 10px; line-height: 1.15; }
+    .pk-sub { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .pk-div { width: 28px; height: 2px; margin-bottom: 20px; }
+    .projekt-card-body { padding: 0 40px 40px; flex: 1; }
+    .pk-text { font-size: 13.5px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+    .pk-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .pk-tag { font-size: 10.5px; padding: 4px 14px; border-radius: 20px; font-weight: 400; }
+
+    /* ── MONATSFEIERN ────────────────────────────── */
+    .monatsfeiern { padding: 0 72px 80px; background: var(--cream); }
+    .mf-box {
+      background: var(--dark); border-radius: 24px; padding: 64px; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; position: relative;
+    }
+    .mf-box::before {
+      content: ''; position: absolute; bottom: -60px; right: -60px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(166,118,173,.15) 0%, transparent 70%);
+    }
+    .mf-left > * { position: relative; z-index: 1; }
+    .mf-label { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--mauve2); margin-bottom: 20px; }
+    .mf-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4.5vw, 56px); font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 20px; letter-spacing: -.02em; }
+    .mf-title em { font-style: italic; color: var(--mauve2); }
+    .mf-text { font-size: 14px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,.5); }
+    .mf-right { display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; justify-content: center; }
+    .mf-item { display: flex; align-items: center; gap: 16px; }
+    .mf-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--mauve2); }
+    .mf-item-text { font-size: 14px; font-weight: 300; color: rgba(255,255,255,.65); }
+
+    /* ── FESTE IM JAHRESLAUF ─────────────────────── */
+    .feste-section { padding: 100px 72px; background: var(--cream2); }
+    .feste-head { margin-bottom: 64px; }
+    .feste-head h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5.5vw, 72px); font-weight: 300; color: var(--text); margin-top: 14px; line-height: 1.0; letter-spacing: -.02em; }
+    .feste-head p { max-width: 580px; font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--muted); margin-top: 20px; }
+
+    /* Circular season layout → responsive grid fallback */
+    .feste-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .fest-card {
+      background: #fff; border-radius: 18px; padding: 32px 24px;
+      border: 1px solid rgba(0,0,0,.06);
+      transition: transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+    .fest-card:hover { transform: translateY(-5px); box-shadow: 0 18px 52px rgba(0,0,0,.08); }
+    .fest-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    /* Season color coding */
+    .fest-herbst::before  { background: linear-gradient(90deg, #c06020, #d4a020); }
+    .fest-winter::before  { background: linear-gradient(90deg, #1f4e8a, #2a8075); }
+    .fest-frühling::before { background: linear-gradient(90deg, #5a7a28, #2a8075); }
+    .fest-sommer::before  { background: linear-gradient(90deg, #d4a020, #b83c35); }
+    .fest-season {
+      font-size: 8px; letter-spacing: .22em; text-transform: uppercase; font-weight: 500;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .fest-season-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .fest-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+    .fest-desc { font-size: 12.5px; font-weight: 300; line-height: 1.75; color: var(--muted); }
+    .fest-date { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 14px; border-top: 1px solid rgba(0,0,0,.06); padding-top: 12px; }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 1200px) {
+      .feste-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 1024px) {
+      .intro-section { padding: 60px 24px 40px; }
+      .projekte-section { padding: 0 24px 72px; }
+      .projekte-grid { grid-template-columns: 1fr; }
+      .monatsfeiern { padding: 0 24px 60px; }
+      .mf-box { grid-template-columns: 1fr; gap: 40px; padding: 40px 32px; }
+      .feste-section { padding: 80px 24px; }
+      .feste-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col-text { grid-template-columns: 1fr; gap: 20px; }
+    }
+    @media (max-width: 640px) {
+      .feste-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="index.html#philosophy">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="paedagogik.html">Waldorfpädagogik</a></li>
+          <li><a href="paedagogik.html#hauptunterricht">Hauptunterricht & Epochen</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="schulleben.html">Projekte & Schulleben</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+          <li><a href="praktika-beruf.html">Praktika & Berufsleben</a></li>
+          <li><a href="foerdern.html">Unterstützen & Fördern</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="leitung.html">Leitung & Trägerschaft</a></li>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+          <li><a href="index.html#podcast">Podcast</a></li>
+          <li><a href="index.html#ganztag">Ganztagsbetreuung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#kontakt">Standort & Campus</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="termine.html">Termine</a>
+        <ul class="nav-drop">
+          <li><a href="termine.html">Öffentliche Veranstaltungen</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="termine.html#klassenspiel">Klassenspiel 8. Klasse</a></li>
+          <li><a href="termine.html#tdt">Tag der offenen Tür</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-mensa.html">Schulküche & Mensa</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="presse.html">Presse</a>
+        <ul class="nav-drop">
+          <li><a href="presse.html#presseschau">Presseschau</a></li>
+          <li><a href="presse.html#pressemitteilungen">Pressemitteilungen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-bg">
+      <img src="bilder/b8380158-24ff-49c0-8d04-5b9170bbe2de.jpg" alt="Schulleben — Projekte und Feste der Waldorfschule Wiesbaden" />
+    </div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-hero-label">
+        <div class="page-hero-line"></div>
+        <span>SCHULLEBEN</span>
+      </div>
+      <h1>Projekte &amp; <em>Feste</em></h1>
+    </div>
+  </section>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="index.html#philosophy">Unsere Schule</a>
+      <span>›</span>
+      <span class="bc-current">Projekte & Schulleben</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- INTRO -->
+    <div class="intro-section">
+      <div class="content-inner">
+        <p class="sec-label r">Schulleben</p>
+        <h2 class="sec-h r rd1">Lernen jenseits des <em>Klassenraums</em></h2>
+        <div class="two-col-text">
+          <p class="r rd2">Projekte, Klassenfahrten, Jahresarbeiten und Monatsfeiern sind keine Ergänzungen zum „eigentlichen" Lernen — sie sind das Lernen. In diesen Momenten wachsen Schülerinnen und Schüler über sich hinaus, übernehmen Verantwortung und erleben sich als Teil einer lebendigen Gemeinschaft.</p>
+          <p class="r rd3">Ob die handwerkliche Jahresarbeit in Klasse 8, die Projektwoche in der Mittelstufe oder das Sozialpraktikum der 11. Klasse: Jedes Projekt hinterlässt bleibende Spuren — im Werk, in der Gemeinschaft und im einzelnen Menschen.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJEKTE -->
+    <div class="projekte-section">
+      <div style="margin-bottom: 48px;">
+        <p class="sec-label r">Projekte</p>
+        <h2 class="sec-h r rd1" style="margin-bottom:0;">Vier große <em>Projektformate</em></h2>
+      </div>
+
+      <div class="projekte-grid">
+
+        <div class="projekt-card r">
+          <div class="projekt-card-head" style="background:linear-gradient(135deg,rgba(31,78,138,.05) 0%,rgba(31,78,138,.02) 100%);">
+            <div class="pk-num">01</div>
+            <div class="pk-klasse">
+              <div class="pk-klasse-dot" style="background:var(--w-blue)"></div>
+              <span style="color:var(--w-blue)">Klassen 8 &amp; 11</span>
+            </div>
+            <div class="pk-title">Jahresarbeit</div>
+            <div class="pk-sub">Eigenständiges Werk · Öffentliche Präsentation</div>
+            <div class="pk-div" style="background:var(--w-blue)"></div>
+          </div>
+          <div class="projekt-card-body">
+            <p class="pk-text">Die Jahresarbeit ist ein Herzstück des Waldorflehrplans. In <strong>Klasse 8</strong> fertigen die Schülerinnen und Schüler ein handwerkliches oder künstlerisches Werk nach eigener Wahl — von der Tischlerei bis zum Musikinstrument. In <strong>Klasse 11</strong> entsteht eine wissenschaftliche, künstlerische oder soziale Arbeit, die mit einem schriftlichen Teil, einer Dokumentation und einer Präsentation vor der gesamten Schulgemeinschaft abgeschlossen wird.<br><br>
+            Die Jahresarbeit lehrt Selbstdisziplin, Zeitplanung und die Fähigkeit, ein Vorhaben von der Idee bis zur Vollendung durchzuhalten.</p>
+            <div class="pk-tags">
+              <span class="pk-tag" style="background:rgba(31,78,138,.08); color:var(--w-blue)">Eigenständig</span>
+              <span class="pk-tag" style="background:rgba(31,78,138,.08); color:var(--w-blue)">Handwerk oder Wissenschaft</span>
+              <span class="pk-tag" style="background:rgba(31,78,138,.08); color:var(--w-blue)">Präsentation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="projekt-card r rd2">
+          <div class="projekt-card-head" style="background:linear-gradient(135deg,rgba(166,118,173,.06) 0%,rgba(166,118,173,.02) 100%);">
+            <div class="pk-num">02</div>
+            <div class="pk-klasse">
+              <div class="pk-klasse-dot" style="background:var(--mauve)"></div>
+              <span style="color:var(--mauve)">Klassen 8–12</span>
+            </div>
+            <div class="pk-title">Projektwoche</div>
+            <div class="pk-sub">Klassenübergreifend · Themenvielfalt</div>
+            <div class="pk-div" style="background:var(--mauve)"></div>
+          </div>
+          <div class="projekt-card-body">
+            <p class="pk-text">Einmal im Jahr findet an unserer Schule eine Projektwoche statt, in der der normale Stundenplan pausiert. Schülerinnen und Schüler der Klassen 8 bis 12 arbeiten klassenübergreifend an selbstgewählten Themen zusammen — von Theater über Kochen bis zu technischen oder sozialen Projekten.<br><br>
+            Diese Woche stärkt die Zusammenarbeit über Klassengrenzen hinweg, fördert Eigeninitiative und zeigt, dass Lernen auch außerhalb der vertrauten Struktur gelingen kann.</p>
+            <div class="pk-tags">
+              <span class="pk-tag" style="background:rgba(166,118,173,.1); color:var(--mauve-dk)">Klassenübergreifend</span>
+              <span class="pk-tag" style="background:rgba(166,118,173,.1); color:var(--mauve-dk)">Eigeninitiative</span>
+              <span class="pk-tag" style="background:rgba(166,118,173,.1); color:var(--mauve-dk)">Jährlich</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="projekt-card r rd1">
+          <div class="projekt-card-head" style="background:linear-gradient(135deg,rgba(42,128,117,.05) 0%,rgba(42,128,117,.02) 100%);">
+            <div class="pk-num">03</div>
+            <div class="pk-klasse">
+              <div class="pk-klasse-dot" style="background:var(--w-teal)"></div>
+              <span style="color:var(--w-teal)">Ab Klasse 4</span>
+            </div>
+            <div class="pk-title">Klassenfahrten</div>
+            <div class="pk-sub">Gemeinschaft stärken · Welt erleben</div>
+            <div class="pk-div" style="background:var(--w-teal)"></div>
+          </div>
+          <div class="projekt-card-body">
+            <p class="pk-text">Klassenfahrten gehören zum unverzichtbaren Rhythmus des Waldorflehrplans. Ab Klasse 4 fahren die Klassen gemeinsam — zunächst in der näheren Umgebung, später quer durch Deutschland und Europa. Die Klassenfahrt ist immer auch eine pädagogische Reise: In Kl. 9 etwa zum Landwirtschaftspraktikum, in Kl. 12 oft ins Ausland.<br><br>
+            Das gemeinsame Reisen stärkt den Zusammenhalt der Klasse und öffnet den Blick auf die Welt.</p>
+            <div class="pk-tags">
+              <span class="pk-tag" style="background:rgba(42,128,117,.08); color:var(--w-teal)">Ab Klasse 4</span>
+              <span class="pk-tag" style="background:rgba(42,128,117,.08); color:var(--w-teal)">Gemeinschaftsbildend</span>
+              <span class="pk-tag" style="background:rgba(42,128,117,.08); color:var(--w-teal)">Themenbezogen</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="projekt-card r rd3">
+          <div class="projekt-card-head" style="background:linear-gradient(135deg,rgba(192,96,32,.05) 0%,rgba(192,96,32,.02) 100%);">
+            <div class="pk-num">04</div>
+            <div class="pk-klasse">
+              <div class="pk-klasse-dot" style="background:var(--w-orange)"></div>
+              <span style="color:var(--w-orange)">Alle Klassen</span>
+            </div>
+            <div class="pk-title">Monatsfeiern</div>
+            <div class="pk-sub">Gemeinschaft erleben · Monatlich</div>
+            <div class="pk-div" style="background:var(--w-orange)"></div>
+          </div>
+          <div class="projekt-card-body">
+            <p class="pk-text">Einmal im Monat versammelt sich die gesamte Schulgemeinschaft zur Monatsfeier. Jede Klasse präsentiert reihum Gedichte, Theaterstücke, Musikdarbietungen oder das Ergebnis einer Epoche vor allen Schülerinnen und Schülern, Lehrern und Eltern.<br><br>
+            Die Monatsfeier ist ein Spiegel des Schullebens: Sie zeigt, was gelernt wurde, fördert den Auftritt vor Publikum und schafft das Bewusstsein, Teil eines größeren Ganzen zu sein.</p>
+            <div class="pk-tags">
+              <span class="pk-tag" style="background:rgba(192,96,32,.08); color:var(--w-orange)">Monatlich</span>
+              <span class="pk-tag" style="background:rgba(192,96,32,.08); color:var(--w-orange)">Alle Klassen</span>
+              <span class="pk-tag" style="background:rgba(192,96,32,.08); color:var(--w-orange)">Öffentlich</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MONATSFEIERN DETAIL -->
+    <div class="monatsfeiern">
+      <div class="mf-box r">
+        <div class="mf-left">
+          <div class="mf-label">Monatsfeiern</div>
+          <div class="mf-title">Die Schulgemeinschaft <em>im Dialog</em></div>
+          <p class="mf-text">Die Monatsfeier ist mehr als eine Aufführung — sie ist das lebendige Herzstück unserer Schulgemeinschaft. Kinder lernen, vor anderen zu stehen, ihre Arbeit zu präsentieren und dem Applaus der Gemeinschaft zu begegnen. Eltern erleben ihre Kinder in neuen Rollen. Lehrer sehen, was Unterricht bewirkt hat.</p>
+        </div>
+        <div class="mf-right">
+          <div class="mf-item">
+            <div class="mf-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M9 5v4l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mf-item-text">Monatlich — immer freitags</div>
+          </div>
+          <div class="mf-item">
+            <div class="mf-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14l4-4 3 3 5-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="mf-item-text">Jede Klasse präsentiert einmal im Jahr</div>
+          </div>
+          <div class="mf-item">
+            <div class="mf-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h5v5M3 9l6-6 6 6v5H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="mf-item-text">Eltern und Geschwister herzlich willkommen</div>
+          </div>
+          <div class="mf-item">
+            <div class="mf-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="7" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="7" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M1 15c0-2.8 2.2-5 5-5h6c2.8 0 5 2.2 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mf-item-text">Theater, Gedichte, Musik, Projektpräsentationen</div>
+          </div>
+          <div class="mf-item">
+            <div class="mf-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l2.2 4.5 5 .7-3.6 3.5.85 4.95L9 13.35l-4.45 2.35.85-4.95L1.8 7.2l5-.7L9 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="mf-item-text">Bestandteil jeder Klasse seit Gründung der Schule</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FESTE IM JAHRESLAUF -->
+    <div class="feste-section" id="feste">
+      <div class="feste-head">
+        <p class="sec-label r">Jahresrhythmus</p>
+        <h2 class="r rd1">Feste im <em>Jahreslauf</em></h2>
+        <p class="r rd2">Das Schuljahr folgt einem lebendigen Rhythmus der Jahreszeiten. Zehn Feste verbinden die Schulgemeinschaft mit dem Lauf der Natur und mit kulturellen Traditionen — und geben dem Schuljahr seinen unverwechselbaren Charakter.</p>
+      </div>
+
+      <div class="feste-grid">
+
+        <div class="fest-card fest-herbst r">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#c06020"></div>
+            <span style="color:#c06020">Herbst</span>
+          </div>
+          <div class="fest-name">Michaelifest</div>
+          <p class="fest-desc">Das Michaelisfest am 29. September feiert den Kampf gegen das Dunkel und die innere Stärke. Drachen, Lieder, Feuer — ein Fest, das Mut und Entschlossenheit weckt.</p>
+          <div class="fest-date">Ende September</div>
+        </div>
+
+        <div class="fest-card fest-herbst r rd1">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#c06020"></div>
+            <span style="color:#c06020">Herbst</span>
+          </div>
+          <div class="fest-name">Tag der offenen Tür</div>
+          <p class="fest-desc">Einmal im Jahr öffnet unsere Schule ihre Türen für alle Interessierten. Unterrichtsbesuche, Werkstattvorführungen und Gespräche mit Lehrern und Schülern laden zum Entdecken ein.</p>
+          <div class="fest-date">Frühjahr — 9. Mai 2026</div>
+        </div>
+
+        <div class="fest-card fest-herbst r rd2">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#c06020"></div>
+            <span style="color:#c06020">Herbst</span>
+          </div>
+          <div class="fest-name">St. Martinsumzug</div>
+          <p class="fest-desc">Am 11. November ziehen die Unterstufen-Klassen mit selbstgebastelten Laternen durch Wiesbaden-Biebrich — begleitet von Eltern, Lehrern und dem Klang der Lieder.</p>
+          <div class="fest-date">11. November</div>
+        </div>
+
+        <div class="fest-card fest-winter r rd1">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#1f4e8a"></div>
+            <span style="color:#1f4e8a">Winter</span>
+          </div>
+          <div class="fest-name">Adventsmarkt</div>
+          <p class="fest-desc">Der Weihnachtsmarkt unserer Schule ist eine liebevoll gestaltete Tradition: Schüler, Lehrer und Eltern verkaufen Selbstgebasteltes, Gebackenes und Kunsthandwerk bei Kerzenschein und warmem Glühwein.</p>
+          <div class="fest-date">Dezember</div>
+        </div>
+
+        <div class="fest-card fest-winter r rd2">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#1f4e8a"></div>
+            <span style="color:#1f4e8a">Winter</span>
+          </div>
+          <div class="fest-name">Adventskonzert</div>
+          <p class="fest-desc">Kurz vor Weihnachten stimmt das große Adventskonzert auf die stille Zeit ein. Chöre, Orchester und Ensembles aller Klassen spielen in der Aula — ein musikalischer Höhepunkt des Jahres.</p>
+          <div class="fest-date">Mitte Dezember</div>
+        </div>
+
+        <div class="fest-card fest-winter r rd3">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#1f4e8a"></div>
+            <span style="color:#1f4e8a">Winter</span>
+          </div>
+          <div class="fest-name">Oberuferer Weihnachtsspiele</div>
+          <p class="fest-desc">Die Oberuferer Weihnachtsspiele sind ein waldorftypisches Theaterspiel, das in alten Volkstraditionen verwurzelt ist. Sie werden von den Schülerinnen und Schülern der Mittelstufe aufgeführt und berühren jedes Jahr aufs Neue.</p>
+          <div class="fest-date">Dezember / Januar</div>
+        </div>
+
+        <div class="fest-card fest-frühling r">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#5a7a28"></div>
+            <span style="color:#5a7a28">Winter / Frühling</span>
+          </div>
+          <div class="fest-name">Faschingsmonatsfeier</div>
+          <p class="fest-desc">Die Faschingsmonatsfeier ist eine der vergnüglichsten: Schüler kommen verkleidet, Klassen präsentieren lustige Sketche und die Schule verwandelt sich für einen Morgen in einen bunten Karnevalssaal.</p>
+          <div class="fest-date">Februar / März</div>
+        </div>
+
+        <div class="fest-card fest-frühling r rd1">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#5a7a28"></div>
+            <span style="color:#5a7a28">Frühling</span>
+          </div>
+          <div class="fest-name">Frühlingsfest & Flohmarkt</div>
+          <p class="fest-desc">Das Frühlingsfest ist ein offenes Schulfest für die ganze Familie — mit Flohmarkt, Kaffee, Spiel und Darbietungen der Klassen. Für viele Familien ein fester Termin im Kalender.</p>
+          <div class="fest-date">Mai</div>
+        </div>
+
+        <div class="fest-card fest-sommer r rd2">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#d4a020"></div>
+            <span style="color:#d4a020">Sommer</span>
+          </div>
+          <div class="fest-name">Sportfest</div>
+          <p class="fest-desc">Das jährliche Sportfest bringt alle Klassen auf das Schulgelände und die nahegelegenen Sportanlagen. Staffeln, Weitsprung, Leichtathletik — und ein gemeinsames Mittagessen mit der ganzen Schulgemeinschaft.</p>
+          <div class="fest-date">Juni</div>
+        </div>
+
+        <div class="fest-card fest-sommer r rd3">
+          <div class="fest-season">
+            <div class="fest-season-dot" style="background:#d4a020"></div>
+            <span style="color:#d4a020">Sommer</span>
+          </div>
+          <div class="fest-name">Johannifest</div>
+          <p class="fest-desc">Das Johannifest zur Sommersonnenwende beschließt das Schuljahr mit einem Abend voller Feuer, Gesang und Gemeinschaft. Klassen 12 und 13 feiern hier oft ihren Abschluss mit der gesamten Schulgemeinschaft.</p>
+          <div class="fest-date">Juni / Schuljahresende</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- end .page-content -->
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+      </div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">&copy; 2026 Freie Waldorfschule Wiesbaden &middot; Gegründet 1985</span>
+  </footer>
+
+  <script>
+const lenis = new Lenis({ duration: 1.4, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true, smoothTouch: false });
+function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+const scrollBar = document.getElementById('scrollProgress');
+if (scrollBar) lenis.on('scroll', ({ scroll, limit }) => { scrollBar.style.width = (scroll / limit * 100) + '%'; });
+const nav = document.getElementById('mainNav');
+lenis.on('scroll', ({ scroll }) => { nav.classList.toggle('solid', scroll > 60); });
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.r').forEach(el => {
+  gsap.fromTo(el, { opacity: 0, y: 36 }, {
+    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+  });
+});
+  </script>
+</body>
+</html>

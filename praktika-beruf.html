@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Praktika & Berufsleben — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .intro-section { padding: 80px 72px 64px; }
+    .intro-section .content-inner { padding: 0; }
+    .two-col-text { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
+    .two-col-text p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--muted); }
+
+    /* ── TIMELINE ────────────────────────────────── */
+    .timeline-section { padding: 0 72px 100px; background: var(--cream); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 52px; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(166,118,173,.3) 10%, rgba(166,118,173,.3) 90%, transparent);
+    }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 48px; margin-bottom: 64px; align-items: start; }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-left { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .tl-dot {
+      width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--mauve);
+      background: var(--cream); flex-shrink: 0; position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tl-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--mauve); }
+    .tl-klasse {
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase; font-weight: 600;
+      writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);
+      color: var(--muted);
+    }
+    .tl-card {
+      background: #fff; border-radius: 20px; padding: 44px 40px;
+      border: 1px solid rgba(0,0,0,.06);
+      transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
+    }
+    .tl-card:hover { transform: translateX(6px); box-shadow: 0 16px 52px rgba(0,0,0,.08); }
+    .tl-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; margin-bottom: 12px; }
+    .tl-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 400; color: var(--text); margin-bottom: 6px; line-height: 1.2; }
+    .tl-sub { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .tl-div { width: 28px; height: 2px; margin-bottom: 20px; }
+    .tl-text { font-size: 13.5px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+    .tl-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .tl-meta-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--muted); font-weight: 300;
+    }
+    .tl-meta-icon { color: var(--mauve); }
+
+    /* ── BERUFSLEBEN CALLOUT ─────────────────────── */
+    .berufsleben { padding: 100px 72px; background: var(--dark); }
+    .bl-inner { max-width: 920px; margin: 0 auto; text-align: center; }
+    .bl-label { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--mauve2); margin-bottom: 24px; }
+    .bl-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5.5vw, 70px); font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 28px; letter-spacing: -.02em; }
+    .bl-title em { font-style: italic; color: var(--mauve2); }
+    .bl-text { font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,.5); max-width: 680px; margin: 0 auto 48px; }
+    .bl-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.06); border-radius: 16px; overflow: hidden; }
+    .bl-stat { padding: 36px 28px; background: rgba(255,255,255,.03); text-align: center; }
+    .bl-stat-n { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: #fff; line-height: 1; margin-bottom: 8px; }
+    .bl-stat-n em { font-style: italic; color: var(--mauve2); font-size: 36px; }
+    .bl-stat-l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.3); line-height: 1.5; }
+
+    @media (max-width: 1024px) {
+      .intro-section { padding: 60px 24px 40px; }
+      .timeline-section { padding: 0 24px 72px; }
+      .timeline::before { left: 18px; }
+      .tl-item { grid-template-columns: 52px 1fr; gap: 24px; }
+      .tl-klasse { display: none; }
+      .berufsleben { padding: 80px 24px; }
+      .bl-stats { grid-template-columns: 1fr; }
+      .two-col-text { grid-template-columns: 1fr; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="index.html#philosophy">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="paedagogik.html">Waldorfpädagogik</a></li>
+          <li><a href="paedagogik.html#hauptunterricht">Hauptunterricht & Epochen</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="schulleben.html">Projekte & Schulleben</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+          <li><a href="praktika-beruf.html">Praktika & Berufsleben</a></li>
+          <li><a href="foerdern.html">Unterstützen & Fördern</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="leitung.html">Leitung & Trägerschaft</a></li>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+          <li><a href="index.html#podcast">Podcast</a></li>
+          <li><a href="index.html#ganztag">Ganztagsbetreuung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#kontakt">Standort & Campus</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="termine.html">Termine</a>
+        <ul class="nav-drop">
+          <li><a href="termine.html">Öffentliche Veranstaltungen</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="termine.html#klassenspiel">Klassenspiel 8. Klasse</a></li>
+          <li><a href="termine.html#tdt">Tag der offenen Tür</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-mensa.html">Schulküche & Mensa</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="presse.html">Presse</a>
+        <ul class="nav-drop">
+          <li><a href="presse.html#presseschau">Presseschau</a></li>
+          <li><a href="presse.html#pressemitteilungen">Pressemitteilungen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-bg">
+      <img src="bilder/08edf577-d081-4e11-aa97-1cc7f98c6fb6.jpg" alt="Praktika & Berufsleben — Schüler beim Handwerkspraktikum" />
+    </div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-hero-label">
+        <div class="page-hero-line"></div>
+        <span>OBERSTUFE</span>
+      </div>
+      <h1>Praktika &amp; <em>Berufsleben</em></h1>
+    </div>
+  </section>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="index.html#philosophy">Unsere Schule</a>
+      <span>›</span>
+      <span class="bc-current">Praktika & Berufsleben</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <div class="intro-section">
+      <div class="content-inner">
+        <p class="sec-label r">Klassen 9–11</p>
+        <h2 class="sec-h r rd1">Die Welt <em>in die Hände nehmen</em></h2>
+        <div class="two-col-text">
+          <p class="r rd2">In den Klassen 9, 10 und 11 verlassen Waldorfschülerinnen und -schüler den Klassenraum und gehen in die Welt: zum Bauernhof, in die Werkstatt, ins Krankenhaus, ins Vermessungsbüro und in Industriebetriebe. Diese Pflichtpraktika sind keine Aufgabe neben dem Unterricht — sie sind vollständiger Unterrichtsersatz für die gesamte Dauer.</p>
+          <p class="r rd3">Kein Lehrbuch kann vermitteln, was es bedeutet, eine Woche lang früh aufzustehen, Verantwortung zu übernehmen und echte Arbeit zu leisten. Die Praktika bereiten auf das Leben vor und geben Orientierung — viele Schüler entdecken hier ihre Berufsleidenschaft.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIMELINE DER PRAKTIKA -->
+    <div class="timeline-section">
+      <div style="margin-bottom: 56px;">
+        <p class="sec-label r">Überblick</p>
+        <h2 class="sec-h r rd1" style="margin-bottom:0;">Fünf Praktika in drei Jahren</h2>
+      </div>
+
+      <div class="timeline">
+
+        <div class="tl-item r">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+            <div class="tl-klasse">Klasse 9</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-tag" style="color:var(--w-orange)">Klasse 9 · 3–4 Wochen</div>
+            <div class="tl-title">Handwerkspraktikum</div>
+            <div class="tl-sub">Holz · Metall · Stein · Ton</div>
+            <div class="tl-div" style="background:var(--w-orange)"></div>
+            <p class="tl-text">Im Handwerkspraktikum arbeiten Neuntklässler in einem echten Handwerksbetrieb — einer Schreinerei, Schlosserei, Steinmetzwerkstatt oder Töpferei. Sie führen einfache handwerkliche Tätigkeiten unter Anleitung durch und erleben den Stolz, etwas mit den eigenen Händen erschaffen zu haben.<br><br>
+            Das Praktikum stärkt Ausdauer, Konzentrationsfähigkeit und das Verständnis für handwerkliche Arbeit. Es zeigt: Qualität entsteht nicht durch Schnelligkeit, sondern durch Sorgfalt.</p>
+            <div class="tl-meta">
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                3–4 Wochen
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="4" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 4V3a2 2 0 0 1 4 0v1" stroke="currentColor" stroke-width="1.3"/></svg>
+                In Betrieben der Region
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2l1.5 3 3.5.5-2.5 2.5.5 3.5L7 10l-3 1.5.5-3.5L2 5.5l3.5-.5L7 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                Begleitet durch Klassenlehrer
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item r rd1">
+          <div class="tl-left">
+            <div class="tl-dot" style="border-color:var(--w-teal)"><div style="background:var(--w-teal);width:8px;height:8px;border-radius:50%;"></div></div>
+            <div class="tl-klasse">Klasse 9</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-tag" style="color:var(--w-teal)">Klasse 9 · 3–4 Wochen</div>
+            <div class="tl-title">Landwirtschaftspraktikum</div>
+            <div class="tl-sub">Feld · Tier · Natur · Jahreszeit</div>
+            <div class="tl-div" style="background:var(--w-teal)"></div>
+            <p class="tl-text">Das Landwirtschaftspraktikum führt die Neuntklässler auf einen Bauernhof — meist mit biologisch-dynamischer Landwirtschaft (Demeter). Hier erleben sie den Rhythmus der Natur: Saat, Pflege, Ernte. Tierpflege, Feldarbeit und das gemeinsame Leben auf dem Hof gehören dazu.<br><br>
+            Dieses Praktikum ist oft ein Wendepunkt: Schüler, die nie zuvor auf einem Bauernhof waren, entdecken eine andere Welt — eine, in der Arbeit direkte Konsequenzen hat und Natur nicht abstrakt ist.</p>
+            <div class="tl-meta">
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                3–4 Wochen
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10c1-3 3-6 5-7s4 1 5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="11" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+                Auf biologischen Höfen
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item r rd2">
+          <div class="tl-left">
+            <div class="tl-dot" style="border-color:var(--w-blue)"><div style="background:var(--w-blue);width:8px;height:8px;border-radius:50%;"></div></div>
+            <div class="tl-klasse">Klasse 10</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-tag" style="color:var(--w-blue)">Klasse 10 · 3 Wochen</div>
+            <div class="tl-title">Industrie- & Dienstleistungspraktikum</div>
+            <div class="tl-sub">Betrieb · Büro · Industrie · Handel</div>
+            <div class="tl-div" style="background:var(--w-blue)"></div>
+            <p class="tl-text">In Klasse 10 erkundigen Schülerinnen und Schüler die Welt der Industrie, des Handels und der Dienstleistungen: Sie absolvieren ein dreiwöchiges Praktikum in Unternehmen aus Produktion, Handel, IT, Medien oder Verwaltung. Sie beobachten, wie Betriebe funktionieren, und verstehen wirtschaftliche Zusammenhänge aus der Nähe.<br><br>
+            Die Schüler wählen ihren Praktikumsbetrieb selbst — oft ist dies die erste Berührung mit dem eigenen Berufsinteresse.</p>
+            <div class="tl-meta">
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                3 Wochen
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="5" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5V4a2 2 0 0 1 4 0v1" stroke="currentColor" stroke-width="1.3"/></svg>
+                Selbst gewählt
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item r rd1">
+          <div class="tl-left">
+            <div class="tl-dot" style="border-color:var(--w-green)"><div style="background:var(--w-green);width:8px;height:8px;border-radius:50%;"></div></div>
+            <div class="tl-klasse">Klasse 10</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-tag" style="color:var(--w-green)">Klasse 10 · 2 Wochen</div>
+            <div class="tl-title">Feldmess-Praktikum</div>
+            <div class="tl-sub">Vermessung · Geometrie · Natur & Technik</div>
+            <div class="tl-div" style="background:var(--w-green)"></div>
+            <p class="tl-text">Das Feldmess-Praktikum ist ein besonderes Waldorf-Merkmal: Schüler vermessen ein Grundstück oder Gelände mit klassischen und modernen Vermessungsinstrumenten. Sie wenden Mathematik und Geometrie direkt in der Natur an — und erleben, wie abstrakte Formeln in handfeste Resultate münden.<br><br>
+            Das Ergebnis ist eine maßstabsgetreue Karte, die die Klasse gemeinsam erstellt hat. Teamarbeit, Präzision und räumliches Vorstellungsvermögen sind gefragt.</p>
+            <div class="tl-meta">
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                2 Wochen
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2L2 12h10L7 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                Im Freien / im Gelände
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item r rd2">
+          <div class="tl-left">
+            <div class="tl-dot" style="border-color:var(--mauve)"><div style="background:var(--mauve);width:8px;height:8px;border-radius:50%;"></div></div>
+            <div class="tl-klasse">Klasse 11</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-tag" style="color:var(--mauve)">Klasse 11 · 3 Wochen</div>
+            <div class="tl-title">Sozialpraktikum</div>
+            <div class="tl-sub">Mensch · Fürsorge · Gesellschaft</div>
+            <div class="tl-div" style="background:var(--mauve)"></div>
+            <p class="tl-text">Das Sozialpraktikum in Klasse 11 ist für viele Schülerinnen und Schüler das prägendste Erlebnis ihrer Schulzeit. Drei Wochen lang arbeiten sie in sozialen Einrichtungen: Krankenhäuser, Pflegeheime, Kindertagesstätten, Behinderteneinrichtungen oder Hospize.<br><br>
+            Was hier erlebt wird, geht weit über Berufsberatung hinaus: Empathie, Verantwortung, der Umgang mit Schwäche und Stärke — und das Verständnis, dass eine Gesellschaft nur so stark ist wie ihre Fürsorge füreinander. Im Anschluss präsentieren alle Schüler ihre Erfahrungen vor der Schulgemeinschaft.</p>
+            <div class="tl-meta">
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                3 Wochen
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2c-2 0-4 1.8-4 4 0 2.8 4 7 4 7s4-4.2 4-7c0-2.2-2-4-4-4z" stroke="currentColor" stroke-width="1.3"/></svg>
+                Soziale Einrichtungen
+              </div>
+              <div class="tl-meta-item">
+                <svg class="tl-meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12l4-4 3 3 5-7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Mit Abschlusspräsentation
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BERUFSLEBEN CALLOUT -->
+    <div class="berufsleben">
+      <div class="bl-inner">
+        <div class="bl-label r">Vorbereitung auf die Zukunft</div>
+        <h2 class="bl-title r rd1">Aus Waldorfschülern werden<br><em>selbstständige Menschen.</em></h2>
+        <p class="bl-text r rd2">Die Praktika sind kein Anhängsel des Lehrplans — sie sind sein Herzstück. Schülerinnen und Schüler, die fünf Praktika in drei Jahren absolviert haben, treten mit einem anderen Bewusstsein in die Welt: Sie wissen, was Arbeit bedeutet, was Menschen brauchen und was sie selbst wollen.</p>
+        <div class="bl-stats r rd3">
+          <div class="bl-stat">
+            <div class="bl-stat-n">5</div>
+            <div class="bl-stat-l">Pflichtpraktika<br>in der Oberstufe</div>
+          </div>
+          <div class="bl-stat">
+            <div class="bl-stat-n">~14 <em>W.</em></div>
+            <div class="bl-stat-l">Gesamte Praktikumszeit<br>Klassen 9–11</div>
+          </div>
+          <div class="bl-stat">
+            <div class="bl-stat-n">98<em>%</em></div>
+            <div class="bl-stat-l">Unserer Absolventen<br>in Ausbildung oder Studium</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+      </div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">&copy; 2026 Freie Waldorfschule Wiesbaden &middot; Gegründet 1985</span>
+  </footer>
+
+  <script>
+const lenis = new Lenis({ duration: 1.4, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true, smoothTouch: false });
+function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+const scrollBar = document.getElementById('scrollProgress');
+if (scrollBar) lenis.on('scroll', ({ scroll, limit }) => { scrollBar.style.width = (scroll / limit * 100) + '%'; });
+const nav = document.getElementById('mainNav');
+lenis.on('scroll', ({ scroll }) => { nav.classList.toggle('solid', scroll > 60); });
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.r').forEach(el => {
+  gsap.fromTo(el, { opacity: 0, y: 36 }, {
+    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+  });
+});
+  </script>
+</body>
+</html>

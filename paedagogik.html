@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waldorfpädagogik & Hauptunterricht — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    /* ── PAGE LAYOUT ─────────────────────────────── */
+    .page-content { padding-top: 0; }
+
+    /* ── INTRO ───────────────────────────────────── */
+    .intro-section { padding: 80px 72px 64px; }
+    .intro-section .content-inner { padding: 0; }
+    .two-col-text { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
+    .two-col-text p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--muted); }
+
+    /* ── GOALS GRID ──────────────────────────────── */
+    .goals-section { padding: 0 72px 100px; background: var(--cream); }
+    .goals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .goal-card {
+      background: #fff; border-radius: 20px; padding: 44px 36px 40px;
+      border: 1px solid rgba(0,0,0,.06);
+      position: relative; overflow: hidden;
+      transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
+    }
+    .goal-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.08); }
+    .goal-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .goal-card:nth-child(1)::before { background: var(--w-blue); }
+    .goal-card:nth-child(2)::before { background: var(--mauve); }
+    .goal-card:nth-child(3)::before { background: var(--w-teal); }
+    .goal-card:nth-child(4)::before { background: var(--w-orange); }
+    .goal-card:nth-child(5)::before { background: var(--w-green); }
+    .goal-card:nth-child(6)::before { background: var(--w-red, #b83c35); }
+    .goal-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .goal-num { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--mauve); font-weight: 400; margin-bottom: 12px; }
+    .goal-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+    .goal-sub { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .goal-text { font-size: 13.5px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+
+    /* ── DARK DIVIDER QUOTE ──────────────────────── */
+    .dark-quote { background: var(--dark); padding: 100px 72px; text-align: center; position: relative; overflow: hidden; }
+    .dark-quote::before {
+      content: '\201E'; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(200px,28vw,380px); font-weight: 300; line-height: 1;
+      color: rgba(166,118,173,.06); pointer-events: none; user-select: none;
+    }
+    .dark-quote blockquote {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(28px,4vw,56px);
+      font-weight: 300; font-style: italic; color: #fff; line-height: 1.55; max-width: 860px; margin: 0 auto;
+      letter-spacing: -.02em; position: relative; z-index: 1;
+    }
+    .dark-quote cite {
+      display: block; margin-top: 36px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(255,255,255,.28); font-style: normal; position: relative; z-index: 1;
+    }
+
+    /* ── HAUPTUNTERRICHT ─────────────────────────── */
+    .hauptunterricht { padding: 100px 72px 80px; background: var(--cream); }
+    .hu-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 72px; }
+    .hu-header-left h2 {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5.5vw, 72px);
+      font-weight: 300; line-height: 1.05; color: var(--text); margin-top: 14px; letter-spacing: -.02em;
+    }
+    .hu-header-left h2 em { font-style: italic; color: var(--mauve); }
+    .hu-header-right { padding-top: 12px; }
+    .hu-header-right p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--muted); margin-bottom: 20px; }
+    .hu-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 80px; }
+    .hu-card {
+      background: #fff; border-radius: 20px; padding: 48px 40px;
+      border: 1px solid rgba(0,0,0,.06); position: relative; overflow: hidden;
+    }
+    .hu-card::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(166,118,173,.06) 0%, transparent 70%);
+    }
+    .hu-card-tag { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; font-weight: 500; margin-bottom: 16px; }
+    .hu-card-num {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(64px, 8vw, 100px);
+      font-weight: 300; line-height: 1; margin-bottom: 12px;
+    }
+    .hu-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; color: var(--text); margin-bottom: 12px; }
+    .hu-card p { font-size: 13.5px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+
+    /* ── EPOCHEN ─────────────────────────────────── */
+    .epochen { padding: 0 72px 100px; background: var(--cream); }
+    .epochen-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; padding-bottom: 28px; border-bottom: 1px solid rgba(0,0,0,.07); }
+    .epochen-head h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 300; color: var(--text); margin-top: 12px; letter-spacing: -.02em; }
+    .epochen-head p { max-width: 340px; font-size: 13px; font-weight: 300; line-height: 1.8; color: var(--muted); text-align: right; }
+    .epochen-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .ep-item {
+      background: #fff; border-radius: 16px; padding: 28px 24px;
+      border: 1px solid rgba(0,0,0,.06);
+      display: flex; flex-direction: column; gap: 10px;
+      cursor: pointer; transition: transform .3s, box-shadow .3s, background .3s;
+      position: relative; overflow: hidden;
+    }
+    .ep-item:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(0,0,0,.08); background: var(--cream); }
+    .ep-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .ep-item:nth-child(4n+1)::before { background: var(--w-blue); }
+    .ep-item:nth-child(4n+2)::before { background: var(--mauve); }
+    .ep-item:nth-child(4n+3)::before { background: var(--w-teal); }
+    .ep-item:nth-child(4n)::before { background: var(--w-orange); }
+    .ep-stufe { font-size: 8.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+    .ep-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--text); line-height: 1.25; }
+    .ep-arrow { margin-top: auto; font-size: 11px; color: var(--mauve); opacity: 0; transform: translateX(-4px); transition: opacity .25s, transform .25s; }
+    .ep-item:hover .ep-arrow { opacity: 1; transform: none; }
+
+    /* ── LIGHTBOX ─────────────────────────────────── */
+    .lightbox-overlay {
+      position: fixed; inset: 0; z-index: 9000; background: rgba(15,8,24,.88);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+      backdrop-filter: blur(12px);
+    }
+    .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+    .lightbox-box {
+      background: #fff; border-radius: 24px; padding: 56px 52px; max-width: 600px; width: 90%;
+      position: relative; transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .lightbox-overlay.open .lightbox-box { transform: none; }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 24px; width: 36px; height: 36px;
+      border: none; background: rgba(0,0,0,.06); border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; color: var(--text2); transition: background .2s;
+    }
+    .lightbox-close:hover { background: rgba(0,0,0,.12); }
+    .lb-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 12px; }
+    .lb-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 400; color: var(--text); margin-bottom: 8px; }
+    .lb-stufe { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+    .lb-div { width: 32px; height: 2px; background: var(--mauve); margin-bottom: 20px; }
+    .lb-text { font-size: 14px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 1024px) {
+      .intro-section { padding: 60px 24px 40px; }
+      .goals-section { padding: 0 24px 72px; }
+      .goals-grid { grid-template-columns: 1fr 1fr; }
+      .dark-quote { padding: 80px 24px; }
+      .hauptunterricht { padding: 80px 24px 60px; }
+      .hu-header { grid-template-columns: 1fr; gap: 24px; margin-bottom: 48px; }
+      .hu-visual { grid-template-columns: 1fr; }
+      .epochen { padding: 0 24px 72px; }
+      .epochen-head { flex-direction: column; gap: 16px; }
+      .epochen-head p { text-align: left; }
+      .epochen-grid { grid-template-columns: 1fr 1fr; }
+      .two-col-text { grid-template-columns: 1fr; gap: 20px; }
+    }
+    @media (max-width: 640px) {
+      .goals-grid { grid-template-columns: 1fr; }
+      .epochen-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="index.html#philosophy">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="paedagogik.html">Waldorfpädagogik</a></li>
+          <li><a href="paedagogik.html#hauptunterricht">Hauptunterricht & Epochen</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="schulleben.html">Projekte & Schulleben</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+          <li><a href="praktika-beruf.html">Praktika & Berufsleben</a></li>
+          <li><a href="foerdern.html">Unterstützen & Fördern</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="leitung.html">Leitung & Trägerschaft</a></li>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+          <li><a href="index.html#podcast">Podcast</a></li>
+          <li><a href="index.html#ganztag">Ganztagsbetreuung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#kontakt">Standort & Campus</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="termine.html">Termine</a>
+        <ul class="nav-drop">
+          <li><a href="termine.html">Öffentliche Veranstaltungen</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="termine.html#klassenspiel">Klassenspiel 8. Klasse</a></li>
+          <li><a href="termine.html#tdt">Tag der offenen Tür</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-mensa.html">Schulküche & Mensa</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="presse.html">Presse</a>
+        <ul class="nav-drop">
+          <li><a href="presse.html#presseschau">Presseschau</a></li>
+          <li><a href="presse.html#pressemitteilungen">Pressemitteilungen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-bg">
+      <img src="bilder/impression3.jpg" alt="Waldorfpädagogik — Freie Waldorfschule Wiesbaden" />
+    </div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-hero-label">
+        <div class="page-hero-line"></div>
+        <span>UNSERE SCHULE</span>
+      </div>
+      <h1>Waldorf<em>pädagogik</em></h1>
+    </div>
+  </section>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="index.html#philosophy">Unsere Schule</a>
+      <span>›</span>
+      <span class="bc-current">Waldorfpädagogik</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- INTRO -->
+    <div class="intro-section">
+      <div class="content-inner">
+        <p class="sec-label r">Pädagogisches Profil</p>
+        <h2 class="sec-h r rd1">Bildung für den <em>ganzen Menschen</em></h2>
+        <div class="two-col-text">
+          <p class="r rd2">Die Waldorfpädagogik, begründet von Rudolf Steiner, versteht den Menschen als Einheit von Körper, Seele und Geist. Dieser ganzheitliche Ansatz prägt jeden Unterrichtstag an unserer Schule: Denken, Fühlen und Wollen werden gleichermaßen angesprochen und gestärkt.</p>
+          <p class="r rd3">Unser Ziel ist es, Kinder und Jugendliche zu eigenständig denkenden, sozial kompetenten und kreativ handelnden Menschen heranzubilden — die fähig sind, ihr Leben und die Gesellschaft aktiv mitzugestalten. Die Waldorfpädagogik ist keine Methode, sondern eine Haltung.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZIELE DER WALDORFPÄDAGOGIK -->
+    <div class="goals-section">
+      <div style="padding: 0 0 48px;">
+        <div class="content-inner">
+          <p class="sec-label r">Ziele</p>
+          <h2 class="sec-h r rd1" style="margin-bottom:0;">Was wir anstreben</h2>
+        </div>
+      </div>
+      <div class="goals-grid">
+
+        <div class="goal-card r">
+          <div class="goal-icon" style="background:rgba(31,78,138,.1); color:var(--w-blue)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="10" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M5 22c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="goal-num">01</div>
+          <div class="goal-title">Ganzheitliches Menschenbild</div>
+          <div class="goal-sub">Körper · Seele · Geist</div>
+          <p class="goal-text">Waldorfpädagogik betrachtet Kinder nicht nur als lernende Köpfe. Körper, Seele und Geist sind gleichermaßen zu bilden — durch Bewegung, Kunst, Handwerk und Denken in einem lebendigen Wechselspiel.</p>
+        </div>
+
+        <div class="goal-card r rd1">
+          <div class="goal-icon" style="background:rgba(166,118,173,.12); color:var(--mauve)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 3C8 3 4 7 4 12s4 9 9 9 9-4 9-9-4-9-9-9z" stroke="currentColor" stroke-width="1.6"/><path d="M10 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="goal-num">02</div>
+          <div class="goal-title">Entwicklungsorientierte Pädagogik</div>
+          <div class="goal-sub">Alter & Reife des Kindes</div>
+          <p class="goal-text">Jede Lehrplanphase ist auf die Entwicklungsstufe des Kindes abgestimmt. Was im richtigen Moment gelernt wird, bleibt. Kein Kind soll überwältigt oder unterfordert werden — Lernen geschieht in seinem eigenen Rhythmus.</p>
+        </div>
+
+        <div class="goal-card r rd2">
+          <div class="goal-icon" style="background:rgba(42,128,117,.1); color:var(--w-teal)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M4 20c3-5 6-10 9-10s6 5 9 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M13 10V4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="13" cy="4" r="1.5" fill="currentColor"/></svg>
+          </div>
+          <div class="goal-num">03</div>
+          <div class="goal-title">Kreativität & Kunst</div>
+          <div class="goal-sub">Integraler Bestandteil</div>
+          <p class="goal-text">Malen, Musizieren, Theater, Plastizieren — Kunst ist in der Waldorfpädagogik kein Fach neben anderen, sondern durchdringt alle Unterrichtsbereiche. Kreativität stärkt die Problemlösefähigkeit und das Selbstvertrauen.</p>
+        </div>
+
+        <div class="goal-card r rd1">
+          <div class="goal-icon" style="background:rgba(192,96,32,.1); color:var(--w-orange)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="8" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="13" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M11 11L10 15M15 11l1 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="goal-num">04</div>
+          <div class="goal-title">Soziale Qualitäten</div>
+          <div class="goal-sub">Gemeinschaft & Verantwortung</div>
+          <p class="goal-text">Durch das gemeinsame Leben in der Klasse über viele Jahre hinweg — oft mit denselben Klassenlehrern — entstehen echte Gemeinschaften. Kinder lernen, Verantwortung füreinander zu übernehmen und Konflikte konstruktiv zu lösen.</p>
+        </div>
+
+        <div class="goal-card r rd2">
+          <div class="goal-icon" style="background:rgba(90,122,40,.1); color:var(--w-green)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="4" y="4" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M9 13h8M9 9h5M9 17h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="goal-num">05</div>
+          <div class="goal-title">Exaktes Denken</div>
+          <div class="goal-sub">Wissenschaft & Urteilskraft</div>
+          <p class="goal-text">Entgegen einem Missverständnis legt Waldorfpädagogik grossen Wert auf präzises, wissenschaftliches Denken — ergänzt durch phänomenologisches Beobachten. Schüler lernen urteilen, vergleichen und eigenständig Schlüsse zu ziehen.</p>
+        </div>
+
+        <div class="goal-card r rd3">
+          <div class="goal-icon" style="background:rgba(184,60,53,.1); color:var(--w-red, #b83c35)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 4l2.5 5.5 6 .9-4.3 4.2 1 6-5.2-2.7L7.8 20.6l1-6L4.5 10.4l6-.9L13 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="goal-num">06</div>
+          <div class="goal-title">Freiheit & Eigenverantwortung</div>
+          <div class="goal-sub">Selbstständigkeit & Entfaltung</div>
+          <p class="goal-text">Das übergeordnete Ziel ist der freie Mensch: einer, der sich selbst erkennt, eigene Entscheidungen trifft und Verantwortung für sein Handeln übernimmt. Waldorferziehung bereitet nicht nur auf Prüfungen vor — sie bereitet auf das Leben vor.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DARK QUOTE -->
+    <div class="dark-quote">
+      <blockquote class="r">
+        „Erziehung ist die Kunst, dem werdenden Menschen zu helfen, er selbst zu werden."
+      </blockquote>
+      <cite class="r rd1">— Rudolf Steiner, Begründer der Waldorfpädagogik</cite>
+    </div>
+
+    <!-- HAUPTUNTERRICHT -->
+    <div class="hauptunterricht" id="hauptunterricht">
+      <div class="content-inner" style="padding:0; margin-bottom:64px;">
+        <p class="sec-label r">Unterrichtsform</p>
+      </div>
+      <div class="hu-header">
+        <div class="hu-header-left">
+          <h2 class="r rd1">Der <em>Hauptunterricht</em> —<br>der Kern des Tages</h2>
+        </div>
+        <div class="hu-header-right">
+          <p class="r rd2">An jeder Waldorfschule beginnt der Tag mit den ersten zwei Unterrichtsstunden im sogenannten Hauptunterricht. Dieser Unterrichtsblock bildet das Herzstück des Schultages und unterscheidet sich grundlegend vom Fachunterricht staatlicher Schulen.</p>
+          <p class="r rd3">Im Hauptunterricht wird ein Thema nicht nach 45 Minuten abgebrochen, sondern über drei bis vier Wochen vertieft — so entsteht echter Lernraum.</p>
+        </div>
+      </div>
+
+      <div class="hu-visual">
+        <div class="hu-card r">
+          <div class="hu-card-tag" style="color:var(--w-blue)">Täglich · Erste zwei Stunden</div>
+          <div class="hu-card-num" style="color:var(--w-blue); opacity:.18;">2h</div>
+          <h3>Konzentriertes Arbeiten</h3>
+          <p>Die ersten beiden Unterrichtsstunden sind frei von Ablenkungen durch Fächerwechsel. In dieser Phase sind Kinder und Jugendliche am aufnahmefähigsten — ideal für anspruchsvolle Inhalte in Mathematik, Deutsch, Geschichte, Naturwissenschaften oder Kunst.</p>
+        </div>
+        <div class="hu-card r rd2">
+          <div class="hu-card-tag" style="color:var(--mauve)">3–4 Wochen · Eine Epoche</div>
+          <div class="hu-card-num" style="color:var(--mauve); opacity:.18;">4W</div>
+          <h3>Epochaler Unterricht</h3>
+          <p>Ein Thema wird nicht nach 45 Minuten verlassen, sondern über mehrere Wochen vertieft. Diese Epochenform ermöglicht es, einen Lernstoff wirklich durchzudringen: vom ersten Erleben über die Verarbeitung bis zum eigenständigen Urteil. Alles bleibt im Gedächtnis.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EPOCHENFÄCHER -->
+    <div class="epochen" id="epochenfaecher">
+      <div class="epochen-head">
+        <div>
+          <p class="sec-label r">Epochenfächer</p>
+          <h2 class="r rd1">Was im Hauptunterricht<br>gelernt wird</h2>
+        </div>
+        <p class="r rd2">Jede Epoche hat einen eigenen Charakter — klicken Sie auf ein Fach, um mehr zu erfahren.</p>
+      </div>
+
+      <div class="epochen-grid">
+        <div class="ep-item r" data-lb="Deutsch" data-stufe="Klassen 1–13" data-text="Von der Schreibschrift und dem ersten Lesen in Klasse 1 bis zur literarischen Analyse im Abitur — Deutsch begleitet die Schüler durch alle Jahre. Aufsätze, Gedichte, Dramen und Epik werden nicht nur analysiert, sondern erlebt und selbst verfasst.">
+          <div class="ep-stufe">Kl. 1–13</div>
+          <div class="ep-name">Deutsch</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd1" data-lb="Mathematik" data-stufe="Klassen 1–13" data-text="Von den ersten Zahlen in rhythmischen Übungen bis zur Differentialrechnung im Abitur. Mathematik wird nie als abstraktes Regelwerk gelehrt, sondern immer vom konkreten Erleben zum Begriff — vom Anfassen zum Denken.">
+          <div class="ep-stufe">Kl. 1–13</div>
+          <div class="ep-name">Mathematik</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd2" data-lb="Geschichte" data-stufe="Klassen 5–13" data-text="Geschichte beginnt in Klasse 5 mit den alten Hochkulturen und führt bis zur Gegenwart in Klasse 12. Schüler lernen Geschichte nicht als Faktenwissen, sondern als lebendigen Strom von Ursachen, Ideen und menschlichen Schicksalen zu verstehen.">
+          <div class="ep-stufe">Kl. 5–13</div>
+          <div class="ep-name">Geschichte</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd3" data-lb="Erdkunde" data-stufe="Klassen 6–12" data-text="Von der Heimatgeographie in der Unterstufe bis zu wirtschafts- und kulturgeographischen Fragestellungen in der Oberstufe. Schüler entwickeln ein lebendiges Bild der Erde und der Menschen, die auf ihr leben.">
+          <div class="ep-stufe">Kl. 6–12</div>
+          <div class="ep-name">Erdkunde</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r" data-lb="Physik" data-stufe="Klassen 6–13" data-text="Physik beginnt in Klasse 6 mit der Akustik — als Erlebnisphysik. Die Schüler beobachten zuerst genau, bevor sie Gesetzmäßigkeiten ableiten. Dieser phänomenologische Ansatz schult das genaue Hinschauen und das Urteil.">
+          <div class="ep-stufe">Kl. 6–13</div>
+          <div class="ep-name">Physik</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd1" data-lb="Chemie" data-stufe="Klassen 7–13" data-text="Chemie beginnt mit der Verbrennungslehre in Klasse 7 — konkret, erlebbar, spannend. Die Schüler experimentieren selbst, protokollieren und leiten aus dem Beobachteten Gesetzmäßigkeiten ab. In der Oberstufe folgt organische Chemie und Biochemie.">
+          <div class="ep-stufe">Kl. 7–13</div>
+          <div class="ep-name">Chemie</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd2" data-lb="Biologie" data-stufe="Klassen 1–13" data-text="Von der Tier- und Pflanzenkunde in der Unterstufe bis zu Genetik und Ökologie in der Oberstufe. Biologie ist in der Waldorfschule immer mit der Natur verbunden — Schulgarten, Beobachtungen im Freien und Mikroskopie ergänzen den Unterricht.">
+          <div class="ep-stufe">Kl. 1–13</div>
+          <div class="ep-name">Biologie</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd3" data-lb="Kunst & Malen" data-stufe="Klassen 1–12" data-text="Aquarellmalen, Zeichnen und plastisches Gestalten sind feste Epochenfächer. In der Unterstufe werden Farben erlebt, in der Mittelstufe entwickelt sich die Formsprache, in der Oberstufe entstehen künstlerische Arbeiten mit eigenem Ausdruck.">
+          <div class="ep-stufe">Kl. 1–12</div>
+          <div class="ep-name">Kunst & Malen</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r" data-lb="Literaturepoche" data-stufe="Klassen 9–13" data-text="In der Oberstufe werden eigene Literaturepochen durchgeführt: von Goethe über Kafka bis zur zeitgenössischen Literatur. Schüler lesen, diskutieren, schreiben eigene Texte und entwickeln ein differenziertes literarisches Urteil.">
+          <div class="ep-stufe">Kl. 9–13</div>
+          <div class="ep-name">Literaturepoche</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd1" data-lb="Astronomie" data-stufe="Klassen 6 & 12" data-text="Die Astronomieepoche in Klasse 6 und 12 führt die Schüler hinaus in den nächtlichen Himmel — wortwörtlich und im Bild. Planetenbewegungen, Weltbild im Wandel der Geschichte, Relativitätstheorie und die Weite des Kosmos.">
+          <div class="ep-stufe">Kl. 6 & 12</div>
+          <div class="ep-name">Astronomie</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd2" data-lb="Sozialwissenschaften" data-stufe="Klassen 10–13" data-text="Gesellschaft, Wirtschaft und Politik werden in der Oberstufe als eigenständige Epochen unterrichtet. Schüler analysieren aktuelle gesellschaftliche Fragen, diskutieren Demokratie, Wirtschaftsformen und internationale Zusammenhänge.">
+          <div class="ep-stufe">Kl. 10–13</div>
+          <div class="ep-name">Sozialwissenschaften</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+        <div class="ep-item r rd3" data-lb="Projektepochen" data-stufe="Klassen 8 & 11" data-text="In Klasse 8 und 11 arbeiten Schüler an eigenständigen Projekten — der Jahresarbeit. In Klasse 8 ein handwerkliches oder künstlerisches Werk, in Klasse 11 eine wissenschaftliche oder künstlerische Arbeit, die vor der Schulgemeinschaft präsentiert wird.">
+          <div class="ep-stufe">Kl. 8 & 11</div>
+          <div class="ep-name">Jahresarbeit / Projekt</div>
+          <div class="ep-arrow">Mehr erfahren →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO BOX -->
+    <div style="padding: 0 72px 100px; background: var(--cream);">
+      <div class="info-box r" style="max-width: 860px; margin: 0 auto;">
+        <div class="info-box-label">Mehr erfahren</div>
+        <p>Interessiert an unserer Pädagogik? Kommen Sie zu einem unserer Informationsabende oder melden Sie sich für einen Hospitationstag an — erleben Sie unsere Schule von innen.<br><br>
+        <strong>Kontakt:</strong> <a href="mailto:info@waldorfschule-wiesbaden.de">info@waldorfschule-wiesbaden.de</a> &nbsp;·&nbsp;
+        <a href="tel:+496116070800">0611 – 60 70 80</a>
+        </p>
+      </div>
+    </div>
+
+  </div><!-- end .page-content -->
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+    <div class="lightbox-box">
+      <button class="lightbox-close" id="lbClose" aria-label="Schließen">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <div class="lb-tag" id="lbTag">Epochenfach</div>
+      <div class="lb-title" id="lbTitle"></div>
+      <div class="lb-stufe" id="lbStufe"></div>
+      <div class="lb-div"></div>
+      <p class="lb-text" id="lbText"></p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+      </div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">&copy; 2026 Freie Waldorfschule Wiesbaden &middot; Gegründet 1985</span>
+  </footer>
+
+  <script>
+const lenis = new Lenis({ duration: 1.4, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true, smoothTouch: false });
+function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+const scrollBar = document.getElementById('scrollProgress');
+if (scrollBar) lenis.on('scroll', ({ scroll, limit }) => { scrollBar.style.width = (scroll / limit * 100) + '%'; });
+
+const nav = document.getElementById('mainNav');
+lenis.on('scroll', ({ scroll }) => { nav.classList.toggle('solid', scroll > 60); });
+
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.r').forEach(el => {
+  gsap.fromTo(el, { opacity: 0, y: 36 }, {
+    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+  });
+});
+
+// Epochen lightbox
+const lb = document.getElementById('lightbox');
+const lbClose = document.getElementById('lbClose');
+document.querySelectorAll('.ep-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.getElementById('lbTitle').textContent = item.dataset.lb || '';
+    document.getElementById('lbStufe').textContent = item.dataset.stufe || '';
+    document.getElementById('lbText').textContent = item.dataset.text || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+lbClose.addEventListener('click', closeLb);
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+  </script>
+</body>
+</html>

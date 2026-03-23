@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leitung & Trägerschaft — Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="waldorf-shared.css" />
+  <style>
+    .intro-section { padding: 80px 72px 64px; }
+    .intro-section .content-inner { padding: 0; }
+    .two-col-text { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }
+    .two-col-text p { font-size: 15px; font-weight: 300; line-height: 1.9; color: var(--muted); }
+
+    /* ── ORGANIGRAMM ─────────────────────────────── */
+    .org-section { padding: 0 72px 100px; background: var(--cream); }
+    .org-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 0; }
+    .org-card {
+      background: #fff; border-radius: 20px; padding: 44px 36px;
+      border: 1px solid rgba(0,0,0,.06);
+      position: relative; overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .org-card:hover { transform: translateY(-5px); box-shadow: 0 18px 52px rgba(0,0,0,.08); }
+    .org-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .org-card:nth-child(1)::before { background: var(--w-blue); }
+    .org-card:nth-child(2)::before { background: var(--mauve); }
+    .org-card:nth-child(3)::before { background: var(--w-teal); }
+    .org-icon {
+      width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .org-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; margin-bottom: 12px; }
+    .org-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--text); margin-bottom: 16px; line-height: 1.2; }
+    .org-div { width: 28px; height: 2px; margin-bottom: 16px; }
+    .org-text { font-size: 13.5px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+
+    /* ── PRINZIP SECTION ─────────────────────────── */
+    .prinzip-section { padding: 100px 72px; background: var(--dark); }
+    .pr-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .pr-label { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--mauve2); margin-bottom: 16px; }
+    .pr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 24px; letter-spacing: -.02em; }
+    .pr-title em { font-style: italic; color: var(--mauve2); }
+    .pr-text { font-size: 14px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,.5); }
+    .pr-features { display: flex; flex-direction: column; gap: 20px; }
+    .pr-feat { display: flex; align-items: flex-start; gap: 16px; }
+    .pr-feat-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.05); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--mauve2); }
+    .pr-feat-text strong { display: block; font-size: 14px; font-weight: 500; color: rgba(255,255,255,.8); margin-bottom: 4px; }
+    .pr-feat-text span { font-size: 13px; font-weight: 300; color: rgba(255,255,255,.4); line-height: 1.6; }
+
+    /* ── VERBÄNDE ────────────────────────────────── */
+    .verbaende { padding: 100px 72px; background: var(--cream2); }
+    .vb-head { max-width: 560px; margin-bottom: 56px; }
+    .vb-head h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 300; color: var(--text); margin-top: 14px; line-height: 1.05; letter-spacing: -.02em; }
+    .vb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .vb-card {
+      background: #fff; border-radius: 18px; padding: 40px 36px;
+      border: 1px solid rgba(0,0,0,.06);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .vb-tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--mauve); font-weight: 500; }
+    .vb-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--text); line-height: 1.2; }
+    .vb-text { font-size: 13.5px; font-weight: 300; line-height: 1.8; color: var(--muted); }
+    .vb-link { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--mauve); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap .2s, color .2s; margin-top: 4px; }
+    .vb-link:hover { gap: 10px; color: var(--mauve-dk); }
+
+    @media (max-width: 1024px) {
+      .intro-section { padding: 60px 24px 40px; }
+      .org-section { padding: 0 24px 72px; }
+      .org-grid { grid-template-columns: 1fr; }
+      .prinzip-section { padding: 80px 24px; }
+      .pr-inner { grid-template-columns: 1fr; gap: 48px; }
+      .verbaende { padding: 80px 24px; }
+      .vb-grid { grid-template-columns: 1fr; }
+      .two-col-text { grid-template-columns: 1fr; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="top-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 28" fill="none" preserveAspectRatio="none">
+      <path d="M0,14 C360,28 1080,0 1440,14 L1440,0 L0,0 Z" fill="rgba(166,118,173,.18)"/>
+    </svg>
+  </div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="logo">
+      <div class="logo-img">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+      </div>
+      <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
+    </a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="index.html#philosophy">Unsere Schule</a>
+        <ul class="nav-drop">
+          <li><a href="paedagogik.html">Waldorfpädagogik</a></li>
+          <li><a href="paedagogik.html#hauptunterricht">Hauptunterricht & Epochen</a></li>
+          <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
+          <li><a href="index.html#abschluesse">Abschlüsse</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="schulleben.html">Projekte & Schulleben</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+          <li><a href="praktika-beruf.html">Praktika & Berufsleben</a></li>
+          <li><a href="foerdern.html">Unterstützen & Fördern</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="leitung.html">Leitung & Trägerschaft</a></li>
+          <li><a href="index.html#gallery-sec">Galerie</a></li>
+          <li><a href="index.html#podcast">Podcast</a></li>
+          <li><a href="index.html#ganztag">Ganztagsbetreuung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="index.html#kontakt">Standort & Campus</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="termine.html">Termine</a>
+        <ul class="nav-drop">
+          <li><a href="termine.html">Öffentliche Veranstaltungen</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="termine.html#klassenspiel">Klassenspiel 8. Klasse</a></li>
+          <li><a href="termine.html#tdt">Tag der offenen Tür</a></li>
+          <li><a href="schulleben.html#feste">Feste im Jahreslauf</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="service.html">Service</a>
+        <ul class="nav-drop">
+          <li><a href="service-anmeldung.html">Anmeldung</a></li>
+          <li><a href="service-schulbeitrag.html">Schulbeitrag</a></li>
+          <li><a href="service-mensa.html">Schulküche & Mensa</a></li>
+          <li><a href="service-wegbeschreibung.html">Wegbeschreibung</a></li>
+          <div class="nav-drop-divider"></div>
+          <li><a href="service-alumni.html">Alumni</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="offene-stellen.html">Offene Stellen</a>
+        <ul class="nav-drop">
+          <li><a href="offene-stellen-stellenangebote.html">Stellenangebote</a></li>
+          <li><a href="offene-stellen-freiwilligendienste.html">Freiwilligendienste</a></li>
+          <li><a href="offene-stellen-praktikanten.html">Praktikant:innen</a></li>
+        </ul>
+      </li>
+      <li class="has-drop">
+        <a href="presse.html">Presse</a>
+        <ul class="nav-drop">
+          <li><a href="presse.html#presseschau">Presseschau</a></li>
+          <li><a href="presse.html#pressemitteilungen">Pressemitteilungen</a></li>
+        </ul>
+      </li>
+      <li><a href="links.html">Links</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-bg">
+      <img src="bilder/fcbb0f3d-ae20-432f-8c05-eacce58a94d4.jpg" alt="Leitung & Trägerschaft — Freie Waldorfschule Wiesbaden" />
+    </div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <div class="page-hero-label">
+        <div class="page-hero-line"></div>
+        <span>ORGANISATION</span>
+      </div>
+      <h1>Leitung &amp; <em>Trägerschaft</em></h1>
+    </div>
+  </section>
+
+  <div class="color-strip"></div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="index.html#philosophy">Unsere Schule</a>
+      <span>›</span>
+      <span class="bc-current">Leitung & Trägerschaft</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <div class="intro-section">
+      <div class="content-inner">
+        <p class="sec-label r">Kollegiale Selbstverwaltung</p>
+        <h2 class="sec-h r rd1">Eine Schule ohne <em>Direktor</em></h2>
+        <div class="two-col-text">
+          <p class="r rd2">Die Freie Waldorfschule Wiesbaden wird nicht von einem einzelnen Direktor geleitet — sie verwaltet sich selbst. Das gesamte Lehrerkollegium trägt gemeinsam die Verantwortung für die pädagogische Arbeit. Diese kollegiale Selbstverwaltung ist kein organisatorischer Kompromiss, sondern ein grundlegendes Prinzip der Waldorfbewegung.</p>
+          <p class="r rd3">Rudolf Steiner begründete dieses Prinzip mit seiner Überzeugung, dass eine Schule, die freie, urteilsfähige Menschen erziehen will, selbst frei und urteilsfähig sein muss. Verwaltung und Pädagogik liegen in denselben Händen — den Händen derer, die täglich mit den Kindern arbeiten.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORGANIGRAMM -->
+    <div class="org-section">
+      <div style="margin-bottom: 48px;">
+        <p class="sec-label r">Struktur</p>
+        <h2 class="sec-h r rd1" style="margin-bottom:0;">Wie unsere Schule<br><em>geführt wird</em></h2>
+      </div>
+      <div class="org-grid">
+
+        <div class="org-card r">
+          <div class="org-icon" style="background:rgba(31,78,138,.1); color:var(--w-blue)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="8" cy="10" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="10" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M1 22c0-3.9 3.1-7 7-7M18 15c3.9 0 7 3.1 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 22c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="org-tag" style="color:var(--w-blue)">Pädagogische Führung</div>
+          <div class="org-title">Lehrerkonferenz</div>
+          <div class="org-div" style="background:var(--w-blue)"></div>
+          <p class="org-text">Die wöchentliche Lehrerkonferenz ist das Herz der Schulverwaltung. Alle Lehrkräfte kommen zusammen, um pädagogische Fragen zu besprechen, Entscheidungen zu treffen und die Entwicklung der Schule zu gestalten. Es gibt kein Direktionsrecht — Entscheidungen werden im Konsens oder durch Mehrheit getroffen.<br><br>
+          Innerhalb der Konferenz bildet das <strong>Schulleitungsgremium</strong> ein kleineres Gremium, das operative Entscheidungen im Tagesgeschäft trifft und die Konferenz koordiniert.</p>
+        </div>
+
+        <div class="org-card r rd2">
+          <div class="org-icon" style="background:rgba(166,118,173,.12); color:var(--mauve)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="4" y="4" width="18" height="18" rx="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M9 13h8M9 9h5M9 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="org-tag" style="color:var(--mauve)">Rechtliche Trägerschaft</div>
+          <div class="org-title">Vorstand & Elternverein</div>
+          <div class="org-div" style="background:var(--mauve)"></div>
+          <p class="org-text">Träger unserer Schule ist ein gemeinnütziger Verein, dessen Mitglieder mehrheitlich Eltern der Schulgemeinschaft sind. Der gewählte <strong>Vorstand</strong> übernimmt die rechtliche und finanzielle Verantwortung für die Schule: Verträge, Gebäude, Personal, Finanzen.<br><br>
+          Die enge Zusammenarbeit zwischen Lehrerkollegium und Elternvorstand ist charakteristisch für die Waldorfschulbewegung: Eltern sind Mitträger, nicht nur Kunden. Diese Partnerschaft gibt der Schule ihre besondere Stabilität und Lebendigkeit.</p>
+        </div>
+
+        <div class="org-card r rd4">
+          <div class="org-icon" style="background:rgba(42,128,117,.1); color:var(--w-teal)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 3L5 7v6c0 5 3.6 9.7 8 11 4.4-1.3 8-6 8-11V7L13 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="org-tag" style="color:var(--w-teal)">Elternpartizipation</div>
+          <div class="org-title">Eltern als Träger</div>
+          <div class="org-div" style="background:var(--w-teal)"></div>
+          <p class="org-text">An waldorfschulen sind Eltern keine passiven Zahlenden — sie sind aktive Mitglieder der Schulgemeinschaft. Als Vereinsmitglieder haben sie Stimmrecht und Mitsprache bei grundlegenden Entscheidungen: Bauvorhaben, Schulentwicklung, Satzungsänderungen.<br><br>
+          Darüber hinaus engagieren sich Eltern praktisch: Beim Adventsmarkt, beim Frühjahrsputz, in Arbeitsgruppen und bei der Monatsfeier. Dieses Engagement macht unsere Schule zu dem, was sie ist — einer echten Gemeinschaftsschule.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PRINZIP -->
+    <div class="prinzip-section">
+      <div class="pr-inner">
+        <div>
+          <div class="pr-label r">Das Prinzip</div>
+          <div class="pr-title r rd1">Freiheit durch<br><em>Selbstverwaltung</em></div>
+          <p class="pr-text r rd2">Eine Schule, die Freiheit lehren will, muss selbst frei sein. Das Kollegium trifft seine pädagogischen Entscheidungen ohne Eingriff durch staatliche Behörden oder private Eigentümer — eingebettet in klare rechtliche Rahmenbedingungen, aber frei in der Gestaltung.</p>
+        </div>
+        <div class="pr-features">
+          <div class="pr-feat r">
+            <div class="pr-feat-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 6v5c0 3.9 2.9 7.5 7 8.9 4.1-1.4 7-5 7-8.9V6L10 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pr-feat-text">
+              <strong>Keine Direktorenposition</strong>
+              <span>Alle pädagogischen Entscheidungen werden im Kollegium getroffen — gemeinsam, ohne hierarchische Einzelentscheidungen.</span>
+            </div>
+          </div>
+          <div class="pr-feat r rd1">
+            <div class="pr-feat-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pr-feat-text">
+              <strong>Transparente Entscheidungen</strong>
+              <span>Beschlüsse der Konferenz sind für alle Beteiligten nachvollziehbar und werden im Protokoll festgehalten.</span>
+            </div>
+          </div>
+          <div class="pr-feat r rd2">
+            <div class="pr-feat-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M2 17c0-2.8 2.2-5 5-5h6c2.8 0 5 2.2 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="pr-feat-text">
+              <strong>Eltern als Gemeinschaft</strong>
+              <span>Der Elternverein ist Träger der Schule — mit Verantwortung, Mitsprache und echtem Engagement in der Schulgemeinschaft.</span>
+            </div>
+          </div>
+          <div class="pr-feat r rd3">
+            <div class="pr-feat-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8z" stroke="currentColor" stroke-width="1.4"/><path d="M6 10h4V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pr-feat-text">
+              <strong>Seit 1985 bewährt</strong>
+              <span>Dieses Modell trägt unsere Schule seit ihrer Gründung — es ist keine Theorie, sondern gelebte Praxis über mehr als vier Jahrzehnte.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERBÄNDE -->
+    <div class="verbaende">
+      <div class="vb-head">
+        <p class="sec-label r">Einbettung</p>
+        <h2 class="r rd1">Teil einer<br><em>weltweiten Bewegung</em></h2>
+      </div>
+      <div class="vb-grid">
+        <div class="vb-card r">
+          <div class="vb-tag">Regional</div>
+          <div class="vb-name">Landesverband der Freien Waldorfschulen in Hessen</div>
+          <p class="vb-text">Als Mitglied des hessischen Landesverbandes ist unsere Schule in das regionale Netzwerk der Waldorfschulen eingebunden. Der Landesverband vertritt die Interessen der freien Waldorfschulen gegenüber dem Land Hessen, koordiniert Lehrerausbildungen und ermöglicht den Austausch zwischen den Schulen.</p>
+          <a href="https://www.waldorf-hessen.de" target="_blank" class="vb-link">waldorf-hessen.de →</a>
+        </div>
+        <div class="vb-card r rd2">
+          <div class="vb-tag">Bundesweit</div>
+          <div class="vb-name">Bund der Freien Waldorfschulen</div>
+          <p class="vb-text">Der Bund der Freien Waldorfschulen ist der bundesweite Dachverband der über 250 deutschen Waldorfschulen. Er vertritt die Waldorfschulbewegung gegenüber Bundesbehörden und in der Öffentlichkeit, veröffentlicht Forschungsergebnisse und koordiniert die Weiterentwicklung des Waldorflehrplans.</p>
+          <a href="https://www.waldorfschule.de" target="_blank" class="vb-link">waldorfschule.de →</a>
+        </div>
+        <div class="vb-card r rd1">
+          <div class="vb-tag">International</div>
+          <div class="vb-name">Freie Waldorf­schulen weltweit</div>
+          <p class="vb-text">Weltweit gibt es über 1.200 Waldorfschulen in mehr als 75 Ländern. Die Freie Waldorfschule Wiesbaden ist Teil dieser globalen Bewegung und steht in einem internationalen Austausch — von Pädagogik über Lehrerbildung bis hin zu Schülerprojekten und Auslandsfahrten.</p>
+          <a href="https://www.freunde-waldorf.de" target="_blank" class="vb-link">freunde-waldorf.de →</a>
+        </div>
+        <div class="vb-card r rd3">
+          <div class="vb-tag">Staatlich anerkannt</div>
+          <div class="vb-name">Anerkannte Ersatzschule mit staatlicher Genehmigung</div>
+          <p class="vb-text">Die Freie Waldorfschule Wiesbaden ist eine staatlich anerkannte Ersatzschule mit genehmigter gymnasialer Oberstufe. Unsere Abschlüsse — von der Hauptschule bis zum Abitur — sind vollständig staatlich anerkannt und deutschlandweit gültig.</p>
+          <span style="font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--w-green);">Abitur · G9 · Staatlich anerkannt</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="ftr-left">
+      <div class="ftr-logo">
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+      </div>
+      <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+    </div>
+    <ul class="ftr-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+      <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="service-alumni.html">Alumni</a></li>
+    </ul>
+    <span class="ftr-copy">&copy; 2026 Freie Waldorfschule Wiesbaden &middot; Gegründet 1985</span>
+  </footer>
+
+  <script>
+const lenis = new Lenis({ duration: 1.4, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true, smoothTouch: false });
+function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+const scrollBar = document.getElementById('scrollProgress');
+if (scrollBar) lenis.on('scroll', ({ scroll, limit }) => { scrollBar.style.width = (scroll / limit * 100) + '%'; });
+const nav = document.getElementById('mainNav');
+lenis.on('scroll', ({ scroll }) => { nav.classList.toggle('solid', scroll > 60); });
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.r').forEach(el => {
+  gsap.fromTo(el, { opacity: 0, y: 36 }, {
+    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+  });
+});
+  </script>
+</body>
+</html>
