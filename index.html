@@ -278,7 +278,7 @@
   .steiner-quote { background:var(--dark); padding:120px 72px; display:flex; align-items:center; justify-content:center; gap:72px; position:relative; overflow:hidden; }
   /* ── Scroll-Frame Canvas ── */
   .sq-canvas-wrap { flex-shrink:0; position:relative; z-index:1; }
-  #sqCanvas { display:block; width:254px; height:340px; image-rendering:crisp-edges; }
+  #sqCanvas { display:block; width:380px; height:508px; image-rendering:crisp-edges; }
   .steiner-quote::before {
     content:'\201E'; position:absolute; top:-60px; left:50%; transform:translateX(-50%);
     font-family:'Cormorant Garamond',serif; font-size:clamp(240px,34vw,430px); font-weight:300; line-height:1;
@@ -1503,9 +1503,9 @@ if (campusImg) {
   // ScrollTrigger: scrub through frames as section scrolls in/out of view
   ScrollTrigger.create({
     trigger: '.steiner-quote',
-    start: 'top bottom',   // begin when section top hits viewport bottom
-    end: 'bottom top',     // end when section bottom leaves viewport top
-    scrub: 0.5,
+    start: 'top 85%',
+    end: 'bottom 15%',
+    scrub: 0.3,
     onUpdate: (self) => {
       draw(self.progress * (FRAME_COUNT - 1));
     }
