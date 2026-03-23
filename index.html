@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freie Waldorfschule Wiesbaden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <style>
+  /* ══════════════════════════════════════════════════════
+     WALDORF WIESBADEN — Premium Redesign v2
+     Colors: Real Waldorf Mauve #a676ad · Warm Cream #FAF8F5
+  ══════════════════════════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --mauve:      #a676ad;
+    --mauve2:     #c8a8d2;
+    --mauve-dk:   #7a4e87;
+    --mauve-deep: #180824;
+    --cream:      #FAF8F5;
+    --cream2:     #F0E8DE;
+    --dark:       #0F0818;
+    --dark2:      #1C0E28;
+    --text:       #1C1018;
+    --text2:      #4A3852;
+    --muted:      #8A7895;
+    --white:      #FFFFFF;
+    --w-blue:     #1f4e8a;
+    --w-teal:     #2a8075;
+    --w-green:    #5a7a28;
+    --w-orange:   #c06020;
+    --w-red:      #b83c35;
+    /* Legacy compat */
+    --purple:     #180824;
+    --purple2:    #1C0E28;
+    --purple3:    #0F0818;
+    --lav:        #a676ad;
+    --lilac:      #c8a8d2;
+  }
+
+  ::selection { background: rgba(166,118,173,.2); color: var(--mauve-dk); }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--mauve2); }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 180px 180px; opacity: .018; mix-blend-mode: multiply;
+  }
+
+  /* ══ LOADER ══════════════════════════════════ */
+  #loader {
+    position: fixed; inset: 0; z-index: 99999;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    transition: clip-path 1s cubic-bezier(.76,0,.24,1);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  #loader.loader-exit { clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%); }
+  .loader-logo { width: 220px; height: auto; }
+  .loader-logo img { width: 100%; height: auto; object-fit: contain; border-radius: 0; }
+  .loader-sub {
+    margin-top: 28px; font-size: 9px; letter-spacing: .38em; text-transform: uppercase;
+    color: rgba(255,255,255,.18); opacity: 0; animation: lFade .6s ease .5s forwards;
+    font-family: 'Inter', sans-serif;
+  }
+  .loader-bar-wrap { width: 60px; height: 1px; background: rgba(255,255,255,.06); margin-top: 16px; overflow: hidden; }
+  .loader-bar { height: 100%; width: 0; background: var(--mauve); animation: lBar 2.4s cubic-bezier(.6,0,.4,1) .3s forwards; }
+  @keyframes lFade { to { opacity: 1; } }
+  @keyframes lBar  { to { width: 100%; } }
+  .loader-path { stroke-dasharray: 950; stroke-dashoffset: 950; animation: lDraw 1.8s cubic-bezier(.6,0,.4,1) .15s forwards; }
+  .loader-dot-el { opacity: 0; animation: lFade .4s ease .9s forwards; }
+  @keyframes lDraw { to { stroke-dashoffset: 0; } }
+
+  /* ══ KEYFRAMES ═══════════════════════════════ */
+  @keyframes heroUp   { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+  @keyframes heroFade { from { opacity:0; } to { opacity:1; } }
+  @keyframes kenBurns { from { transform:scale(1.06); } to { transform:scale(1); } }
+  @keyframes drip { 0%,100% { height:18px; opacity:.3; } 50% { height:30px; opacity:.7; } }
+  @keyframes tickerScroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @keyframes mqScroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+  @keyframes aurora { 0% { background-position:50% 50%,50% 50%; } 100% { background-position:350% 50%,350% 50%; } }
+
+  html { scroll-behavior: auto; }
+  body {
+    font-family: 'Lora', Georgia, serif;
+    background:
+      radial-gradient(ellipse 60% 80% at 0% 40%, rgba(210,155,140,.13) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 70% at 100% 65%, rgba(130,180,170,.11) 0%, transparent 60%),
+      #f0e9df;
+    color: var(--text); overflow-x: hidden;
+  }
+
+  /* ══ TOP WAVE ═════════════════════════════════ */
+  .top-wave { position:fixed; top:0; left:0; right:0; z-index:9999; pointer-events:none; line-height:0; }
+  .top-wave svg { width:100%; height:28px; display:block; }
+  img  { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* ══ SCROLL PROGRESS ═════════════════════════ */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; z-index: 99999;
+    height: 2px; width: 0%;
+    background: linear-gradient(90deg, var(--mauve), var(--mauve2));
+    pointer-events: none;
+  }
+
+  /* ══ NAV ══════════════════════════════════════ */
+  nav {
+    position: fixed; inset: 0 0 auto; z-index: 200; height: 76px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 56px;
+    transition: background .5s, backdrop-filter .5s, box-shadow .5s;
+  }
+  nav.solid {
+    background: rgba(250,248,245,.96); backdrop-filter: blur(24px);
+    box-shadow: 0 1px 0 rgba(0,0,0,.06);
+  }
+  .logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+  .logo-img { width:44px; height:44px; flex-shrink:0; border-radius:50%; overflow:hidden; transition:transform .3s; }
+  .logo-img:hover { transform:scale(1.05); }
+  .logo-img img { width:100%; height:100%; object-fit:cover; }
+  .logo-img svg { width:100%; height:100%; }
+  .logo-text { display:flex; flex-direction:column; gap:2px; }
+  .logo-text b { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:15px; letter-spacing:.04em; color:#fff; transition:color .4s; line-height:1.1; }
+  .logo-text span { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.4); font-weight:300; transition:color .4s; }
+  nav.solid .logo-text b   { color:var(--text); }
+  nav.solid .logo-text span { color:var(--muted); }
+  .nav-links { list-style:none; display:flex; align-items:center; gap:36px; }
+  .nav-links > li > a { text-decoration:none; font-size:12px; letter-spacing:.06em; color:rgba(255,255,255,.72); transition:color .3s; }
+  .nav-links > li > a:hover { color:#fff; }
+  nav.solid .nav-links > li > a       { color:var(--text2); }
+  nav.solid .nav-links > li > a:hover { color:var(--mauve-dk); }
+  .nav-cta {
+    padding:9px 24px; border:1.5px solid rgba(255,255,255,.35); border-radius:60px;
+    font-family:'Lora',serif !important; font-size:12px !important; letter-spacing:.06em !important;
+    font-style:italic; color:#fff !important; transition:all .3s !important;
+  }
+  .nav-cta:hover { background:#fff !important; color:var(--mauve-dk) !important; border-color:#fff !important; }
+  nav.solid .nav-cta { border-color:var(--mauve) !important; color:var(--mauve-dk) !important; }
+  nav.solid .nav-cta:hover { background:var(--mauve) !important; color:#fff !important; }
+  .nav-links li { position:relative; }
+  .nav-links li.has-drop > a::after {
+    content:''; display:inline-block; width:4px; height:4px; margin-left:6px; margin-bottom:1px;
+    border-right:1px solid currentColor; border-bottom:1px solid currentColor;
+    transform:rotate(45deg); vertical-align:middle; opacity:.5; transition:transform .2s;
+  }
+  .nav-links li.has-drop:hover > a::after { transform:rotate(-135deg); }
+  .nav-drop {
+    position:absolute; top:calc(100% + 14px); left:50%;
+    background:#fff; border-radius:16px;
+    box-shadow:0 8px 48px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);
+    min-width:230px; padding:10px 0; z-index:300; list-style:none;
+    opacity:0; pointer-events:none;
+    transform:translateX(-50%) translateY(-8px);
+    transition:opacity .2s,transform .2s;
+  }
+  .nav-links li.has-drop:hover .nav-drop { opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); }
+  .nav-drop li a {
+    display:block; padding:9px 22px; font-size:12.5px !important; letter-spacing:.02em !important;
+    color:var(--text2) !important; text-decoration:none; transition:background .15s,color .15s;
+  }
+  .nav-drop li a:hover { background:#FAF8F5; color:var(--mauve-dk) !important; }
+  .nav-drop-divider { height:1px; background:rgba(0,0,0,.05); margin:6px 14px; }
+
+  /* ══ HERO ══════════════════════════════════════ */
+  .hero { position:relative; width:100%; height:100vh; min-height:700px; overflow:hidden; background:var(--dark); }
+  .hero-bg { position:absolute; inset:0; z-index:0; animation:kenBurns 10s ease-out forwards; }
+  .hero-bg img { width:100%; height:100%; object-fit:cover; object-position:50% 20%; }
+  .hero-aurora { display:none; }
+  .hero-aurora-mask { display:none; }
+  .hero-overlay {
+    position:absolute; inset:0; z-index:2;
+    background:
+      linear-gradient(to top, rgba(15,8,24,.97) 0%, rgba(15,8,24,.80) 30%, rgba(15,8,24,.22) 62%, rgba(15,8,24,.04) 82%),
+      linear-gradient(to right, rgba(15,8,24,.38) 0%, transparent 52%);
+  }
+  .hero-overlay::after {
+    content:''; position:absolute; bottom:0; left:0; width:600px; height:400px;
+    background:radial-gradient(ellipse at 0% 100%, rgba(166,118,173,.15) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .color-strip {
+    height:3px;
+    background:linear-gradient(90deg, var(--mauve) 0%, #2858c8 20%, #209898 36%, #58a828 50%, #d4c018 65%, #d87818 80%, var(--mauve) 100%);
+  }
+  .hero-content {
+    position:absolute; bottom:0; left:0; right:0; z-index:6;
+    padding:0 72px 80px;
+    display:flex; align-items:flex-end; justify-content:space-between; gap:48px;
+  }
+  .hero-left { flex:1; max-width:820px; }
+  .hero-tag { display:inline-flex; align-items:center; gap:14px; margin-bottom:28px; opacity:0; animation:heroUp .9s .2s forwards; }
+  .hero-tag-line { width:32px; height:1px; background:var(--mauve2); }
+  .hero-tag span { font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--mauve2); font-weight:300; }
+  .hero-h1 {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(64px,8.5vw,122px); font-weight:300;
+    line-height:1.0; color:#fff;
+    opacity:0; animation:heroUp 1s .4s forwards;
+    letter-spacing:-.025em;
+  }
+  .hero-h1 em { font-style:italic; color:var(--mauve2); }
+  .hero-cycle { display:inline-block; overflow:hidden; color:var(--mauve2); font-style:italic; }
+  .hero-cycle span { display:block; animation:cycleFade 9s infinite; }
+  .hero-cycle span:nth-child(2) { animation-delay:3s; }
+  .hero-cycle span:nth-child(3) { animation-delay:6s; }
+  @keyframes cycleFade { 0%,28% { opacity:1; transform:translateY(0); } 33%,100% { opacity:0; transform:translateY(-20px); } }
+  .hero-cta-row { display:flex; align-items:center; gap:28px; margin-top:44px; opacity:0; animation:heroUp .9s .65s forwards; }
+  .btn-hero {
+    display:inline-flex; align-items:center; padding:15px 38px; background:var(--mauve); color:#fff;
+    text-decoration:none; font-family:'Lora',serif; font-size:12px; font-weight:400; letter-spacing:.12em; font-style:italic;
+    border-radius:60px; transition:background .3s,transform .3s,box-shadow .3s;
+    box-shadow:0 8px 32px rgba(166,118,173,.4);
+  }
+  .btn-hero:hover { background:var(--mauve-dk); transform:translateY(-2px); box-shadow:0 16px 48px rgba(166,118,173,.55); }
+  .hero-ghost {
+    display:flex; align-items:center; gap:10px; color:rgba(255,255,255,.38);
+    font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:300;
+    text-decoration:none; transition:color .3s;
+  }
+  .hero-ghost:hover { color:rgba(255,255,255,.72); }
+  .drip-line { width:1px; height:18px; background:linear-gradient(to bottom,transparent,rgba(255,255,255,.4)); animation:drip 2.2s ease-in-out infinite; }
+  .hero-stats-wrap { flex-shrink:0; opacity:0; animation:heroFade 1s 1s forwards; }
+  .hero-stats { display:flex; flex-direction:column; border-left:1px solid rgba(255,255,255,.1); padding-left:40px; }
+  .hs { padding:16px 0; border-bottom:1px solid rgba(255,255,255,.06); }
+  .hs:last-child { border-bottom:none; }
+  .hs-n { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:#fff; line-height:1; }
+  .hs-l { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.28); font-weight:300; margin-top:4px; }
+
+  /* ══ TICKER ════════════════════════════════════ */
+  .ticker-wrap { overflow:hidden; background:var(--mauve); padding:13px 0; }
+  .ticker-track { display:inline-flex; align-items:center; white-space:nowrap; animation:tickerScroll 38s linear infinite; }
+  .ticker-track span { font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:300; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.72); padding:0 28px; }
+  .ticker-dot { color:rgba(255,255,255,.32) !important; padding:0 4px !important; font-size:15px !important; letter-spacing:0 !important; }
+  .ticker-wrap:hover .ticker-track { animation-play-state:paused; }
+
+  /* ══ MANIFESTO ═════════════════════════════════ */
+  .manifesto { background:var(--cream); padding:140px 72px; }
+  .mfst-top { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:0; padding-bottom:64px; border-bottom:1px solid rgba(0,0,0,.07); }
+  .mfst-label { font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:var(--mauve); font-weight:400; }
+  .mfst-intro { max-width:480px; font-size:16px; font-weight:300; line-height:1.9; color:var(--muted); }
+  .mfst-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(0,0,0,.06); margin-top:0; border:1px solid rgba(0,0,0,.06); border-radius:20px; overflow:hidden; }
+  .mword { padding:72px 52px 88px; position:relative; overflow:hidden; transition:background .4s; }
+  .mword:nth-child(1) { background:#e8eef6; }
+  .mword:nth-child(2) { background:#f0e8f2; }
+  .mword:nth-child(3) { background:#e4f2ee; }
+  .mword:nth-child(1):hover { background:#d8e6f3; }
+  .mword:nth-child(2):hover { background:#e8daf0; }
+  .mword:nth-child(3):hover { background:#d4ece6; }
+  .mword::before { content:''; display:block; position:absolute; top:0; left:0; right:0; height:3px; }
+  .mword:nth-child(1)::before { background:var(--w-blue); }
+  .mword:nth-child(2)::before { background:var(--mauve); }
+  .mword:nth-child(3)::before { background:var(--w-teal); }
+  .mword-ghost { position:absolute; bottom:-20px; right:-10px; font-family:'Cormorant Garamond',serif; font-size:clamp(100px,12vw,160px); font-weight:300; line-height:1; color:rgba(0,0,0,.032); pointer-events:none; user-select:none; letter-spacing:-.04em; }
+  .mword-idx { display:block; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--mauve); font-weight:400; margin-bottom:32px; }
+  .mword-de { display:block; font-family:'Cormorant Garamond',serif; font-size:clamp(58px,6.5vw,90px); font-weight:300; color:var(--text); line-height:.95; letter-spacing:-.03em; margin-bottom:28px; }
+  .mword-div { display:block; width:28px; height:1px; margin-bottom:20px; }
+  .mword:nth-child(1) .mword-div { background:var(--w-blue); }
+  .mword:nth-child(2) .mword-div { background:var(--mauve); }
+  .mword:nth-child(3) .mword-div { background:var(--w-teal); }
+  .mword-desc { font-size:14px; font-weight:300; line-height:1.9; color:var(--muted); }
+  .mword::after { content:''; position:absolute; inset:0; background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%); transform:translateX(-110%); transition:transform .7s ease; pointer-events:none; }
+  .mword:hover::after { transform:translateX(110%); }
+
+  /* ══ STEINER QUOTE ═════════════════════════════ */
+  .steiner-quote { background:var(--dark); padding:120px 72px; display:flex; align-items:center; justify-content:center; gap:72px; position:relative; overflow:hidden; }
+  .sq-figure { height:340px; width:auto; flex-shrink:0; pointer-events:none; z-index:1; opacity:.88; mix-blend-mode:screen; filter:saturate(1.1) drop-shadow(0 0 32px rgba(166,118,173,.3)); }
+  .sq-ornament { position:absolute; top:0; height:100%; width:72px; pointer-events:none; z-index:2; opacity:0; transition:opacity 1.8s ease; filter:drop-shadow(0 0 5px rgba(166,118,173,.55)); }
+  .sq-ornament--left { left:0; }
+  .sq-ornament--right { right:0; }
+  .sq-ornament.v { opacity:.75; }
+  .steiner-quote::before {
+    content:'\201E'; position:absolute; top:-60px; left:50%; transform:translateX(-50%);
+    font-family:'Cormorant Garamond',serif; font-size:clamp(240px,34vw,430px); font-weight:300; line-height:1;
+    color:rgba(166,118,173,.07); pointer-events:none; user-select:none; z-index:0;
+  }
+  .steiner-quote::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:400px; background:radial-gradient(ellipse, rgba(166,118,173,.07) 0%, transparent 70%); pointer-events:none; z-index:0; }
+  .steiner-quote > * { position:relative; z-index:1; }
+  .sq-inner { max-width:680px; }
+  .sq-label { font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--mauve2); font-weight:400; margin-bottom:52px; display:flex; align-items:center; justify-content:center; gap:20px; }
+  .sq-label::before,.sq-label::after { content:''; display:block; flex:1; max-width:60px; height:1px; background:var(--mauve2); opacity:.3; }
+  .steiner-quote blockquote { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,4.5vw,64px); font-weight:300; font-style:italic; color:#fff; line-height:1.5; letter-spacing:-.02em; }
+  .sq-line { display:block; opacity:0; transform:translateY(18px); transition:opacity .85s ease,transform .85s ease; }
+  .sq-line.v { opacity:1; transform:none; }
+  .sq-line:nth-child(2) { transition-delay:.18s; }
+  .sq-line:nth-child(3) { transition-delay:.36s; }
+  .steiner-quote cite { display:block; margin-top:44px; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.24); font-style:normal; }
+
+  /* ══ GEMEINSCHAFT ══════════════════════════════ */
+  .gemeinschaft { display:grid; grid-template-columns:58% 42%; min-height:80vh; }
+  .gem-img { position:relative; overflow:hidden; cursor:pointer; }
+  .gem-img img { height:100%; transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
+  .gem-img:hover img { transform:scale(1.05); }
+  .gem-content { background:var(--cream2); padding:80px 64px; display:flex; flex-direction:column; justify-content:center; }
+  .s-tag { display:inline-flex; align-items:center; gap:12px; margin-bottom:24px; }
+  .s-tag-l { width:24px; height:1px; }
+  .s-tag-t { font-size:10px; letter-spacing:.24em; text-transform:uppercase; font-weight:300; }
+  .gem-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(44px,5.5vw,72px); font-weight:300; line-height:1.08; color:var(--text); margin-bottom:28px; letter-spacing:-.02em; }
+  .gem-h2 em { font-style:italic; color:var(--mauve); }
+  .gem-text { font-size:14.5px; font-weight:300; line-height:1.85; color:var(--muted); margin-bottom:44px; }
+  .gem-quote { padding:24px 0 24px 22px; border-left:2px solid var(--mauve); }
+  .gem-quote p { font-family:'Cormorant Garamond',serif; font-size:20px; font-style:italic; font-weight:300; line-height:1.6; color:var(--text); }
+  .gem-quote cite { display:block; margin-top:10px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-style:normal; }
+
+  /* ══ DOUBLE SPREAD ═════════════════════════════ */
+  .double-spread { display:grid; grid-template-columns:1fr 1fr; height:80vh; min-height:520px; }
+  .spread-panel { position:relative; overflow:hidden; }
+  .spread-panel img { height:100%; transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
+  .spread-panel:hover img { transform:scale(1.05); }
+  .spread-ov { position:absolute; inset:0; background:linear-gradient(to top, rgba(15,8,24,.82) 0%, rgba(15,8,24,.1) 60%, transparent 80%); transition:background .4s; }
+  .spread-panel:hover .spread-ov { background:linear-gradient(to top, rgba(15,8,24,.9) 0%, rgba(15,8,24,.28) 65%, transparent 80%); }
+  .spread-label { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:44px 40px; }
+  .spread-tag { font-size:10px; letter-spacing:.22em; text-transform:uppercase; font-weight:300; margin-bottom:10px; }
+  .spread-title { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3.5vw,48px); font-weight:300; line-height:1.1; color:#fff; margin-bottom:12px; }
+  .spread-desc { font-size:13px; font-weight:300; line-height:1.75; color:rgba(255,255,255,.5); max-width:320px; opacity:0; transform:translateY(10px); transition:opacity .4s,transform .4s; }
+  .spread-panel:hover .spread-desc { opacity:1; transform:none; }
+  .spread-panel::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; z-index:3; transform:scaleX(0); transform-origin:left; transition:transform .4s; }
+  .spread-panel:nth-child(1)::after { background:var(--w-orange); }
+  .spread-panel:nth-child(2)::after { background:var(--mauve); }
+  .spread-panel:hover::after { transform:scaleX(1); }
+
+  /* ══ MARQUEE STRIP ═════════════════════════════ */
+  .marquee-strip { overflow:hidden; background:var(--dark); padding:0; position:relative; }
+  .marquee-label-row { display:flex; align-items:center; gap:16px; padding:28px 72px 16px; }
+  .mq-label-line { flex:none; width:24px; height:1px; background:rgba(255,255,255,.12); }
+  .mq-label-text { font-size:9.5px; letter-spacing:.28em; text-transform:uppercase; color:rgba(255,255,255,.16); font-weight:300; }
+  .marquee-track-outer { padding:0 0 28px; }
+  .marquee-track { display:inline-flex; gap:10px; animation:mqScroll 42s linear infinite; will-change:transform; }
+  .marquee-strip:hover .marquee-track { animation-play-state:paused; }
+  .mq-img { flex-shrink:0; width:280px; height:196px; overflow:hidden; position:relative; border-radius:14px; }
+  .mq-img img { width:100%; height:100%; object-fit:cover; filter:brightness(.68) saturate(.8); transition:filter .6s ease,transform .8s cubic-bezier(.16,1,.3,1); }
+  .mq-img:hover img { filter:brightness(1) saturate(1); transform:scale(1.05); }
+
+  /* ══ CAMPUS BLEED ══════════════════════════════ */
+  .campus-bleed { position:relative; height:68vh; min-height:440px; overflow:hidden; }
+  .campus-bleed img { height:100%; transition:transform 1.2s cubic-bezier(.16,1,.3,1); }
+  .campus-bleed:hover img { transform:scale(1.04); }
+  .campus-ov { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(15,8,24,.05) 0%, rgba(15,8,24,.6) 100%); }
+  .campus-text { position:absolute; bottom:52px; left:72px; z-index:2; }
+  .campus-text h3 { font-family:'Cormorant Garamond',serif; font-size:clamp(40px,5.5vw,72px); font-weight:300; color:#fff; line-height:1.05; letter-spacing:-.02em; }
+  .campus-text p { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); font-weight:300; margin-top:8px; }
+
+  /* ══ SERVICE CARDS ═════════════════════════════ */
+  .service-cards { display:grid; grid-template-columns:repeat(4,1fr); background:var(--cream2); }
+  .sc-card { padding:60px 44px; border-right:1px solid rgba(0,0,0,.07); transition:background .3s; }
+  .sc-card:last-child { border-right:none; }
+  .sc-card:hover { background:#fff; }
+  .sc-icon { margin-bottom:24px; }
+  .sc-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:var(--text); margin-bottom:12px; line-height:1.25; }
+  .sc-text { font-size:13px; line-height:1.75; color:var(--muted); margin-bottom:20px; }
+  .sc-link { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--mauve); text-decoration:none; transition:color .3s; }
+  .sc-link:hover { color:var(--mauve-dk); }
+
+  /* ══ GALLERY ═══════════════════════════════════ */
+  .gallery-sec { padding:130px 72px 140px; background:var(--cream); }
+  .gal-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:52px; padding-bottom:36px; border-bottom:1px solid rgba(0,0,0,.07); }
+  .gal-head-label { font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--mauve); }
+  .gal-head h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,6.5vw,88px); font-weight:300; color:var(--text); margin-top:10px; line-height:.98; letter-spacing:-.02em; }
+  .gal-head-sub { max-width:240px; font-size:13px; font-weight:300; line-height:1.8; color:var(--muted); text-align:right; }
+  .gal-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:10px; }
+  .gi { overflow:hidden; position:relative; border-radius:16px; transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s; cursor:pointer; }
+  .gi::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(24,8,36,.55) 0%,transparent 55%); opacity:0; transition:opacity .4s; }
+  .gi:hover { z-index:2; }
+  .gi:hover::after { opacity:1; }
+  .gi img { transition:transform 1s cubic-bezier(.16,1,.3,1); }
+  .gi-1:hover { transform:scale(1.02) rotate(-.4deg) translateY(-4px); box-shadow:0 28px 60px rgba(24,8,36,.2); }
+  .gi-2:hover { transform:scale(1.025) rotate(.4deg) translateY(-5px); box-shadow:0 24px 52px rgba(24,8,36,.18); }
+  .gi-3:hover { transform:scale(1.02) rotate(-.3deg) translateY(-4px); box-shadow:0 28px 60px rgba(24,8,36,.2); }
+  .gi-4:hover { transform:scale(1.025) rotate(.35deg) translateY(-5px); box-shadow:0 20px 48px rgba(24,8,36,.16); }
+  .gi-5:hover { transform:scale(1.02) rotate(-.4deg) translateY(-4px); box-shadow:0 24px 52px rgba(24,8,36,.18); }
+  .gi-6:hover { transform:scale(1.025) rotate(.3deg) translateY(-5px); box-shadow:0 20px 48px rgba(24,8,36,.16); }
+  .gi:hover img { transform:scale(1.06); }
+  .gi-1 { grid-column:1/6;  height:400px; }
+  .gi-2 { grid-column:6/9;  height:400px; margin-top:56px; }
+  .gi-3 { grid-column:9/13; height:400px; }
+  .gi-4 { grid-column:1/5;  height:280px; margin-top:-52px; }
+  .gi-5 { grid-column:5/9;  height:280px; }
+  .gi-6 { grid-column:9/13; height:280px; margin-top:-52px; }
+
+  /* ══ NUMBERS ═══════════════════════════════════ */
+  .numbers { background:var(--dark); display:grid; grid-template-columns:repeat(4,1fr); position:relative; }
+  .numbers::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:300px; background:radial-gradient(ellipse, rgba(166,118,173,.07) 0%, transparent 70%); pointer-events:none; }
+  .num-item { padding:80px 52px; position:relative; z-index:1; border-right:1px solid rgba(255,255,255,.05); }
+  .num-item:last-child { border-right:none; }
+  .num-item::before { content:''; display:block; width:28px; height:2px; margin-bottom:24px; border-radius:2px; }
+  .num-item:nth-child(1)::before { background:var(--mauve); }
+  .num-item:nth-child(2)::before { background:var(--w-teal); }
+  .num-item:nth-child(3)::before { background:var(--w-blue); }
+  .num-item:nth-child(4)::before { background:var(--w-green); }
+  .num-n { font-family:'Cormorant Garamond',serif; font-size:clamp(64px,8.5vw,112px); font-weight:300; color:#fff; line-height:1; }
+  .num-label { font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.3); font-weight:300; margin-top:12px; line-height:1.6; }
+
+  /* ══ SCHULSTUFEN ═══════════════════════════════ */
+  .stufen { padding:140px 72px 0; background:var(--cream); }
+  .stufen-head { max-width:520px; margin-bottom:72px; }
+  .stufen-head h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(46px,6vw,80px); font-weight:300; color:var(--text); line-height:1.0; margin-top:14px; letter-spacing:-.02em; }
+  .stufen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start; }
+  .stufe { position:relative; overflow:hidden; height:600px; display:flex; flex-direction:column; justify-content:flex-end; border-radius:20px; background:var(--dark); transition:transform .5s cubic-bezier(.16,1,.3,1); }
+  .stufe:nth-child(2) { margin-top:48px; }
+  .stufe:nth-child(3) { margin-top:96px; }
+  .stufe-bg { position:absolute; inset:0; z-index:0; }
+  .stufe-bg img { width:100%; height:100%; object-fit:cover; transition:transform 1.2s cubic-bezier(.16,1,.3,1); filter:brightness(.6) saturate(.8); }
+  .stufe:hover .stufe-bg img { transform:scale(1.05); }
+  .stufe::after { content:''; position:absolute; inset:0; z-index:1; background:linear-gradient(to top, rgba(15,8,24,.96) 0%, rgba(15,8,24,.5) 45%, rgba(15,8,24,.06) 100%); }
+  .stufe::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; z-index:3; }
+  .stufe:nth-child(1)::before { background:var(--w-blue); }
+  .stufe:nth-child(2)::before { background:var(--mauve); }
+  .stufe:nth-child(3)::before { background:var(--w-teal); }
+  .stufe-nr { position:absolute; top:24px; right:28px; z-index:3; font-family:'Cormorant Garamond',serif; font-size:80px; font-weight:300; line-height:1; color:rgba(255,255,255,.08); transition:color .5s; }
+  .stufe:hover .stufe-nr { color:rgba(255,255,255,.18); }
+  .stufe-content { position:relative; z-index:2; padding:36px 36px 44px; }
+  .stufe-klasse { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:8px; }
+  .stufe-title { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:#fff; margin-bottom:12px; line-height:1.1; }
+  .stufe-div { width:22px; height:1px; margin-bottom:14px; }
+  .stufe:nth-child(1) .stufe-div { background:var(--w-blue); }
+  .stufe:nth-child(2) .stufe-div { background:var(--mauve2); }
+  .stufe:nth-child(3) .stufe-div { background:var(--w-teal); }
+  .stufe-text { font-size:13px; font-weight:300; line-height:1.8; color:rgba(255,255,255,.5); }
+
+  /* ══ ABSCHLÜSSE ════════════════════════════════ */
+  .abschluesse { padding:120px 72px; background:var(--cream2); }
+  .abs-head { max-width:600px; margin-bottom:56px; }
+  .abs-head h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4.5vw,60px); font-weight:300; color:var(--text); line-height:1.1; margin:12px 0 16px; letter-spacing:-.02em; }
+  .abs-intro { font-size:14.5px; line-height:1.75; color:var(--muted); }
+  .abs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:36px; }
+  .abs-card { background:#fff; border-radius:18px; border:1px solid rgba(0,0,0,.06); padding:32px 28px; transition:transform .3s,box-shadow .3s; }
+  .abs-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,.07); }
+  .abs-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+  .abs-name { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:500; color:var(--text); margin-bottom:4px; }
+  .abs-klasse { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .abs-desc { font-size:13px; line-height:1.7; color:var(--muted); }
+  .abs-sprachen { display:flex; align-items:center; gap:20px; background:var(--dark); border-radius:16px; padding:24px 32px; color:rgba(255,255,255,.85); }
+  .abs-spr-icon { flex-shrink:0; width:44px; height:44px; background:rgba(255,255,255,.06); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--mauve2); }
+  .abs-spr-title { font-size:14px; font-weight:500; margin-bottom:4px; }
+  .abs-spr-sub { font-size:12.5px; color:rgba(255,255,255,.45); line-height:1.5; }
+
+  /* ══ TERMINE ═══════════════════════════════════ */
+  .termine { background:var(--cream); padding:120px 72px; }
+  .termine-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; border-bottom:1px solid rgba(0,0,0,.07); padding-bottom:28px; }
+  .termine-head h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(44px,5.5vw,72px); font-weight:300; color:var(--text); margin-top:12px; line-height:1.0; letter-spacing:-.02em; }
+  .termine-all { font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--mauve); text-decoration:none; display:flex; align-items:center; gap:8px; transition:gap .25s,color .25s; }
+  .termine-all:hover { gap:13px; color:var(--mauve-dk); }
+  .termine-list { display:flex; flex-direction:column; gap:2px; }
+  .termin { display:grid; grid-template-columns:130px 1fr auto; align-items:center; gap:32px; padding:20px 24px; border-radius:14px; text-decoration:none; background:transparent; transition:background .25s; position:relative; overflow:hidden; }
+  .termin::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--mauve); border-radius:2px 0 0 2px; transform:scaleY(0); transition:transform .25s; }
+  .termin:hover::before { transform:scaleY(1); }
+  .termin:hover { background:var(--cream2); }
+  .t-date { font-family:'Cormorant Garamond',serif; font-size:clamp(40px,4vw,54px); font-weight:300; color:var(--mauve); line-height:1; }
+  .t-date span { display:block; font-family:'Inter',sans-serif; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:300; margin-top:3px; }
+  .t-title { font-family:'Cormorant Garamond',serif; font-size:clamp(18px,1.8vw,26px); font-weight:400; color:var(--text); line-height:1.3; }
+  .t-sub { font-size:12px; font-weight:300; color:var(--muted); margin-top:4px; }
+  .t-arrow { color:rgba(0,0,0,.15); transition:color .25s,transform .25s; }
+  .termin:hover .t-arrow { color:var(--mauve); transform:translateX(5px); }
+
+  /* ══ ANMELDUNG ═════════════════════════════════ */
+  .anmeldung { display:grid; grid-template-columns:1fr 1fr; min-height:90vh; }
+  .anm-left { background:var(--dark); padding:100px 72px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+  .anm-left::before { content:''; position:absolute; bottom:0; left:0; width:500px; height:400px; background:radial-gradient(ellipse at 0% 100%, rgba(166,118,173,.14) 0%, transparent 70%); pointer-events:none; }
+  .anm-left > * { position:relative; z-index:1; }
+  .anm-left h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,6.5vw,88px); font-weight:300; line-height:.98; color:#fff; margin-top:20px; margin-bottom:28px; letter-spacing:-.025em; }
+  .anm-left h2 em { font-style:italic; color:var(--mauve2); }
+  .anm-left p { font-size:14px; font-weight:300; line-height:1.85; color:rgba(255,255,255,.4); max-width:420px; margin-bottom:28px; }
+  .anm-deadline { display:flex; align-items:center; gap:14px; background:rgba(166,118,173,.1); border:1px solid rgba(166,118,173,.2); border-radius:12px; padding:14px 18px; margin-bottom:36px; }
+  .anm-deadline-icon { color:var(--mauve2); flex-shrink:0; }
+  .anm-deadline-label { font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:2px; }
+  .anm-deadline-val { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:400; color:var(--mauve2); }
+  .anm-links { display:flex; flex-direction:column; gap:10px; }
+  .anm-link { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 22px; border:1px solid rgba(255,255,255,.07); border-radius:12px; text-decoration:none; transition:border-color .25s,background .25s; }
+  .anm-link:hover { border-color:rgba(166,118,173,.35); background:rgba(166,118,173,.07); }
+  .anm-link-label { font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.28); margin-bottom:2px; }
+  .anm-link-title { font-size:14.5px; font-weight:300; color:rgba(255,255,255,.72); }
+  .anm-link svg { color:rgba(255,255,255,.2); transition:color .25s,transform .25s; flex-shrink:0; }
+  .anm-link:hover svg { color:var(--mauve2); transform:translateX(4px); }
+  .anm-right { background:var(--cream2); padding:100px 72px; display:flex; flex-direction:column; justify-content:center; }
+  .f-head { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--text); margin-bottom:6px; }
+  .f-sub { font-size:12px; font-weight:300; color:var(--muted); margin-bottom:36px; }
+  .f-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .f-grp { margin-bottom:12px; }
+  .f-grp label { display:block; font-size:9.5px; letter-spacing:.17em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; font-weight:500; }
+  .f-grp input,.f-grp select { width:100%; padding:12px 14px; border-radius:10px; background:#fff; border:1.5px solid rgba(0,0,0,.08); color:var(--text); font-size:13.5px; font-weight:300; font-family:'Inter',sans-serif; outline:none; transition:border-color .25s; }
+  .f-grp input::placeholder { color:var(--muted); }
+  .f-grp input:focus,.f-grp select:focus { border-color:var(--mauve); }
+  .f-submit { width:100%; padding:14px; background:var(--mauve); color:#fff; border:none; cursor:pointer; font-size:13px; font-weight:400; letter-spacing:.08em; font-family:'Lora',serif; font-style:italic; margin-top:8px; border-radius:60px; transition:background .3s,transform .2s,box-shadow .3s; box-shadow:0 6px 24px rgba(166,118,173,.3); }
+  .f-submit:hover { background:var(--mauve-dk); transform:translateY(-2px); box-shadow:0 12px 40px rgba(166,118,173,.45); }
+
+  /* ══ RAINBOW VIELFALT ══════════════════════════ */
+  .rainbow-bar { position:relative; width:100%; height:72px; background:#06030e; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .rainbow-stripe { position:absolute; inset:0;
+    background: linear-gradient(90deg,
+      rgba(240,90,80,1),
+      rgba(245,170,50,1),
+      rgba(210,225,60,1),
+      rgba(70,185,120,1),
+      rgba(70,140,220,1),
+      rgba(170,80,210,1),
+      rgba(230,70,140,1),
+      rgba(240,90,80,1),
+      rgba(245,170,50,1),
+      rgba(210,225,60,1),
+      rgba(70,185,120,1),
+      rgba(70,140,220,1),
+      rgba(170,80,210,1));
+    background-size:200% 100%;
+    animation: rainbow-flow 8s linear infinite;
+    filter: blur(6px) saturate(.75);
+    opacity:.9;
+  }
+  .rainbow-text { position:relative; z-index:1; font-family:'Cormorant Garamond',serif; font-size:clamp(18px,2.2vw,28px); font-weight:300; font-style:italic; color:#fff; letter-spacing:.08em; text-shadow:0 2px 12px rgba(0,0,0,.6); }
+  @keyframes rainbow-flow { from { background-position:0% 0%; } to { background-position:200% 0%; } }
+
+  /* ══ KONTAKT ═══════════════════════════════════ */
+  .kontakt { background:var(--dark); padding:100px 72px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:60px; }
+  .k-block h3 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:#fff; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.06); }
+  .k-item { margin-bottom:18px; }
+  .k-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--mauve2); margin-bottom:4px; }
+  .k-val { font-size:13.5px; font-weight:300; color:rgba(255,255,255,.55); line-height:1.6; }
+  .k-val a { color:rgba(255,255,255,.55); text-decoration:none; transition:color .25s; }
+  .k-val a:hover { color:var(--mauve2); }
+  .k-links { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .k-links a { font-size:13.5px; font-weight:300; color:rgba(255,255,255,.35); text-decoration:none; display:flex; align-items:center; gap:10px; transition:color .25s,gap .25s; }
+  .k-links a:hover { color:rgba(255,255,255,.7); gap:14px; }
+  .k-links a::before { content:'→'; font-size:12px; color:var(--mauve); }
+
+  /* ══ FOOTER ════════════════════════════════════ */
+  footer { background:#06030e; padding:32px 72px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(255,255,255,.04); }
+  .ftr-left { display:flex; align-items:center; gap:14px; }
+  .ftr-logo { width:32px; height:32px; flex-shrink:0; border-radius:50%; overflow:hidden; }
+  .ftr-logo img { width:100%; height:100%; object-fit:cover; }
+  .ftr-logo svg { width:100%; height:100%; }
+  .ftr-name { font-family:'Cormorant Garamond',serif; font-size:13px; color:rgba(255,255,255,.25); }
+  .ftr-links { list-style:none; display:flex; gap:24px; }
+  .ftr-links a { font-size:11px; color:rgba(255,255,255,.18); text-decoration:none; transition:color .25s; }
+  .ftr-links a:hover { color:rgba(255,255,255,.5); }
+  .ftr-copy { font-size:11px; color:rgba(255,255,255,.12); }
+
+  /* ══ SCROLL REVEAL ═════════════════════════════ */
+  .r { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+  .r.v { opacity:1; transform:none; }
+  .rd1 { transition-delay:.12s; }
+  .rd2 { transition-delay:.24s; }
+  .rd3 { transition-delay:.36s; }
+  .rd4 { transition-delay:.48s; }
+  .rd5 { transition-delay:.60s; }
+
+  /* ══ RESPONSIVE ════════════════════════════════ */
+  @media(max-width:1024px){
+    nav { padding:0 24px; }
+    .nav-links { display:none; }
+    .hero-content { padding:0 24px 60px; flex-direction:column; align-items:flex-start; gap:20px; }
+    .hero-stats-wrap { display:none; }
+    .manifesto { padding:80px 24px; }
+    .mfst-top { flex-direction:column; gap:20px; }
+    .mfst-grid { grid-template-columns:1fr; }
+    .mword { padding:48px 28px 60px; }
+    .gemeinschaft { grid-template-columns:1fr; }
+    .gem-img { height:50vh; }
+    .gem-content { padding:60px 24px; }
+    .double-spread { grid-template-columns:1fr; height:auto; }
+    .spread-panel { height:56vh; }
+    .gallery-sec { padding:80px 24px; }
+    .gal-head-sub { display:none; }
+    .gal-grid { grid-template-columns:1fr 1fr; }
+    .gi-1,.gi-2,.gi-3,.gi-4,.gi-5,.gi-6 { grid-column:auto; height:210px; margin-top:0; }
+    .numbers { grid-template-columns:1fr 1fr; }
+    .num-item { border-right:none; border-bottom:1px solid rgba(255,255,255,.05); padding:52px 28px; }
+    .stufen { padding:80px 24px 0; }
+    .stufen-grid { grid-template-columns:1fr; gap:10px; }
+    .stufe { height:400px; }
+    .stufe:nth-child(2),.stufe:nth-child(3) { margin-top:0; }
+    .steiner-quote { padding:100px 24px; }
+    .termine { padding:80px 24px; }
+    .termin { margin:0; padding:16px 14px; grid-template-columns:100px 1fr; }
+    .t-arrow { display:none; }
+    .anmeldung { grid-template-columns:1fr; }
+    .anm-left,.anm-right { padding:80px 24px; }
+    .kontakt { grid-template-columns:1fr; padding:80px 24px; }
+    .campus-text { left:24px; }
+    .campus-bleed { height:56vh; }
+    .abs-grid { grid-template-columns:1fr 1fr; }
+    .abschluesse { padding:80px 24px; }
+    .service-cards { grid-template-columns:1fr 1fr; }
+    .sc-card { border-right:none; border-bottom:1px solid rgba(0,0,0,.07); }
+    footer { flex-direction:column; gap:16px; padding:28px 24px; text-align:center; }
+    .marquee-label-row { padding:24px 24px 16px; }
+  }
+
+  </style>
+</head>
+<body>
+
+<!-- ══ LOADER ═══════════════════════════════ -->
+<div id="loader">
+  <div class="loader-logo">
+    <img src="logo-nobg.png" alt="Freie Waldorfschule Wiesbaden"
+         style="opacity:0;animation:lFade .8s ease .3s forwards;" />
+  </div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-sub">Freie Waldorfschule Wiesbaden</div>
+</div>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scrollBar"></div>
+
+
+<!-- ══ TOP WAVE ══════════════════════════════ -->
+<div class="top-wave">
+  <svg viewBox="0 0 1440 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,0 L1440,0 L1440,10 C1080,32 360,32 0,10 Z" fill="#a676ad"/>
+  </svg>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#" class="logo">
+    <div class="logo-img">
+      <img src="../waldorf%20logo/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+    </div>
+    <div class="logo-text">
+      <b>Waldorfschule Wiesbaden</b>
+      <span>Freie Waldorfschule</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li class="has-drop">
+      <a href="#philosophy">Unsere Schule</a>
+      <ul class="nav-drop">
+        <li><a href="#philosophy">Pädagogisches Profil</a></li>
+        <li><a href="#philosophy">Waldorfpädagogik</a></li>
+        <li><a href="#stufen">Schulstufen 1–13</a></li>
+        <li><a href="#abschluesse">Abschlüsse</a></li>
+        <div class="nav-drop-divider"></div>
+        <li><a href="#gallery-sec">Galerie</a></li>
+        <li><a href="#podcast">Podcast</a></li>
+        <li><a href="#ganztag">Ganztagsbetreuung</a></li>
+        <div class="nav-drop-divider"></div>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/kurzportrait/standort" target="_blank">Standort & Campus</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/organisation/organigramm" target="_blank">Organisation</a></li>
+      </ul>
+    </li>
+    <li class="has-drop">
+      <a href="#termine">Termine</a>
+      <ul class="nav-drop">
+        <li><a href="#termine">Öffentliche Veranstaltungen</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/termine" target="_blank">Alle Termine ansehen</a></li>
+        <div class="nav-drop-divider"></div>
+        <li><a href="#termine">Klassenspiel 8. Klasse</a></li>
+        <li><a href="#termine">Tag der offenen Tür</a></li>
+      </ul>
+    </li>
+    <li class="has-drop">
+      <a href="#anmeldung">Service</a>
+      <ul class="nav-drop">
+        <li><a href="#anmeldung">Anmeldung</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/service-download/formulare" target="_blank">Formulare & Downloads</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/service-download/schulbeitrag" target="_blank">Schulbeitrag</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/service-download/wegbeschreibung" target="_blank">Wegbeschreibung</a></li>
+        <div class="nav-drop-divider"></div>
+        <li><a href="#offene-stellen">Offene Stellen</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/service-download/alumni" target="_blank">Alumni</a></li>
+      </ul>
+    </li>
+    <li><a href="#gallery-sec">Schulleben</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+    <li><a href="#anmeldung" class="nav-cta">Anmeldung</a></li>
+  </ul>
+</nav>
+
+
+<!-- ══ HERO ═════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="../waldibilder/hf_20260318_211903_3799694d-1bc3-42a5-b01c-880969f4e8c4.png"
+         alt="Eingang Freie Waldorfschule Wiesbaden bei Sonnenuntergang" />
+  </div>
+
+  <!-- Aurora overlay (CSS port) -->
+  <div class="hero-aurora"></div>
+  <div class="hero-aurora-mask"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <div class="hero-tag-line"></div>
+        <span>Freie Waldorfschule Wiesbaden — seit 1985</span>
+      </div>
+      <h1 class="hero-h1">
+        Bildung, die den<br>
+        <em>ganzen Menschen</em><br>
+        entfaltet.
+      </h1>
+      <div class="hero-cta-row">
+        <a href="#anmeldung" class="btn-hero">Jetzt anmelden</a>
+        <a href="#philosophy" class="hero-ghost">
+          <div class="drip-line"></div>
+          Unsere Philosophie
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-stats-wrap">
+      <div class="hero-stats">
+        <div class="hs">
+          <div class="hs-n">ca. 450</div>
+          <div class="hs-l">Schülerinnen & Schüler</div>
+        </div>
+        <div class="hs">
+          <div class="hs-n">Seit 1985</div>
+          <div class="hs-l">In Biebrich seit 1991</div>
+        </div>
+        <div class="hs">
+          <div class="hs-n">Kl. 1–13</div>
+          <div class="hs-l">G9 mit Abitur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ══ TICKER ═══════════════════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>Kopf · Herz · Hand</span><span class="ticker-dot">·</span>
+    <span>Klasse 1–13</span><span class="ticker-dot">·</span>
+    <span>Abitur · Fachhochschulreife · Realschulabschluss</span><span class="ticker-dot">·</span>
+    <span>Englisch &amp; Französisch ab Klasse 1</span><span class="ticker-dot">·</span>
+    <span>Einzügige Schule · ca. 450 Schüler</span><span class="ticker-dot">·</span>
+    <span>Ganztagsbetreuung Kl. 1–8</span><span class="ticker-dot">·</span>
+    <span>Waldorfpädagogik nach Rudolf Steiner</span><span class="ticker-dot">·</span>
+    <span>Biebrich · Wiesbaden seit 1985</span><span class="ticker-dot">·</span>
+    <span>Tag der offenen Tür · 9. Mai 2026</span><span class="ticker-dot">·</span>
+    <span>Kopf · Herz · Hand</span><span class="ticker-dot">·</span>
+    <span>Klasse 1–13</span><span class="ticker-dot">·</span>
+    <span>Abitur · Fachhochschulreife · Realschulabschluss</span><span class="ticker-dot">·</span>
+    <span>Englisch &amp; Französisch ab Klasse 1</span><span class="ticker-dot">·</span>
+    <span>Einzügige Schule · ca. 450 Schüler</span><span class="ticker-dot">·</span>
+    <span>Ganztagsbetreuung Kl. 1–8</span><span class="ticker-dot">·</span>
+    <span>Waldorfpädagogik nach Rudolf Steiner</span><span class="ticker-dot">·</span>
+    <span>Biebrich · Wiesbaden seit 1985</span><span class="ticker-dot">·</span>
+    <span>Tag der offenen Tür · 9. Mai 2026</span><span class="ticker-dot">·</span>
+  </div>
+</div>
+
+<!-- ══ MANIFESTO ════════════════════════════ -->
+<section class="manifesto" id="philosophy">
+  <div class="mfst-top">
+    <p class="mfst-intro r rd2">
+      Seit über 40 Jahren begleiten wir Kinder in Wiesbaden auf einem Bildungsweg, der Intellekt, Gefühl und Tatkraft gleichermaßen stärkt — und mit staatlich anerkanntem Abitur abschließt.
+    </p>
+    <span class="mfst-label r">Waldorfpädagogik · Rudolf Steiner</span>
+  </div>
+
+  <div class="mfst-grid">
+    <div class="mword r">
+      <span class="mword-ghost">01</span>
+      <span class="mword-idx">01</span>
+      <span class="mword-de">Kopf</span>
+      <div class="mword-div"></div>
+      <p class="mword-desc">Denken, Urteilen, Verstehen — wir wecken echte Neugier und fördern eigenständiges Denken von Klasse 1 bis zum Abitur.</p>
+    </div>
+    <div class="mword r rd2">
+      <span class="mword-ghost">02</span>
+      <span class="mword-idx">02</span>
+      <span class="mword-de">Herz</span>
+      <div class="mword-div"></div>
+      <p class="mword-desc">Empfinden, Gestalten, Erleben — Musik, Kunst und Eurythmie sind kein Anhang, sie sind der Kern unserer Pädagogik.</p>
+    </div>
+    <div class="mword r rd4">
+      <span class="mword-ghost">03</span>
+      <span class="mword-idx">03</span>
+      <span class="mword-de">Hand</span>
+      <div class="mword-div"></div>
+      <p class="mword-desc">Tun, Bauen, Ernten — handwerkliches Arbeiten, Gartenarbeit und Praktika verankern das Lernen in echter Wirklichkeit.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ STEINER QUOTE ══════════════════════════ -->
+<section class="steiner-quote">
+  <!-- Ornament links — rechts per CSS scaleX(-1) gespiegelt -->
+  <svg class="sq-ornament sq-ornament--left" viewBox="0 0 60 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Stamm -->
+    <line x1="7" y1="0" x2="7" y2="500" stroke="#a676ad" stroke-width="1.4"/>
+    <!-- Schnecke 1 groß (oben) -->
+    <path d="M7 110 C18 107 36 98 42 84 C48 70 42 54 30 54 C18 54 11 68 15 80 C19 91 31 93 37 84 C42 76 38 66 30 67 C24 68 22 76 27 80" stroke="#a676ad" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Schnecke 2 klein (oben-mitte) -->
+    <path d="M7 205 C15 203 27 197 31 187 C35 177 30 165 21 167 C12 169 7 179 11 188 C15 196 25 196 28 189 C30 183 27 176 21 177" stroke="#a676ad" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Schnecke 3 groß (unten-mitte) -->
+    <path d="M7 315 C19 312 40 301 46 285 C52 269 44 249 30 251 C16 253 8 271 13 287 C18 301 34 303 41 291 C46 281 42 268 33 270 C25 272 23 282 29 287" stroke="#a676ad" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Schnecke 4 klein (unten) -->
+    <path d="M7 415 C15 413 27 407 31 397 C35 387 30 375 21 377 C12 379 7 389 11 398 C15 406 25 406 28 399 C30 393 27 386 21 387" stroke="#a676ad" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Rechte Seite: Stamm bei x=53, Schnecken öffnen nach LINKS -->
+  <svg class="sq-ornament sq-ornament--right" viewBox="0 0 60 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="53" y1="0" x2="53" y2="500" stroke="#a676ad" stroke-width="1.4"/>
+    <!-- Schnecke 1 groß (oben) -->
+    <path d="M53 110 C42 107 24 98 18 84 C12 70 18 54 30 54 C42 54 49 68 45 80 C41 91 29 93 23 84 C18 76 22 66 30 67 C36 68 38 76 33 80" stroke="#a676ad" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Schnecke 2 klein (oben-mitte) -->
+    <path d="M53 205 C45 203 33 197 29 187 C25 177 30 165 39 167 C48 169 53 179 49 188 C45 196 35 196 32 189 C30 183 33 176 39 177" stroke="#a676ad" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Schnecke 3 groß (unten-mitte) -->
+    <path d="M53 315 C41 312 20 301 14 285 C8 269 16 249 30 251 C44 253 52 271 47 287 C42 301 26 303 19 291 C14 281 18 268 27 270 C35 272 37 282 31 287" stroke="#a676ad" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Schnecke 4 klein (unten) -->
+    <path d="M53 415 C45 413 33 407 29 397 C25 387 30 375 39 377 C48 379 53 389 49 398 C45 406 35 406 32 399 C30 393 33 386 39 387" stroke="#a676ad" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>
+
+  <img src="cool-nobg.png" class="sq-figure" alt="">
+  <div class="sq-inner r">
+    <div class="sq-label">Waldorfpädagogik · Rudolf Steiner</div>
+    <blockquote>
+      <span class="sq-line">„Empfange die Kinder in Ehrfurcht,</span>
+      <span class="sq-line">erziehe sie in Liebe,</span>
+      <span class="sq-line">entlasse sie in Freiheit."</span>
+    </blockquote>
+    <cite>— Rudolf Steiner, Begründer der Waldorfpädagogik</cite>
+  </div>
+</section>
+
+
+<!-- ══ GEMEINSCHAFT ══════════════════════════ -->
+<section class="gemeinschaft">
+  <div class="gem-img r">
+    <img src="../waldibilder/77e5d5c3-4e9b-4d71-adb0-727d554db303.jpg"
+         alt="Schulgemeinschaft — Kinder stehen gemeinsam im Kreis" />
+  </div>
+
+  <div class="gem-content">
+    <div class="s-tag r">
+      <div class="s-tag-l" style="background:var(--lilac)"></div>
+      <span class="s-tag-t" style="color:var(--lilac)">Gemeinschaft</span>
+    </div>
+    <h2 class="gem-h2 r rd1">
+      Lernen entsteht<br>im <em>Miteinander.</em>
+    </h2>
+    <p class="gem-text r rd2">
+      Unsere Schulgemeinschaft trägt die Schule. Eltern, Lehrer und Schüler gestalten gemeinsam einen Ort, an dem jedes Kind gesehen, gefördert und gefordert wird — vom ersten Schultag bis zur Abschlussfeier.
+    </p>
+    <div class="gem-quote r rd3">
+      <p>„Das Ziel der Waldorfpädagogik ist, aus Kindern Menschen zu machen, die sich selbst zu erziehen vermögen."</p>
+      <cite>— Rudolf Steiner</cite>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ DOUBLE SPREAD ════════════════════════ -->
+<section class="double-spread">
+  <div class="spread-panel">
+    <img src="../waldibilder/08edf577-d081-4e11-aa97-1cc7f98c6fb6.jpg" alt="Holzwerkstatt — Schüler beim Handwerk" />
+    <div class="spread-ov"></div>
+    <div class="spread-label">
+      <div class="spread-tag" style="color:var(--w-orange)">Werkstatt</div>
+      <h3 class="spread-title">Das Handwerk</h3>
+      <p class="spread-desc">Holz, Stein, Metall — Schüler arbeiten mit ihren Händen und erleben, was es bedeutet, etwas Echtes zu schaffen.</p>
+    </div>
+  </div>
+
+  <div class="spread-panel">
+    <img src="../waldibilder/eb8960e4-cda2-4ec8-a9fe-8aaead72a491.jpg" alt="Kunst — Holzskulpturen am Fenster" />
+    <div class="spread-ov"></div>
+    <div class="spread-label">
+      <div class="spread-tag" style="color:var(--lilac)">Kunstunterricht</div>
+      <h3 class="spread-title">Die Kunst</h3>
+      <p class="spread-desc">Plastizieren, Malen, Formen — künstlerisches Gestalten schult Wahrnehmung, Ausdruck und Willenskraft.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ MARQUEE STRIP ═════════════════════════ -->
+<div class="marquee-strip">
+  <div class="marquee-label-row">
+    <div class="mq-label-line"></div>
+    <span class="mq-label-text">Kunst · Handwerk · Natur · Musik · Gemeinschaft</span>
+  </div>
+  <div class="marquee-track-outer">
+    <div class="marquee-track" id="mqTrack">
+      <!-- Original set — Waldorf-geeignete Themen -->
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=560&h=392&fit=crop&q=80" alt="Pinsel & Farbe" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1541661538396-53ba2d051ee5?w=560&h=392&fit=crop&q=80" alt="Aquarell" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=560&h=392&fit=crop&q=80" alt="Holzwerkstatt" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=560&h=392&fit=crop&q=80" alt="Geige & Musik" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=560&h=392&fit=crop&q=80" alt="Waldpfad" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?w=560&h=392&fit=crop&q=80" alt="Ton & Töpfern" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=560&h=392&fit=crop&q=80" alt="Blumenwiese" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=560&h=392&fit=crop&q=80" alt="Buntstifte" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=560&h=392&fit=crop&q=80" alt="Schulgarten" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=560&h=392&fit=crop&q=80" alt="Herbstblätter" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=560&h=392&fit=crop&q=80" alt="Bücher & Lernen" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=560&h=392&fit=crop&q=80" alt="Natur & Wald" /></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=560&h=392&fit=crop&q=80" alt="Pinsel & Farbe" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1541661538396-53ba2d051ee5?w=560&h=392&fit=crop&q=80" alt="Aquarell" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=560&h=392&fit=crop&q=80" alt="Holzwerkstatt" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=560&h=392&fit=crop&q=80" alt="Geige & Musik" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=560&h=392&fit=crop&q=80" alt="Waldpfad" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1499002238440-d264edd596ec?w=560&h=392&fit=crop&q=80" alt="Ton & Töpfern" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=560&h=392&fit=crop&q=80" alt="Blumenwiese" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=560&h=392&fit=crop&q=80" alt="Buntstifte" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=560&h=392&fit=crop&q=80" alt="Schulgarten" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=560&h=392&fit=crop&q=80" alt="Herbstblätter" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=560&h=392&fit=crop&q=80" alt="Bücher & Lernen" /></div>
+      <div class="mq-img"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=560&h=392&fit=crop&q=80" alt="Natur & Wald" /></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CAMPUS FULL BLEED ════════════════════ -->
+<div class="campus-bleed">
+  <img src="../waldibilder/fcbb0f3d-ae20-432f-8c05-eacce58a94d4.jpg" alt="Schulgelände im goldenen Morgenlicht" />
+  <div class="campus-ov"></div>
+  <div class="campus-text r">
+    <h3>Unser Campus<br>in Wiesbaden</h3>
+    <p>Albert-Schweitzer-Allee 42 · 65203 Wiesbaden</p>
+  </div>
+</div>
+
+
+<!-- ══ GALLERY ═══════════════════════════════ -->
+<section class="gallery-sec" id="gallery-sec">
+  <div class="gal-head">
+    <div>
+      <div class="gal-head-label r">Schulleben</div>
+      <h2 class="r rd1">Ein Blick<br>hinter die Kulissen</h2>
+    </div>
+    <p class="gal-head-sub r rd2">Impressionen aus dem Schulalltag — Werkstatt, Natur, Kunst und Gemeinschaft.</p>
+  </div>
+
+  <div class="gal-grid">
+    <div class="gi gi-1 r">
+      <img src="../waldibilder/b8380158-24ff-49c0-8d04-5b9170bbe2de.jpg" alt="Schulveranstaltung im Freien" />
+    </div>
+    <div class="gi gi-2 r rd2">
+      <img src="../waldibilder/3021c097-5e4f-467b-94b2-b40ab9e182cc.jpg" alt="Lila Blüten im Schulgarten" />
+    </div>
+    <div class="gi gi-3 r rd1">
+      <img src="../waldibilder/0189c846-398a-42b3-9d80-abc705c75353.jpg" alt="Kinder auf dem Gartenweg" />
+    </div>
+    <div class="gi gi-4 r rd3">
+      <img src="../waldibilder/2b15ae09-90e6-4724-aa2d-2ad5712f4eb3.jpg" alt="Begrünte Pergola vor dem Schulgebäude" />
+    </div>
+    <div class="gi gi-5 r rd2">
+      <img src="../waldibilder/1b386d84-294c-468c-af55-d976f991317d.jpg" alt="Pavillon im Schulgarten" />
+    </div>
+    <div class="gi gi-6 r rd4">
+      <img src="../waldibilder/98d0d0d3-3579-47d4-b67b-a5a8decc0d1d.jpg" alt="Herbst im Schulgarten" />
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ SERVICE CARDS (Ganztag · Podcast · Stellen) ══ -->
+<section class="service-cards" id="ganztag">
+  <div class="sc-card r">
+    <div class="sc-icon" style="color:var(--w-teal)">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" stroke="currentColor" stroke-width="1.6"/><path d="M14 8v6l4 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h3 class="sc-title">Ganztagsbetreuung</h3>
+    <p class="sc-text">Für Klassen 1–8 bieten wir eine gebührenpflichtige Ganztagsbetreuung bis 17:00 Uhr an — mit Mittagessen aus unserer eigenen Schulküche.</p>
+    <a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/ganztagsbetreuung" target="_blank" class="sc-link">Mehr erfahren →</a>
+  </div>
+
+  <div class="sc-card r rd1" id="podcast">
+    <div class="sc-icon" style="color:var(--w-red)">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M8 10c0 3.3 2.7 6 6 6s6-2.7 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 16v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+    <h3 class="sc-title">Unser Podcast</h3>
+    <p class="sc-text">Zwölftklässler sprechen im Interview über ihre Schulerfahrungen, die Vorbereitung auf das Berufsleben und was die Waldorfpädagogik für sie bedeutet.</p>
+    <a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/podcast" target="_blank" class="sc-link">Zum Podcast →</a>
+  </div>
+
+  <div class="sc-card r rd2" id="offene-stellen">
+    <div class="sc-icon" style="color:var(--lav)">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="8" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M9 8V7a5 5 0 0 1 10 0v1" stroke="currentColor" stroke-width="1.6"/><path d="M14 14v2m-3-1h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+    <h3 class="sc-title">Jede Stunde zählt</h3>
+    <p class="sc-text">Wir suchen engagierte Lehrerinnen und Lehrer sowie Mitarbeiter für Praktika und Freiwilligendienste. Werden Sie Teil unserer Schulgemeinschaft.</p>
+    <a href="https://www.waldorfschule-wiesbaden.de/offene-stellen" target="_blank" class="sc-link">Stellenangebote →</a>
+  </div>
+
+  <div class="sc-card r rd3">
+    <div class="sc-icon" style="color:var(--w-orange)">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4C8.5 4 4 8.5 4 14s4.5 10 10 10 10-4.5 10-10S19.5 4 14 4z" stroke="currentColor" stroke-width="1.6"/><path d="M10 14c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4-4 1.8-4 4z" stroke="currentColor" stroke-width="1.6"/></svg>
+    </div>
+    <h3 class="sc-title">Alumni-Netzwerk</h3>
+    <p class="sc-text">Einmal Waldorfschüler, immer Teil unserer Gemeinschaft. Bleiben Sie in Kontakt, teilen Sie Ihre Geschichte und unterstützen Sie aktuelle Schüler.</p>
+    <a href="https://www.waldorfschule-wiesbaden.de/service-download/alumni" target="_blank" class="sc-link">Alumni-Kontakt →</a>
+  </div>
+</section>
+
+
+<!-- ══ NUMBERS ════════════════════════════════ -->
+<section class="numbers" id="numbers">
+  <div class="num-item r">
+    <div class="num-n" data-target="450">0</div>
+    <div class="num-label">Schülerinnen<br>& Schüler</div>
+  </div>
+  <div class="num-item r rd1">
+    <div class="num-n" data-target="40">0</div>
+    <div class="num-label">Jahre in<br>Wiesbaden</div>
+  </div>
+  <div class="num-item r rd2">
+    <div class="num-n" data-target="120">0</div>
+    <div class="num-label">Engagierte<br>Lehrerinnen & Lehrer</div>
+  </div>
+  <div class="num-item r rd3">
+    <div class="num-n" data-target="98" data-suffix="%">0%</div>
+    <div class="num-label">Erfolgreiche<br>Abschlüsse</div>
+  </div>
+</section>
+
+
+<!-- ══ SCHULSTUFEN ════════════════════════════ -->
+<section class="stufen" id="stufen">
+  <div class="stufen-head">
+    <div class="s-tag r" style="margin-bottom:16px">
+      <div class="s-tag-l" style="background:var(--lav)"></div>
+      <span class="s-tag-t" style="color:var(--lav)">Schulstufen</span>
+    </div>
+    <h2 class="r rd1">Von Klasse 1<br>bis zum Abitur</h2>
+  </div>
+
+  <div class="stufen-grid">
+    <div class="stufe r">
+      <div class="stufe-bg">
+        <img src="../waldibilder/0189c846-398a-42b3-9d80-abc705c75353.jpg" alt="Unterstufe — Kinder im Schulgarten" />
+      </div>
+      <div class="stufe-nr">I</div>
+      <div class="stufe-content">
+        <div class="stufe-klasse">Klassen 1–4</div>
+        <h3 class="stufe-title">Unterstufe</h3>
+        <div class="stufe-div"></div>
+        <p class="stufe-text">Die Welt als lebendiges Ganzes. Lernen durch Bilder, Rhythmus und Geschichten in geborgener Klassengemeinschaft. Keine Noten in den ersten Jahren.</p>
+      </div>
+    </div>
+    <div class="stufe r rd1">
+      <div class="stufe-bg">
+        <img src="../waldibilder/b8380158-24ff-49c0-8d04-5b9170bbe2de.jpg" alt="Mittelstufe — Schulgemeinschaft im Freien" />
+      </div>
+      <div class="stufe-nr">II</div>
+      <div class="stufe-content">
+        <div class="stufe-klasse">Klassen 5–8</div>
+        <h3 class="stufe-title">Mittelstufe</h3>
+        <div class="stufe-div"></div>
+        <p class="stufe-text">Von der Mythologie zur Geschichte, von der Natur zur Physik. Denken wird selbstständiger — begleitet von denselben Klassenlehrern durch alle Jahre.</p>
+      </div>
+    </div>
+    <div class="stufe r rd2">
+      <div class="stufe-bg">
+        <img src="../waldibilder/oberstufe.jpg" alt="Oberstufe — Schülerinnen und Schüler" />
+      </div>
+      <div class="stufe-nr">III</div>
+      <div class="stufe-content">
+        <div class="stufe-klasse">Klassen 9–13</div>
+        <h3 class="stufe-title">Oberstufe & Abitur</h3>
+        <div class="stufe-div"></div>
+        <p class="stufe-text">Epochenunterricht, Praktika, Projekte — und am Ende das staatlich anerkannte Abitur. Wir öffnen alle Türen für den nächsten Lebensschritt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ ABSCHLÜSSE ═══════════════════════════ -->
+<section class="abschluesse" id="abschluesse">
+  <div class="abs-head">
+    <div class="s-tag r">
+      <div class="s-tag-l" style="background:var(--w-green)"></div>
+      <span class="s-tag-t" style="color:var(--w-green)">Staatlich anerkannt</span>
+    </div>
+    <h2 class="r rd1">Alle Abschlüsse<br>unter einem Dach.</h2>
+    <p class="abs-intro r rd2">Als anerkannte Ersatzschule mit staatlich genehmigter gymnasialer Oberstufe bieten wir alle Schulabschlüsse nach dem G9-Modell.</p>
+  </div>
+
+  <div class="abs-grid">
+    <div class="abs-card r">
+      <div class="abs-icon" style="background:rgba(90,122,40,.1); color:var(--w-green)">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L3 6v5c0 4.5 3.4 8.7 8 9.9 4.6-1.2 8-5.4 8-9.9V6L11 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="abs-name">Hauptschulabschluss</div>
+      <div class="abs-klasse">Ende Klasse 9</div>
+      <p class="abs-desc">Für Schüler, die nach der 9. Klasse in Ausbildung oder Beruf einsteigen möchten.</p>
+    </div>
+    <div class="abs-card r rd1">
+      <div class="abs-icon" style="background:rgba(31,78,138,.1); color:var(--w-blue)">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L3 6v5c0 4.5 3.4 8.7 8 9.9 4.6-1.2 8-5.4 8-9.9V6L11 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="abs-name">Realschulabschluss</div>
+      <div class="abs-klasse">Ende Klasse 10</div>
+      <p class="abs-desc">Mittlerer Bildungsabschluss mit breiten Möglichkeiten für Ausbildung und Weiterqualifizierung.</p>
+    </div>
+    <div class="abs-card r rd2">
+      <div class="abs-icon" style="background:rgba(192,96,32,.1); color:var(--w-orange)">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 5V4a4 4 0 0 1 8 0v1" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+      <div class="abs-name">Fachhochschulreife</div>
+      <div class="abs-klasse">Ende Klasse 12</div>
+      <p class="abs-desc">Öffnet den Weg zur Fachhochschule und zu anspruchsvollen Berufsausbildungen.</p>
+    </div>
+    <div class="abs-card r rd3">
+      <div class="abs-icon" style="background:rgba(123,94,167,.12); color:var(--lav)">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 18l8-14 8 14H3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.5 14h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="abs-name">Abitur (G9)</div>
+      <div class="abs-klasse">Ende Klasse 13</div>
+      <p class="abs-desc">Staatlich anerkanntes Abitur nach G9 — allgemeine Hochschulreife für alle Universitäten.</p>
+    </div>
+  </div>
+
+  <div class="abs-sprachen r">
+    <div class="abs-spr-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M10 2C7.5 5 6 7.5 6 10s1.5 5 4 8M10 2c2.5 3 4 5.5 4 8s-1.5 5-4 8M2 10h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+    <div>
+      <div class="abs-spr-title">Zwei Fremdsprachen ab der 1. Klasse</div>
+      <div class="abs-spr-sub">Englisch und Französisch — von Anfang an, spielerisch und ohne Noten in den ersten Jahren.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ TERMINE ════════════════════════════════ -->
+<section class="termine" id="termine">
+  <div class="termine-head r">
+    <div>
+      <div class="s-tag" style="margin-bottom:14px">
+        <div class="s-tag-l" style="background:var(--lilac)"></div>
+        <span class="s-tag-t" style="color:var(--lilac)">Veranstaltungen</span>
+      </div>
+      <h2>Kommende<br>Termine</h2>
+    </div>
+    <a href="#" class="termine-all">
+      Alle Termine
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="termine-list r rd1">
+    <a class="termin" href="https://www.waldorfschule-wiesbaden.de/termine" target="_blank">
+      <div class="t-date">26<span>Mär 2026</span></div>
+      <div>
+        <div class="t-title">Klassenspiel der 8. Klasse — „Was Ihr wollt"</div>
+        <div class="t-sub">William Shakespeare · 26.–27. März 2026 · Aula</div>
+      </div>
+      <svg class="t-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <a class="termin" href="#">
+      <div class="t-date">28<span>Mär 2026</span></div>
+      <div>
+        <div class="t-title">Osterferien</div>
+        <div class="t-sub">28. März – 12. April 2026 · Schulfreie Zeit</div>
+      </div>
+      <svg class="t-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <a class="termin" href="#">
+      <div class="t-date">22<span>Apr 2026</span></div>
+      <div>
+        <div class="t-title">Präsentation Sozialpraktikum — 11. Klasse</div>
+        <div class="t-sub">22. April 2026 · Schüler berichten über ihr Sozialpraktikum</div>
+      </div>
+      <svg class="t-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <a class="termin" href="#">
+      <div class="t-date">20<span>Apr 2026</span></div>
+      <div>
+        <div class="t-title">Landwirtschaftspraktikum — 9. Klasse</div>
+        <div class="t-sub">20. April – 8. Mai 2026 · Praktische Erfahrung auf dem Bauernhof</div>
+      </div>
+      <svg class="t-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <a class="termin" href="https://www.waldorfschule-wiesbaden.de/termine" target="_blank">
+      <div class="t-date">09<span>Mai 2026</span></div>
+      <div>
+        <div class="t-title">Tag der offenen Tür & Frühlingsmarkt</div>
+        <div class="t-sub">Ab 10:00 Uhr · Alle Interessierten herzlich willkommen</div>
+      </div>
+      <svg class="t-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+
+<!-- ══ ANMELDUNG ══════════════════════════════ -->
+<section class="anmeldung" id="anmeldung">
+  <div class="anm-left">
+    <div class="s-tag r">
+      <div class="s-tag-l" style="background:var(--lilac)"></div>
+      <span class="s-tag-t" style="color:var(--lilac)">Anmeldung</span>
+    </div>
+    <h2 class="r rd1">Ihr Kind<br>gehört <em>dazu.</em></h2>
+    <p class="r rd2">
+      Kinder können angemeldet werden, wenn sie im Einschulungsjahr bis zum 31. August ihr 6. Lebensjahr vollenden. Anmeldeschluss für die 1. Klasse ist jeweils der <strong>31. Oktober des Vorjahres.</strong>
+    </p>
+    <div class="anm-deadline r rd2">
+      <div class="anm-deadline-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 2v3M12 2v3M2 8h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="anm-deadline-label">Anmeldeschluss 2026/27</div>
+        <div class="anm-deadline-val">31. Oktober 2026</div>
+      </div>
+    </div>
+
+    <div class="anm-links r rd3">
+      <a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/treffpunkte" target="_blank" class="anm-link">
+        <div>
+          <div class="anm-link-label">Veranstaltung</div>
+          <div class="anm-link-title">Informationsabend besuchen</div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="mailto:info@waldorfschule-wiesbaden.de" class="anm-link">
+        <div>
+          <div class="anm-link-label">Schulbesuch</div>
+          <div class="anm-link-title">Hospitationstag anfragen</div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="https://www.waldorfschule-wiesbaden.de/service-download/anmeldung" target="_blank" class="anm-link">
+        <div>
+          <div class="anm-link-label">Download</div>
+          <div class="anm-link-title">Anmeldeformular herunterladen</div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="anm-right">
+    <div class="f-head r">Anmeldeanfrage</div>
+    <div class="f-sub r">Wir melden uns innerhalb von 24 Stunden.</div>
+
+    <div class="f-row r rd1">
+      <div class="f-grp"><label>Vorname</label><input type="text" placeholder="Ihr Vorname" /></div>
+      <div class="f-grp"><label>Nachname</label><input type="text" placeholder="Ihr Nachname" /></div>
+    </div>
+    <div class="f-grp r rd2"><label>E-Mail</label><input type="email" placeholder="ihre@email.de" /></div>
+    <div class="f-grp r rd2"><label>Telefon</label><input type="tel" placeholder="0611 – xxxxxx" /></div>
+    <div class="f-row r rd3">
+      <div class="f-grp"><label>Name des Kindes</label><input type="text" placeholder="Vorname" /></div>
+      <div class="f-grp">
+        <label>Gewünschte Klasse</label>
+        <select>
+          <option>Klasse 1</option><option>Klasse 2</option><option>Klasse 3</option>
+          <option>Klasse 4</option><option>Klasse 5</option><option>Klasse 6</option>
+          <option>Klasse 7</option><option>Klasse 8</option><option>Oberstufe (9–13)</option>
+        </select>
+      </div>
+    </div>
+    <button class="f-submit r rd4">Anfrage absenden →</button>
+  </div>
+</section>
+
+
+<!-- ══ RAINBOW VIELFALT ═══════════════════════ -->
+<div class="rainbow-bar">
+  <div class="rainbow-stripe"></div>
+  <span class="rainbow-text">Wir stehen für Vielfalt</span>
+</div>
+
+
+<!-- ══ KONTAKT ════════════════════════════════ -->
+<section class="kontakt" id="kontakt">
+  <div class="k-block r">
+    <h3>Kontakt</h3>
+    <div class="k-item">
+      <div class="k-label">Adresse</div>
+      <div class="k-val">Albert-Schweitzer-Allee 42<br>65203 Wiesbaden-Biebrich</div>
+    </div>
+    <div class="k-item">
+      <div class="k-label">Telefon</div>
+      <div class="k-val"><a href="tel:+496116070800">0611 – 60 70 80</a></div>
+    </div>
+    <div class="k-item">
+      <div class="k-label">Fax</div>
+      <div class="k-val">0611 – 60 70 810</div>
+    </div>
+    <div class="k-item">
+      <div class="k-label">E-Mail</div>
+      <div class="k-val"><a href="mailto:info@waldorfschule-wiesbaden.de">info@waldorfschule-wiesbaden.de</a></div>
+    </div>
+    <div class="k-item">
+      <div class="k-label">Sekretariat</div>
+      <div class="k-val">Mo–Fr: 8:00–12:00 Uhr</div>
+    </div>
+    <div class="k-item">
+      <div class="k-label">Instagram</div>
+      <div class="k-val"><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">@freiewaldorfschulewiesbaden</a></div>
+    </div>
+  </div>
+
+  <div class="k-block r rd1">
+    <h3>Navigation</h3>
+    <ul class="k-links">
+      <li><a href="#">Unsere Schule</a></li>
+      <li><a href="#">Waldorfpädagogik</a></li>
+      <li><a href="#">Termine</a></li>
+      <li><a href="#">Service & Download</a></li>
+      <li><a href="#">Presse</a></li>
+      <li><a href="#">Offene Stellen</a></li>
+      <li><a href="#">Alumni</a></li>
+      <li><a href="#">Schule unterstützen</a></li>
+    </ul>
+  </div>
+
+  <div class="k-block r rd2">
+    <h3>Offene Stellen</h3>
+    <ul class="k-links">
+      <li><a href="https://www.waldorfschule-wiesbaden.de/offene-stellen/stellenangebote" target="_blank">Stellenangebote</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/offene-stellen/praktika" target="_blank">Praktikantenstellen</a></li>
+      <li><a href="https://www.waldorfschule-wiesbaden.de/offene-stellen/freiwilligendienste" target="_blank">Freiwilligendienste (FSJ)</a></li>
+    </ul>
+    <div style="margin-top:32px">
+      <h3>Folgen Sie uns</h3>
+      <ul class="k-links" style="margin-top:8px">
+        <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram · @freiewaldorfschulewiesbaden</a></li>
+        <li><a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/podcast" target="_blank">Podcast anhören</a></li>
+      </ul>
+    </div>
+    <div style="margin-top:32px">
+      <h3>Schule unterstützen</h3>
+      <div class="k-item" style="margin-top:12px">
+        <div class="k-label">Spendenkonto</div>
+        <div class="k-val" style="font-size:12px; letter-spacing:.04em;">DE34 5109 0000 0004 4001 00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════ -->
+<footer>
+  <div class="ftr-left">
+    <div class="ftr-logo">
+      <img src="../waldorf%20logo/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+    </div>
+    <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
+  </div>
+  <ul class="ftr-links">
+    <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
+    <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+    <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
+    <li><a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/podcast" target="_blank">Podcast</a></li>
+    <li><a href="https://www.waldorfschule-wiesbaden.de/service-download/alumni" target="_blank">Alumni</a></li>
+  </ul>
+  <span class="ftr-copy">© 2026 Freie Waldorfschule Wiesbaden · Gegründet 1985</span>
+</footer>
+
+
+<!-- ══ SCRIPTS ═══════════════════════════════ -->
+<script>
+/* ══════════════════════════════════════════════
+   1. LENIS SMOOTH SCROLL
+══════════════════════════════════════════════ */
+const lenis = new Lenis({
+  duration: 1.4,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smooth: true,
+  smoothTouch: false,
+});
+function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
+requestAnimationFrame(lenisRaf);
+
+/* Sync Lenis with GSAP ScrollTrigger */
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ══════════════════════════════════════════════
+   2. PAGE LOADER
+══════════════════════════════════════════════ */
+const loader = document.getElementById('loader');
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loader.classList.add('loader-exit');
+    setTimeout(() => {
+      loader.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 1050);
+  }, 2600);
+});
+document.body.style.overflow = 'hidden';
+
+/* ══════════════════════════════════════════════
+   3. SCROLL PROGRESS BAR
+══════════════════════════════════════════════ */
+const scrollBar = document.getElementById('scrollBar');
+lenis.on('scroll', ({ scroll, limit }) => {
+  scrollBar.style.width = (scroll / limit * 100) + '%';
+});
+
+/* ══════════════════════════════════════════════
+   5. NAV SCROLL STATE
+══════════════════════════════════════════════ */
+const nav = document.getElementById('mainNav');
+lenis.on('scroll', ({ scroll }) => {
+  nav.classList.toggle('solid', scroll > 60);
+});
+
+/* ══════════════════════════════════════════════
+   6. GSAP — REGISTER SCROLLTRIGGER
+══════════════════════════════════════════════ */
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── Scroll reveal (.r elements) ── */
+gsap.utils.toArray('.r').forEach(el => {
+  const delay = el.classList.contains('rd1') ? 0.14
+              : el.classList.contains('rd2') ? 0.28
+              : el.classList.contains('rd3') ? 0.42
+              : el.classList.contains('rd4') ? 0.56
+              : el.classList.contains('rd5') ? 0.70 : 0;
+  gsap.fromTo(el,
+    { opacity: 0, y: 36 },
+    {
+      opacity: 1, y: 0, delay,
+      duration: 1.1, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        toggleActions: 'play none none none',
+      }
+    }
+  );
+});
+
+/* ── Hero parallax ── */
+const heroBgEl = document.querySelector('.hero-bg');
+if (heroBgEl) {
+  gsap.to(heroBgEl, {
+    y: '28%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+    }
+  });
+}
+
+/* ── Campus full-bleed parallax ── */
+const campusImg = document.querySelector('.campus-bleed img');
+if (campusImg) {
+  gsap.fromTo(campusImg,
+    { scale: 1.06, y: '-4%' },
+    {
+      y: '4%', ease: 'none',
+      scrollTrigger: {
+        trigger: '.campus-bleed',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+      }
+    }
+  );
+}
+
+/* ── Steiner ornaments ── */
+ScrollTrigger.create({
+  trigger: '.steiner-quote',
+  start: 'top 75%',
+  onEnter: () => document.querySelectorAll('.sq-ornament').forEach(el => el.classList.add('v')),
+  onLeaveBack: () => document.querySelectorAll('.sq-ornament').forEach(el => el.classList.remove('v')),
+});
+
+/* ── Steiner quote line-by-line ── */
+document.querySelectorAll('.sq-line').forEach((line, i) => {
+  gsap.fromTo(line,
+    { opacity: 0, y: 28 },
+    {
+      opacity: 1, y: 0,
+      duration: 1.1, ease: 'power3.out', delay: i * 0.22,
+      scrollTrigger: { trigger: '.steiner-quote', start: 'top 70%' }
+    }
+  );
+});
+
+/* ── GSAP number counters ── */
+function animCount(el, target, suffix, duration) {
+  const obj = { val: 0 };
+  gsap.to(obj, {
+    val: target, duration, ease: 'power2.out',
+    onUpdate() { el.textContent = Math.round(obj.val) + suffix; }
+  });
+}
+const numSection = document.getElementById('numbers');
+if (numSection) {
+  ScrollTrigger.create({
+    trigger: numSection,
+    start: 'top 75%',
+    once: true,
+    onEnter() {
+      numSection.querySelectorAll('.num-n[data-target]').forEach(n => {
+        animCount(n, +n.dataset.target, n.dataset.suffix || '', 2.2);
+      });
+    }
+  });
+}
+
+/* ── Gallery image clip-path reveal ── */
+document.querySelectorAll('.gi').forEach((item, i) => {
+  gsap.fromTo(item,
+    { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
+    {
+      clipPath: 'inset(0% 0 0 0)', opacity: 1,
+      duration: 1.1, ease: 'power3.out',
+      delay: (i % 3) * 0.12,
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      }
+    }
+  );
+});
+
+/* ── Stufen cards staggered ── */
+gsap.utils.toArray('.stufe').forEach((card, i) => {
+  gsap.fromTo(card,
+    { opacity: 0, y: 60 },
+    {
+      opacity: 1, y: 0,
+      duration: 1.2, ease: 'power3.out', delay: i * 0.15,
+      scrollTrigger: { trigger: '.stufen-grid', start: 'top 80%' }
+    }
+  );
+});
+
+/* ── Marquee: auto-fix broken images ── */
+const fallbacks = [
+  'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=560&h=392&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1541661538396-53ba2d051ee5?w=560&h=392&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1448375240586-882707db888b?w=560&h=392&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=560&h=392&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=560&h=392&fit=crop&q=80',
+];
+let fbIdx = 0;
+document.querySelectorAll('.mq-img img').forEach(img => {
+  img.addEventListener('error', function() {
+    this.src = fallbacks[fbIdx % fallbacks.length];
+    fbIdx++;
+  });
+});
+
+/* ── Marquee speed reacts to scroll velocity ── */
+const mqTrack = document.getElementById('mqTrack');
+if (mqTrack) {
+  lenis.on('scroll', ({ velocity }) => {
+    const speed = Math.max(15, 40 - Math.abs(velocity) * 6);
+    mqTrack.style.animationDuration = speed + 's';
+  });
+}
+
+/* ══════════════════════════════════════════════
+   7. MAGNETIC BUTTONS
+══════════════════════════════════════════════ */
+document.querySelectorAll('.btn-hero, .nav-cta, .f-submit').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width  / 2);
+    const dy = e.clientY - (rect.top  + rect.height / 2);
+    btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.22}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)', clearProps: 'transform' });
+  });
+});
+
+/* ══════════════════════════════════════════════
+   8. SMOOTH ANCHOR
+══════════════════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const target = document.querySelector(id);
+    if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -72, duration: 1.6 }); }
+  });
+});
+</script>
+</body>
+</html>
