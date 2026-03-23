@@ -177,7 +177,7 @@
   /* ══ HERO ══════════════════════════════════════ */
   .hero { position:relative; width:100%; height:100vh; min-height:700px; overflow:hidden; background:var(--dark); }
   .hero-bg { position:absolute; inset:0; z-index:0; animation:kenBurns 10s ease-out forwards; }
-  .hero-bg img { width:100%; height:100%; object-fit:cover; object-position:50% 20%; }
+  .hero-bg img { width:100%; height:100%; object-fit:cover; object-position:50% 40%; }
   .hero-aurora { display:none; }
   .hero-aurora-mask { display:none; }
   .hero-overlay {
@@ -325,11 +325,11 @@
   .steiner-quote cite { display:block; margin-top:44px; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.24); font-style:normal; }
 
   /* ══ GEMEINSCHAFT ══════════════════════════════ */
-  .gemeinschaft { display:grid; grid-template-columns:58% 42%; min-height:80vh; }
-  .gem-img { position:relative; overflow:hidden; cursor:pointer; }
+  .gemeinschaft { display:grid; grid-template-columns:58% 42%; min-height:80vh; border-radius:28px; overflow:hidden; margin:0 48px 0; }
+  .gem-img { position:relative; overflow:hidden; cursor:pointer; border-radius:24px 0 0 24px; }
   .gem-img img { height:100%; transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
   .gem-img:hover img { transform:scale(1.05); }
-  .gem-content { background:var(--cream2); padding:80px 64px; display:flex; flex-direction:column; justify-content:center; }
+  .gem-content { background:var(--cream2); padding:80px 64px; display:flex; flex-direction:column; justify-content:center; border-radius:0 24px 24px 0; }
   .s-tag { display:inline-flex; align-items:center; gap:12px; margin-bottom:24px; }
   .s-tag-l { width:24px; height:1px; }
   .s-tag-t { font-size:10px; letter-spacing:.24em; text-transform:uppercase; font-weight:300; }
@@ -341,7 +341,7 @@
   .gem-quote cite { display:block; margin-top:10px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-style:normal; }
 
   /* ══ DOUBLE SPREAD ═════════════════════════════ */
-  .double-spread { display:grid; grid-template-columns:1fr 1fr; height:80vh; min-height:520px; }
+  .double-spread { display:grid; grid-template-columns:1fr 1fr; height:80vh; min-height:520px; border-radius:28px; overflow:hidden; margin:0 48px; }
   .spread-panel { position:relative; overflow:hidden; }
   .spread-panel img { height:100%; transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
   .spread-panel:hover img { transform:scale(1.05); }
@@ -370,7 +370,7 @@
   .mq-img:hover img { filter:brightness(1) saturate(1); transform:scale(1.05); }
 
   /* ══ CAMPUS BLEED ══════════════════════════════ */
-  .campus-bleed { position:relative; height:68vh; min-height:440px; overflow:hidden; }
+  .campus-bleed { position:relative; height:68vh; min-height:440px; overflow:hidden; border-radius:28px; margin:0 48px; }
   .campus-bleed img { height:100%; transition:transform 1.2s cubic-bezier(.16,1,.3,1); }
   .campus-bleed:hover img { transform:scale(1.04); }
   .campus-ov { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(15,8,24,.05) 0%, rgba(15,8,24,.6) 100%); }
@@ -379,7 +379,7 @@
   .campus-text p { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); font-weight:300; margin-top:8px; }
 
   /* ══ SERVICE CARDS ═════════════════════════════ */
-  .service-cards { display:grid; grid-template-columns:repeat(4,1fr); background:var(--cream2); }
+  .service-cards { display:grid; grid-template-columns:repeat(4,1fr); background:var(--cream2); border-radius:28px; overflow:hidden; margin:0 48px; }
   .sc-card { padding:60px 44px; border-right:1px solid rgba(0,0,0,.07); transition:background .3s; }
   .sc-card:last-child { border-right:none; }
   .sc-card:hover { background:#fff; }
@@ -719,8 +719,8 @@
 <!-- ══ HERO ═════════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-bg">
-    <img src="bilder/hf_20260318_211903_3799694d-1bc3-42a5-b01c-880969f4e8c4.png"
-         alt="Eingang Freie Waldorfschule Wiesbaden bei Sonnenuntergang" />
+    <img src="bilder/8601b527-a15a-45b4-ad60-9a3e68b8d609.jpg"
+         alt="Eingang Freie Waldorfschule Wiesbaden im Morgennebel" />
   </div>
 
   <!-- Aurora overlay (CSS port) -->
