@@ -62,21 +62,37 @@
   /* ══ LOADER ══════════════════════════════════ */
   #loader {
     position: fixed; inset: 0; z-index: 99999;
-    background: var(--dark);
+    background: #0F0818;
     display: flex; align-items: center; justify-content: center; flex-direction: column;
-    transition: clip-path 1s cubic-bezier(.76,0,.24,1);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    gap: 0;
+    transition: opacity .8s ease;
   }
-  #loader.loader-exit { clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%); }
-  .loader-logo { width: 220px; height: auto; }
-  .loader-logo img { width: 100%; height: auto; object-fit: contain; border-radius: 0; }
+  #loader.loader-exit { opacity: 0; pointer-events: none; }
+  .loader-logo-wrap {
+    width: 140px; height: 140px; border-radius: 50%; overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(166,118,173,.15), 0 20px 60px rgba(0,0,0,.5);
+    opacity: 0; animation: lFade .7s ease .2s forwards;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .loader-logo-wrap img {
+    width: 120%; height: 120%; object-fit: cover; object-position: center;
+    border-radius: 0;
+  }
+  .loader-school-name {
+    margin-top: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 300; letter-spacing: .18em;
+    color: rgba(255,255,255,.55);
+    opacity: 0; animation: lFade .6s ease .6s forwards;
+  }
+  .loader-bar-wrap { width: 80px; height: 1px; background: rgba(255,255,255,.08); margin-top: 20px; overflow: hidden; border-radius: 1px; }
+  .loader-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--mauve), var(--mauve2)); animation: lBar 2.2s cubic-bezier(.6,0,.4,1) .4s forwards; border-radius: 1px; }
   .loader-sub {
-    margin-top: 28px; font-size: 9px; letter-spacing: .38em; text-transform: uppercase;
-    color: rgba(255,255,255,.18); opacity: 0; animation: lFade .6s ease .5s forwards;
+    margin-top: 14px; font-size: 8px; letter-spacing: .38em; text-transform: uppercase;
+    color: rgba(255,255,255,.18); opacity: 0; animation: lFade .6s ease .8s forwards;
     font-family: 'Inter', sans-serif;
   }
-  .loader-bar-wrap { width: 60px; height: 1px; background: rgba(255,255,255,.06); margin-top: 16px; overflow: hidden; }
-  .loader-bar { height: 100%; width: 0; background: var(--mauve); animation: lBar 2.4s cubic-bezier(.6,0,.4,1) .3s forwards; }
   @keyframes lFade { to { opacity: 1; } }
   @keyframes lBar  { to { width: 100%; } }
   .loader-path { stroke-dasharray: 950; stroke-dashoffset: 950; animation: lDraw 1.8s cubic-bezier(.6,0,.4,1) .15s forwards; }
@@ -641,12 +657,12 @@
 
 <!-- ══ LOADER ═══════════════════════════════ -->
 <div id="loader">
-  <div class="loader-logo">
-    <img src="logo-nobg.png" alt="Freie Waldorfschule Wiesbaden"
-         style="opacity:0;animation:lFade .8s ease .3s forwards;" />
+  <div class="loader-logo-wrap">
+    <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Freie Waldorfschule Wiesbaden" />
   </div>
+  <div class="loader-school-name">Freie Waldorfschule Wiesbaden</div>
   <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
-  <div class="loader-sub">Freie Waldorfschule Wiesbaden</div>
+  <div class="loader-sub">Wiesbaden · seit 1985</div>
 </div>
 
 <!-- Scroll progress -->
