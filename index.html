@@ -207,6 +207,33 @@
     font-size: 13px; color: var(--muted); font-style: italic; font-family: 'Lora', serif;
   }
 
+  /* Verlauf-Header */
+  .sh-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px 6px;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 500;
+  }
+  .sh-clear-all {
+    background: none; border: none; cursor: pointer;
+    font-size: 11px; color: var(--mauve); letter-spacing: .03em;
+    font-family: 'Inter', sans-serif; transition: color .2s; padding: 2px 0;
+    text-transform: none;
+  }
+  .sh-clear-all:hover { color: var(--mauve-dk); }
+
+  /* Verlauf-Icon (grau) */
+  .sh-icon { background: rgba(0,0,0,.04); color: var(--muted); }
+  .sh-item .sr-title { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; color: var(--text2); }
+
+  /* X-Button zum Entfernen einzelner Einträge */
+  .sh-remove {
+    background: none; border: none; cursor: pointer; padding: 6px;
+    color: rgba(0,0,0,.2); display: flex; align-items: center;
+    border-radius: 50%; transition: background .15s, color .15s; flex-shrink: 0;
+  }
+  .sh-remove:hover { background: rgba(0,0,0,.06); color: var(--text2); }
+
   /* Highlight pulse when navigated to a section */
   @keyframes searchPulse {
     0%   { outline: 2.5px solid rgba(166,118,173,.7); box-shadow: 0 0 0 0 rgba(166,118,173,.35); }
@@ -2122,6 +2149,34 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       .map(r => r.entry);
   }
 
+  /* ── Suchverlauf (localStorage) ─────────────
+     Max. 6 Einträge, neueste zuerst
+  ──────────────────────────────────────────────*/
+  const HISTORY_KEY = 'ww_search_history';
+
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function saveToHistory(query) {
+    if (!query || query.trim().length < 2) return;
+    const q = query.trim();
+    let hist = getHistory().filter(h => h.toLowerCase() !== q.toLowerCase());
+    hist.unshift(q);
+    hist = hist.slice(0, 6);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+  }
+
+  function removeFromHistory(query) {
+    const hist = getHistory().filter(h => h.toLowerCase() !== query.toLowerCase());
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+  }
+
+  function clearHistory() {
+    localStorage.removeItem(HISTORY_KEY);
+  }
+
   /* ── DOM-Referenzen ────────────────────────── */
   const toggle   = document.getElementById('searchToggle');
   const box      = document.getElementById('searchBox');
@@ -2130,7 +2185,70 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const dropdown = document.getElementById('searchDropdown');
   let   activeIdx = -1;
 
-  /* ── Dropdown rendern ──────────────────────── */
+  /* ── Ergebnis-Item bauen ──────────────────── */
+  function buildResultItem(entry, i, onClickFn) {
+    const el = document.createElement('div');
+    el.className = 'search-result';
+    el.setAttribute('role', 'option');
+    el.setAttribute('tabindex', '-1');
+    el.innerHTML = `
+      <div class="sr-icon">${entry.icon}</div>
+      <div class="sr-body">
+        <div class="sr-title">${entry.title}</div>
+        <div class="sr-sub">${entry.subtitle}</div>
+      </div>
+      <div class="sr-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+    el.addEventListener('click', onClickFn);
+    el.addEventListener('mouseenter', () => setActive(i));
+    return el;
+  }
+
+  /* ── Verlaufs-Item bauen ──────────────────── */
+  function buildHistoryItem(query, i) {
+    const el = document.createElement('div');
+    el.className = 'search-result sh-item';
+    el.setAttribute('role', 'option');
+    el.setAttribute('tabindex', '-1');
+    el.innerHTML = `
+      <div class="sr-icon sh-icon">
+        <svg viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sr-body">
+        <div class="sr-title sh-query">${query}</div>
+      </div>
+      <button class="sh-remove" aria-label="Aus Verlauf entfernen" title="Entfernen">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </button>`;
+
+    // Klick auf Zeile → Suche ausführen
+    el.addEventListener('click', e => {
+      if (e.target.closest('.sh-remove')) return;
+      input.value = query;
+      clearBtn.classList.add('visible');
+      render(search(query));
+    });
+    el.addEventListener('mouseenter', () => setActive(i));
+
+    // X-Button → aus Verlauf löschen
+    el.querySelector('.sh-remove').addEventListener('click', e => {
+      e.stopPropagation();
+      removeFromHistory(query);
+      renderHistory();
+    });
+
+    return el;
+  }
+
+  /* ── Suchergebnisse rendern ─────────────────── */
   function render(results) {
     activeIdx = -1;
     dropdown.innerHTML = '';
@@ -2142,26 +2260,38 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
 
     results.forEach((entry, i) => {
-      const el = document.createElement('div');
-      el.className   = 'search-result';
-      el.setAttribute('role', 'option');
-      el.setAttribute('tabindex', '-1');
-      el.innerHTML = `
-        <div class="sr-icon">${entry.icon}</div>
-        <div class="sr-body">
-          <div class="sr-title">${entry.title}</div>
-          <div class="sr-sub">${entry.subtitle}</div>
-        </div>
-        <div class="sr-arrow">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>`;
-      el.addEventListener('click', () => navigate(entry));
-      el.addEventListener('mouseenter', () => setActive(i));
-      dropdown.appendChild(el);
+      dropdown.appendChild(buildResultItem(entry, i, () => navigate(entry, input.value.trim())));
     });
 
+    dropdown.classList.add('visible');
+  }
+
+  /* ── Suchverlauf rendern ─────────────────────
+     Wird angezeigt wenn Eingabefeld leer & fokussiert
+  ──────────────────────────────────────────────*/
+  function renderHistory() {
+    activeIdx = -1;
+    dropdown.innerHTML = '';
+    const hist = getHistory();
+
+    if (!hist.length) {
+      dropdown.classList.remove('visible');
+      return;
+    }
+
+    // Header-Zeile
+    const header = document.createElement('div');
+    header.className = 'sh-header';
+    header.innerHTML = `
+      <span>Zuletzt gesucht</span>
+      <button class="sh-clear-all" aria-label="Verlauf löschen">Alles löschen</button>`;
+    header.querySelector('.sh-clear-all').addEventListener('click', () => {
+      clearHistory();
+      dropdown.classList.remove('visible');
+    });
+    dropdown.appendChild(header);
+
+    hist.forEach((q, i) => dropdown.appendChild(buildHistoryItem(q, i)));
     dropdown.classList.add('visible');
   }
 
@@ -2172,21 +2302,21 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     });
   }
 
-  /* ── Zu Sektion scrollen + highlighten ─────── */
-  function navigate(entry) {
+  /* ── Navigation + Verlauf speichern ─────────── */
+  function navigate(entry, query) {
+    if (query) saveToHistory(query);
     closeSearch();
     const target = document.querySelector(entry.anchor);
     if (!target) return;
     lenis.scrollTo(target, {
-      offset: -80,
-      duration: 1.8,
+      offset: -80, duration: 1.8,
       onComplete() { highlight(target); }
     });
   }
 
   function highlight(el) {
     el.classList.remove('search-highlight');
-    void el.offsetWidth; // reflow
+    void el.offsetWidth;
     el.classList.add('search-highlight');
     setTimeout(() => el.classList.remove('search-highlight'), 2200);
   }
@@ -2196,7 +2326,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     box.classList.add('open');
     box.setAttribute('aria-expanded', 'true');
     toggle.setAttribute('aria-expanded', 'true');
-    setTimeout(() => input.focus(), 60);
+    setTimeout(() => { input.focus(); renderHistory(); }, 60);
   }
 
   function closeSearch() {
@@ -2217,14 +2347,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   input.addEventListener('input', () => {
     const q = input.value.trim();
     clearBtn.classList.toggle('visible', q.length > 0);
-    if (q.length < 2) { dropdown.classList.remove('visible'); return; }
+    if (q.length < 2) { renderHistory(); return; }
     render(search(q));
+  });
+
+  input.addEventListener('focus', () => {
+    if (!input.value.trim()) renderHistory();
   });
 
   clearBtn.addEventListener('click', () => {
     input.value = '';
     clearBtn.classList.remove('visible');
-    dropdown.classList.remove('visible');
+    renderHistory();
     input.focus();
   });
 
