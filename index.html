@@ -69,13 +69,11 @@
   }
   #loader.loader-exit { opacity: 0; pointer-events: none; }
   .loader-logo-img {
-    width: 180px; height: auto; margin-bottom: 28px;
+    width: 160px; height: auto; margin-bottom: 28px;
+    mix-blend-mode: screen;
     opacity: 0;
     animation: lFade .8s ease .2s forwards;
-    border-radius: 20px;
-    background: #fff;
-    padding: 16px 20px;
-    box-shadow: 0 8px 40px rgba(0,0,0,.3);
+    filter: brightness(1.15) saturate(1.2);
   }
   .loader-school-name {
     font-family: 'Cormorant Garamond', serif;
@@ -2229,12 +2227,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         </svg>
       </button>`;
 
-    // Klick auf Zeile → Suche ausführen
+    // Klick auf Zeile → Suchergebnisse anzeigen
     el.addEventListener('click', e => {
       if (e.target.closest('.sh-remove')) return;
       input.value = query;
       clearBtn.classList.add('visible');
-      render(search(query));
+      const results = search(query);
+      // Wenn nur ein Treffer → direkt navigieren
+      if (results.length === 1) { navigate(results[0], query); return; }
+      render(results);
     });
     el.addEventListener('mouseenter', () => setActive(i));
 
@@ -2275,7 +2276,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const hist = getHistory();
 
     if (!hist.length) {
-      dropdown.classList.remove('visible');
+      // Leerer Verlauf: Hinweis anzeigen
+      dropdown.innerHTML = `<div class="search-empty" style="padding:18px;font-style:normal;font-size:12px;">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="margin:0 auto 8px;display:block;opacity:.3">
+          <circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M11 7v4l2.5 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Noch keine Suchvorgänge
+      </div>`;
+      dropdown.classList.add('visible');
       return;
     }
 
@@ -2287,7 +2296,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       <button class="sh-clear-all" aria-label="Verlauf löschen">Alles löschen</button>`;
     header.querySelector('.sh-clear-all').addEventListener('click', () => {
       clearHistory();
-      dropdown.classList.remove('visible');
+      renderHistory();
     });
     dropdown.appendChild(header);
 
