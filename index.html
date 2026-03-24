@@ -233,6 +233,155 @@
   .sh-remove:hover { background: rgba(0,0,0,.06); color: var(--text2); }
 
   /* Highlight pulse when navigated to a section */
+  /* ══ CAMPUS MAP ══════════════════════════════ */
+  .cm-sec {
+    padding: 96px 72px 80px;
+    background: var(--cream);
+  }
+  .cm-head { max-width: 640px; margin-bottom: 52px; }
+  .cm-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 4vw, 52px); font-weight: 300; line-height: 1.12;
+    color: var(--text); margin: 14px 0 16px;
+  }
+  .cm-head p { font-size: 14px; color: var(--text2); line-height: 1.75; }
+
+  .cm-body { display: flex; gap: 40px; align-items: flex-start; }
+
+  /* ── Legende ── */
+  .cm-legend {
+    flex-shrink: 0; width: 210px;
+    display: flex; flex-direction: column; gap: 4px;
+    padding-top: 4px;
+  }
+  .cm-legend-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 13px; border-radius: 12px; cursor: pointer;
+    border: 1.5px solid transparent; background: none;
+    transition: background .18s, border-color .18s; text-align: left; width: 100%;
+  }
+  .cm-legend-item:hover { background: rgba(0,0,0,.035); }
+  .cm-legend-item.active {
+    background: rgba(0,0,0,.045);
+    border-color: rgba(0,0,0,.09);
+  }
+  .cm-dot {
+    width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0;
+    margin-top: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.22);
+  }
+  .cm-li-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 500;
+    color: var(--text); line-height: 1.25;
+  }
+  .cm-li-sub {
+    font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.5;
+  }
+
+  /* ── Karte ── */
+  .cm-wrap { flex: 1; min-width: 0; position: relative; }
+  .cm-viewport {
+    width: 100%; border-radius: 20px; overflow: hidden;
+    background: #e8e4dc;
+    box-shadow: 0 8px 48px rgba(0,0,0,.11), 0 0 0 1px rgba(0,0,0,.05);
+    aspect-ratio: 2.97 / 1; /* Lageplan-Verhältnis — ggf. anpassen */
+    position: relative;
+  }
+  .cm-stage {
+    width: 100%; height: 100%;
+    transform-origin: 50% 50%;
+    transition: transform .8s cubic-bezier(.4,0,.2,1);
+    position: relative; will-change: transform;
+  }
+  .cm-img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block; user-select: none; pointer-events: none;
+    /* Lageplan: bilder/lageplan.jpg */
+  }
+  .cm-pins { position: absolute; inset: 0; }
+
+  /* ── Pins / Hotspots ── */
+  .cm-pin {
+    position: absolute; transform: translate(-50%, -50%);
+    cursor: pointer; z-index: 10; background: none; border: none; padding: 0;
+    transition: transform .8s cubic-bezier(.4,0,.2,1);
+  }
+  .cm-pin-inner {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 14px rgba(0,0,0,.32);
+    transition: transform .22s, box-shadow .22s;
+    position: relative;
+  }
+  .cm-pin:hover .cm-pin-inner { transform: scale(1.3); box-shadow: 0 5px 22px rgba(0,0,0,.4); }
+  .cm-pin.active .cm-pin-inner { transform: scale(1.4); }
+  .cm-pin-ring {
+    position: absolute; inset: -7px; border-radius: 50%;
+    border: 2.5px solid currentColor; opacity: 0; pointer-events: none;
+  }
+  .cm-pin.active .cm-pin-ring { animation: cmPulse 1.9s ease-out infinite; }
+  @keyframes cmPulse {
+    0%   { transform: scale(.7); opacity: .8; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+  .cm-pin-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.92); }
+
+  /* ── Reset-Button ── */
+  .cm-reset-btn {
+    margin-top: 14px; background: none;
+    border: 1.5px solid rgba(0,0,0,.12); border-radius: 60px;
+    padding: 8px 22px; font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 300; letter-spacing: .06em;
+    color: var(--text2); cursor: pointer; transition: all .22s;
+    opacity: 0; pointer-events: none;
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .cm-reset-btn.vis { opacity: 1; pointer-events: auto; }
+  .cm-reset-btn:hover { border-color: var(--mauve); color: var(--mauve-dk); }
+
+  /* ── Info-Karte ── */
+  .cm-card {
+    margin-top: 24px; background: #fff; border-radius: 20px;
+    box-shadow: 0 8px 48px rgba(0,0,0,.09), 0 0 0 1px rgba(0,0,0,.05);
+    padding: 26px 28px; display: flex; align-items: flex-start; gap: 18px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity .3s, transform .3s; pointer-events: none;
+  }
+  .cm-card.vis { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .cm-card-stripe {
+    width: 4px; border-radius: 4px; align-self: stretch; min-height: 36px; flex-shrink: 0;
+  }
+  .cm-card-body { flex: 1; min-width: 0; }
+  .cm-card-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.2;
+  }
+  .cm-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cm-card-tag {
+    background: #FAF8F5; border: 1px solid rgba(0,0,0,.07);
+    border-radius: 60px; padding: 4px 14px;
+    font-size: 12px; color: var(--text2); letter-spacing: .03em;
+    font-family: 'Inter', sans-serif;
+  }
+  .cm-card-close {
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); padding: 4px; border-radius: 50%;
+    transition: background .15s, color .15s; flex-shrink: 0;
+  }
+  .cm-card-close:hover { background: #FAF8F5; color: var(--text); }
+
+  @media (max-width: 900px) {
+    .cm-sec { padding: 64px 24px; }
+    .cm-body { flex-direction: column-reverse; gap: 28px; }
+    .cm-legend { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+    .cm-legend-item { flex: 1 1 140px; }
+    .cm-viewport { aspect-ratio: 2 / 1; }
+  }
+  @media (max-width: 560px) {
+    .cm-viewport { aspect-ratio: 3 / 2; }
+    .cm-card { flex-direction: column; }
+    .cm-card-stripe { width: 100%; height: 4px; min-height: unset; align-self: auto; }
+  }
+
   @keyframes searchPulse {
     0%   { outline: 2.5px solid rgba(166,118,173,.7); box-shadow: 0 0 0 0 rgba(166,118,173,.35); }
     50%  { box-shadow: 0 0 0 20px rgba(166,118,173,0); }
@@ -1549,6 +1698,63 @@
 </div>
 
 
+<!-- ══ CAMPUS MAP ════════════════════════════ -->
+<section class="cm-sec" id="campus-map">
+
+  <div class="cm-head r">
+    <div class="s-tag">
+      <div class="s-tag-l" style="background:var(--mauve)"></div>
+      <span class="s-tag-t" style="color:var(--mauve)">Campus · Lageplan</span>
+    </div>
+    <h2>Unser Campus<br>in Wiesbaden</h2>
+    <p>Albert-Schweitzer-Allee 42 · 65203 Wiesbaden-Biebrich<br>
+       Klicken Sie auf einen Bereich oder einen Legendeneintrag.</p>
+  </div>
+
+  <div class="cm-body">
+    <!-- Legende (links) — wird per JS befüllt -->
+    <nav class="cm-legend" id="cmLegend" aria-label="Campus-Bereiche"></nav>
+
+    <!-- Karte (rechts) -->
+    <div class="cm-wrap">
+      <div class="cm-viewport" id="cmViewport">
+        <div class="cm-stage" id="cmStage">
+          <!--
+            LAGEPLAN-BILD:
+            Speichere das Lageplan-Bild als  bilder/lageplan.jpg
+            Aspect-Ratio ggf. in .cm-viewport anpassen.
+          -->
+          <img class="cm-img" src="bilder/lageplan.jpg"
+               alt="Lageplan der Freien Waldorfschule Wiesbaden" />
+          <div class="cm-pins" id="cmPins"></div>
+        </div>
+      </div>
+      <button class="cm-reset-btn" id="cmResetBtn" aria-label="Gesamtansicht">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M9 2L3 7l6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Gesamtansicht
+      </button>
+    </div>
+  </div>
+
+  <!-- Info-Karte (erscheint beim Klick) -->
+  <div class="cm-card" id="cmCard" role="region" aria-live="polite">
+    <div class="cm-card-stripe" id="cmCardStripe"></div>
+    <div class="cm-card-body">
+      <div class="cm-card-title" id="cmCardTitle"></div>
+      <div class="cm-card-tags"  id="cmCardTags"></div>
+    </div>
+    <button class="cm-card-close" id="cmCardClose" aria-label="Schließen">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+</section>
+
+
 <!-- ══ KONTAKT ════════════════════════════════ -->
 <section class="kontakt" id="kontakt">
   <div class="k-block r">
@@ -1907,7 +2113,186 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 /* ══════════════════════════════════════════════
-   9. INTELLIGENTE SUCHE
+   9. CAMPUS MAP — Interaktive Gebäudeübersicht
+══════════════════════════════════════════════ */
+(function() {
+
+  /* ════════════════════════════════════════════
+     KONFIGURATION — hier Positionen & Texte anpassen
+     x / y  = Marker-Position in % (von links / oben)
+     zoom.cx / cy = Zoom-Mittelpunkt in % (meist = x/y)
+     zoom.scale   = Vergrößerungsfaktor (2–4)
+  ════════════════════════════════════════════ */
+  const ZONES = [
+    {
+      id: 'unterstufe',
+      title: 'Unterstufe',
+      color: '#d42820',
+      details: ['Klassen 1–4'],
+      x: 66, y: 62,
+      zoom: { cx: 66, cy: 62, scale: 3 }
+    },
+    {
+      id: 'altbau',
+      title: 'Altbau',
+      color: '#e87d1e',
+      details: ['Oberstufe · Kl. 9–13', 'Ganztagsbetreuung', 'Bücherstube', 'Café', 'Eurythmie-Saal'],
+      x: 82, y: 42,
+      zoom: { cx: 82, cy: 42, scale: 2.6 }
+    },
+    {
+      id: 'mensa',
+      title: 'Mensa',
+      color: '#d4b400',
+      details: ['Schulküche', 'Mittagessen für alle Klassen'],
+      x: 78, y: 72,
+      zoom: { cx: 78, cy: 72, scale: 3.5 }
+    },
+    {
+      id: 'gartenbau',
+      title: 'Gartenbau & Werkstatt',
+      color: '#2d8c2d',
+      details: ['Schulgarten', 'Handwerkliche Werkstatt'],
+      x: 16, y: 28,
+      zoom: { cx: 16, cy: 28, scale: 3.5 }
+    },
+    {
+      id: 'mittelstufe',
+      title: 'Mittelstufe',
+      color: '#2563c8',
+      details: ['Klassen 5–8', 'Saal', 'Lehrerzimmer', 'Verwaltung'],
+      x: 38, y: 38,
+      zoom: { cx: 38, cy: 38, scale: 3 }
+    },
+    {
+      id: 'handarbeiten',
+      title: 'Handarbeiten',
+      color: '#7832b8',
+      details: ['Michael-Zweig'],
+      x: 56, y: 65,
+      zoom: { cx: 56, cy: 65, scale: 3.5 }
+    },
+    {
+      id: 'turnhalle',
+      title: 'Turnhalle',
+      color: '#9e9080',
+      details: ['Sporthalle'],
+      x: 55, y: 14,
+      zoom: { cx: 55, cy: 14, scale: 3.5 }
+    },
+  ];
+
+  /* ── DOM ─────────────────────────────────────*/
+  const stage      = document.getElementById('cmStage');
+  const pinsEl     = document.getElementById('cmPins');
+  const legendEl   = document.getElementById('cmLegend');
+  const resetBtn   = document.getElementById('cmResetBtn');
+  const card       = document.getElementById('cmCard');
+  const cardStripe = document.getElementById('cmCardStripe');
+  const cardTitle  = document.getElementById('cmCardTitle');
+  const cardTags   = document.getElementById('cmCardTags');
+  const cardClose  = document.getElementById('cmCardClose');
+
+  if (!stage) return; // Section nicht vorhanden
+
+  let activeId = null;
+
+  /* ── Legende & Pins aufbauen ─────────────────*/
+  ZONES.forEach(zone => {
+
+    /* Legende */
+    const li = document.createElement('button');
+    li.className = 'cm-legend-item';
+    li.dataset.id = zone.id;
+    li.setAttribute('aria-label', zone.title);
+    li.innerHTML = `
+      <div class="cm-dot" style="background:${zone.color}"></div>
+      <div>
+        <div class="cm-li-title">${zone.title}</div>
+        ${zone.details.length
+          ? `<div class="cm-li-sub">${zone.details.slice(0,2).join(' · ')}</div>`
+          : ''}
+      </div>`;
+    li.addEventListener('click', () => selectZone(zone));
+    legendEl.appendChild(li);
+
+    /* Map-Pin */
+    const pin = document.createElement('button');
+    pin.className = 'cm-pin';
+    pin.dataset.id = zone.id;
+    pin.setAttribute('aria-label', zone.title);
+    pin.style.left = zone.x + '%';
+    pin.style.top  = zone.y + '%';
+    pin.innerHTML = `
+      <div class="cm-pin-inner" style="background:${zone.color}">
+        <div class="cm-pin-ring" style="color:${zone.color}"></div>
+        <div class="cm-pin-dot"></div>
+      </div>`;
+    pin.addEventListener('click', () => selectZone(zone));
+    pinsEl.appendChild(pin);
+  });
+
+  /* ── Zone aktivieren ─────────────────────────*/
+  function selectZone(zone) {
+    if (activeId === zone.id) { resetView(); return; }
+    activeId = zone.id;
+
+    /* Aktiv-Klassen setzen */
+    document.querySelectorAll('.cm-legend-item, .cm-pin').forEach(el => {
+      el.classList.toggle('active', el.dataset.id === zone.id);
+    });
+
+    /* Zoom */
+    zoomTo(zone.zoom.cx, zone.zoom.cy, zone.zoom.scale);
+
+    /* Info-Karte */
+    cardStripe.style.background = zone.color;
+    cardTitle.textContent = zone.title;
+    cardTags.innerHTML = zone.details
+      .map(d => `<span class="cm-card-tag">${d}</span>`).join('');
+    card.classList.add('vis');
+    resetBtn.classList.add('vis');
+  }
+
+  /* ── Zoom-Logik ──────────────────────────────
+     transform: scale(S) translate(tx%, ty%)
+     Reihenfolge: zuerst translate, dann scale (CSS-Standard).
+     Formel: tx = 50 − cx,  ty = 50 − cy
+     → Punkt (cx%, cy%) wandert exakt in die Bildmitte.
+     Der Wert ist unabhängig von S — nur das s selbst
+     bestimmt, wie stark hineingezoomt wird.
+  ──────────────────────────────────────────────*/
+  function zoomTo(cx, cy, scale) {
+    const tx = 50 - cx;
+    const ty = 50 - cy;
+    stage.style.transform = `scale(${scale}) translate(${tx}%, ${ty}%)`;
+    /* Pins invers skalieren → bleiben gleich groß */
+    document.querySelectorAll('.cm-pin').forEach(p => {
+      p.style.transform = `translate(-50%, -50%) scale(${1 / scale})`;
+    });
+  }
+
+  /* ── Reset ───────────────────────────────────*/
+  function resetView() {
+    activeId = null;
+    document.querySelectorAll('.cm-legend-item, .cm-pin').forEach(el => {
+      el.classList.remove('active');
+    });
+    stage.style.transform = 'scale(1) translate(0%,0%)';
+    document.querySelectorAll('.cm-pin').forEach(p => {
+      p.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+    card.classList.remove('vis');
+    resetBtn.classList.remove('vis');
+  }
+
+  resetBtn.addEventListener('click', resetView);
+  cardClose.addEventListener('click', resetView);
+
+})();
+
+/* ══════════════════════════════════════════════
+   10. INTELLIGENTE SUCHE
    — Clientseitiger Index aller Sektionen
    — Bilder sind über alt-Texte + imageKeywords suchbar
    — Synonym-Expansion auf Deutsch
@@ -2067,6 +2452,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       imageKeywords: ['formular','eltern','anmeldung'],
       aliases: ['einschreiben','aufnahme','anmeldeformular','schulaufnahme','bewerben'],
       icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M8 2L3 5v5c0 3 2 5 5 6 3-1 5-3 5-6V5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '#campus-map',
+      title: 'Lageplan & Campus',
+      subtitle: 'Interaktive Gebäudeübersicht · Unterstufe, Altbau, Mensa …',
+      keywords: ['lageplan','campus','gebäude','plan','karte','übersicht','unterstufe','altbau','mensa','werkstatt','turnhalle','mittelstufe','handarbeiten'],
+      imageKeywords: ['lageplan','gebäude','campus karte'],
+      aliases: ['campus map','gebäudeplan','schulplan','orientierung'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M6 3v10M10 3v10M2 8h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".5"/></svg>`,
     },
     {
       anchor: '#kontakt',
