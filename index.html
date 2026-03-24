@@ -105,18 +105,25 @@
 
   /* ══ SEARCH ══════════════════════════════════ */
   .nav-search {
-    position: relative; display: flex; align-items: center; margin-left: 18px;
+    position: relative; display: flex; align-items: center; margin-left: 20px; flex-shrink: 0;
   }
   .search-toggle {
-    background: none; border: none; cursor: pointer; padding: 8px;
-    color: rgba(255,255,255,.65); transition: color .3s;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; flex-shrink: 0;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.28);
+    cursor: pointer; padding: 7px 14px;
+    color: rgba(255,255,255,.85); transition: all .25s;
+    display: flex; align-items: center; gap: 7px;
+    border-radius: 60px; flex-shrink: 0; white-space: nowrap;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 300; letter-spacing: .04em;
   }
-  nav.solid .search-toggle { color: var(--text2); }
-  .search-toggle:hover { color: #fff; }
-  nav.solid .search-toggle:hover { color: var(--mauve-dk); }
-  .search-toggle:focus-visible { outline: 2px solid var(--mauve); outline-offset: 2px; border-radius: 50%; }
+  nav.solid .search-toggle {
+    background: rgba(166,118,173,.08);
+    border-color: rgba(166,118,173,.3);
+    color: var(--text2);
+  }
+  .search-toggle:hover { background: rgba(255,255,255,.22); color: #fff; }
+  nav.solid .search-toggle:hover { background: rgba(166,118,173,.15); color: var(--mauve-dk); border-color: var(--mauve); }
+  .search-toggle:focus-visible { outline: 2px solid var(--mauve); outline-offset: 2px; border-radius: 60px; }
 
   .search-box {
     position: absolute; right: 0; top: 50%; transform: translateY(-50%);
@@ -849,10 +856,11 @@
   <!-- ── Suchleiste ── -->
   <div class="nav-search" id="navSearch">
     <button class="search-toggle" id="searchToggle" aria-label="Suche öffnen" aria-expanded="false">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
+        <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
+      <span>Suche</span>
     </button>
     <div class="search-box" id="searchBox" role="combobox" aria-haspopup="listbox" aria-expanded="false">
       <input class="search-input" id="searchInput" type="search"
