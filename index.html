@@ -103,6 +103,109 @@
   @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
   @keyframes aurora { 0% { background-position:50% 50%,50% 50%; } 100% { background-position:350% 50%,350% 50%; } }
 
+  /* ══ SEARCH ══════════════════════════════════ */
+  .nav-search {
+    position: relative; display: flex; align-items: center; margin-left: 18px;
+  }
+  .search-toggle {
+    background: none; border: none; cursor: pointer; padding: 8px;
+    color: rgba(255,255,255,.65); transition: color .3s;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; flex-shrink: 0;
+  }
+  nav.solid .search-toggle { color: var(--text2); }
+  .search-toggle:hover { color: #fff; }
+  nav.solid .search-toggle:hover { color: var(--mauve-dk); }
+  .search-toggle:focus-visible { outline: 2px solid var(--mauve); outline-offset: 2px; border-radius: 50%; }
+
+  .search-box {
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    display: flex; align-items: center;
+    background: rgba(255,255,255,.12); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,.18); border-radius: 60px;
+    width: 0; opacity: 0; pointer-events: none;
+    transition: width .35s cubic-bezier(.4,0,.2,1), opacity .22s, background .3s, border-color .3s;
+    overflow: hidden;
+  }
+  nav.solid .search-box {
+    background: rgba(250,248,245,.95); border-color: rgba(166,118,173,.28);
+  }
+  .search-box.open { width: 250px; opacity: 1; pointer-events: auto; }
+
+  .search-input {
+    flex: 1; border: none; background: transparent; outline: none;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 300;
+    color: #fff; letter-spacing: .02em;
+    padding: 9px 10px 9px 18px; width: 100%; min-width: 0;
+  }
+  nav.solid .search-input { color: var(--text); }
+  .search-input::placeholder { color: rgba(255,255,255,.42); }
+  nav.solid .search-input::placeholder { color: var(--muted); }
+
+  .search-clear {
+    background: none; border: none; cursor: pointer;
+    padding: 6px 10px; color: rgba(255,255,255,.35);
+    display: none; align-items: center; font-size: 13px; line-height: 1;
+    flex-shrink: 0; transition: color .2s;
+  }
+  nav.solid .search-clear { color: var(--muted); }
+  .search-clear.visible { display: flex; }
+  .search-clear:hover { color: rgba(255,255,255,.8); }
+  nav.solid .search-clear:hover { color: var(--mauve-dk); }
+
+  /* Dropdown */
+  .search-dropdown {
+    position: absolute; right: 0; top: calc(100% + 14px);
+    background: #fff; border-radius: 18px;
+    box-shadow: 0 12px 56px rgba(0,0,0,.14), 0 0 0 1px rgba(0,0,0,.05);
+    min-width: 310px; max-width: 370px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity .2s, transform .22s;
+    z-index: 99999; overflow: hidden;
+  }
+  .search-dropdown.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+  .search-result {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 16px; cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,.04);
+    transition: background .13s; outline: none;
+  }
+  .search-result:last-child { border-bottom: none; }
+  .search-result:hover, .search-result.active { background: #FAF8F5; }
+  .search-result:focus-visible { background: #FAF8F5; }
+
+  .sr-icon {
+    width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(166,118,173,.1); color: var(--mauve);
+  }
+  .sr-icon svg { width: 16px; height: 16px; }
+  .sr-body { flex: 1; min-width: 0; }
+  .sr-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 500;
+    color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sr-sub {
+    font-size: 11px; color: var(--muted); letter-spacing: .03em; margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sr-arrow { color: var(--muted); flex-shrink: 0; }
+
+  .search-empty {
+    padding: 22px 18px; text-align: center;
+    font-size: 13px; color: var(--muted); font-style: italic; font-family: 'Lora', serif;
+  }
+
+  /* Highlight pulse when navigated to a section */
+  @keyframes searchPulse {
+    0%   { outline: 2.5px solid rgba(166,118,173,.7); box-shadow: 0 0 0 0 rgba(166,118,173,.35); }
+    50%  { box-shadow: 0 0 0 20px rgba(166,118,173,0); }
+    100% { outline: 2.5px solid transparent; box-shadow: 0 0 0 0 transparent; }
+  }
+  .search-highlight { animation: searchPulse 1.8s ease forwards; border-radius: 4px; }
+
   html { scroll-behavior: auto; }
   body {
     font-family: 'Lora', Georgia, serif;
@@ -742,6 +845,25 @@
     <li><a href="#kontakt">Kontakt</a></li>
     <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
   </ul>
+
+  <!-- ── Suchleiste ── -->
+  <div class="nav-search" id="navSearch">
+    <button class="search-toggle" id="searchToggle" aria-label="Suche öffnen" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="search-box" id="searchBox" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+      <input class="search-input" id="searchInput" type="search"
+             placeholder="Suche auf der Website …"
+             autocomplete="off" spellcheck="false"
+             aria-label="Website durchsuchen"
+             aria-autocomplete="list" aria-controls="searchDropdown" />
+      <button class="search-clear" id="searchClear" aria-label="Suche löschen">✕</button>
+    </div>
+    <div class="search-dropdown" id="searchDropdown" role="listbox" aria-label="Suchergebnisse"></div>
+  </div>
 </nav>
 
 
@@ -1748,6 +1870,379 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -72, duration: 1.6 }); }
   });
 });
+
+/* ══════════════════════════════════════════════
+   9. INTELLIGENTE SUCHE
+   — Clientseitiger Index aller Sektionen
+   — Bilder sind über alt-Texte + imageKeywords suchbar
+   — Synonym-Expansion auf Deutsch
+   — Live-Dropdown mit Keyboard-Navigation
+══════════════════════════════════════════════ */
+(function() {
+
+  /* ── Suchindex ────────────────────────────────
+     Jeder Eintrag enthält:
+       anchor        – CSS-Selektor zum Scroll-Ziel
+       title/subtitle – Angezeigte Texte im Dropdown
+       keywords      – Sichtbare Texte der Sektion
+       imageKeywords – Alt-Texte + manuelle Bild-Tags
+       aliases       – Synonyme & alternative Begriffe
+  ──────────────────────────────────────────────*/
+  const INDEX = [
+    {
+      anchor: '#hero',
+      title: 'Startseite',
+      subtitle: 'Freie Waldorfschule Wiesbaden seit 1985',
+      keywords: ['startseite','willkommen','schule','waldorf','wiesbaden','biebrich','eingang','hauptseite'],
+      imageKeywords: ['eingang','morgennebel','schulgebäude','nebel','weg','path'],
+      aliases: ['home','start','anfang'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M2 6l6-4 6 4v8H2V6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '#philosophy',
+      title: 'Kopf · Herz · Hand',
+      subtitle: 'Waldorfpädagogik nach Rudolf Steiner',
+      keywords: ['kopf','herz','hand','pädagogik','waldorfpädagogik','steiner','denken','fühlen','wollen','philosophie','leitbild','neugier','bildung'],
+      imageKeywords: ['kopf','herz','hand','symbol','pädagogik'],
+      aliases: ['philosophie','konzept','methode','anthroposophie'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M3 15c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+    },
+    {
+      anchor: '.steiner-quote',
+      title: 'Rudolf Steiner – Zitat',
+      subtitle: '„Empfange die Kinder in Ehrfurcht …"',
+      keywords: ['zitat','steiner','ehrfurcht','liebe','freiheit','begründer','anthroposophie','quote'],
+      imageKeywords: ['steiner','portrait','aquarell','zeichnung','animation'],
+      aliases: ['spruch','motto','leitsatz','quote'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M4 7h8M4 11h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><rect x="2" y="2" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.3"/></svg>`,
+    },
+    {
+      anchor: '.gemeinschaft',
+      title: 'Schulgemeinschaft',
+      subtitle: 'Lernen entsteht im Miteinander',
+      keywords: ['gemeinschaft','schulgemeinschaft','miteinander','eltern','lehrer','schüler','kreis','eurythmie','zusammen','gefördert','gesehen'],
+      imageKeywords: ['kreis','wiese','gemeinschaft','gruppe','schüler','eurythmie','bewegung'],
+      aliases: ['community','zusammenhalt','elternarbeit'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-2 1.3-3.5 3-3.5s3 1.5 3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M8 14c0-2 1.3-3.5 3-3.5s3 1.5 3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+    },
+    {
+      anchor: '.double-spread',
+      title: 'Handwerk & Kunst',
+      subtitle: 'Werkstatt, Holz, Malen, Gestalten',
+      keywords: ['handwerk','werkstatt','holz','metall','hobeln','zimmermann','kunst','malen','plastizieren','formen','gestalten','kreativ','aquarell'],
+      imageKeywords: ['werkstatt','holz','hobeln','zimmermann','malen','pinsel','farbe','aquarell','gemälde'],
+      aliases: ['basteln','werken','kunstunterricht','handarbeit'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M3 12l4-8 3 6 2-3 2 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '.werte-strip',
+      title: 'Waldorf-Werte',
+      subtitle: 'Kopf, Herz, Hand, Natur, Gemeinschaft',
+      keywords: ['werte','natur','garten','wald','jahreszeiten','wachsen','vertrauen','miteinander'],
+      imageKeywords: ['natur','wald','garten','baum','blume'],
+      aliases: ['wertebild','leitsätze','prinzipien'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M8 2Q11 6 11 9a3 3 0 01-6 0Q5 6 8 2z" stroke="currentColor" stroke-width="1.3"/></svg>`,
+    },
+    {
+      anchor: '.campus-bleed',
+      title: 'Unser Campus',
+      subtitle: 'Albert-Schweitzer-Allee 42, Wiesbaden-Biebrich',
+      keywords: ['campus','schulgelände','gebäude','standort','biebrich','albert-schweitzer','allee','weg','gelände'],
+      imageKeywords: ['campus','weg','sonnenlicht','schulweg','nature path','wiese'],
+      aliases: ['schulgebäude','anlage','gelände','lage'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M8 2C5.2 2 3 4.2 3 7c0 4 5 9 5 9s5-5 5-9c0-2.8-2.2-5-5-5z" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="7" r="2" stroke="currentColor" stroke-width="1.3"/></svg>`,
+    },
+    {
+      anchor: '#gallery-sec',
+      title: 'Galerie',
+      subtitle: 'Impressionen aus dem Schulalltag',
+      keywords: ['galerie','fotos','bilder','impressionen','schulalltag','schulgarten','schafe','pavillon','wildblumen','gartenweg'],
+      imageKeywords: ['schulveranstaltung','wildblumen','garten','schafe','pavillon','nebel','morgenlicht','kinder'],
+      aliases: ['fotogalerie','impressionen','fotoalbum'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="6" cy="8" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 11l3.5-3.5 3 3 2-2 3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '#ganztag',
+      title: 'Ganztagsbetreuung',
+      subtitle: 'Betreuung Klassen 1–8 bis 17:00 Uhr',
+      keywords: ['ganztag','ganztagsbetreuung','betreuung','mensa','mittagessen','schulküche','nachmittag'],
+      imageKeywords: ['mensa','mittagessen','kinder','nachmittag'],
+      aliases: ['nachmittagsbetreuung','hort','nachmittagsangebot','schulkind'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+    },
+    {
+      anchor: '#podcast',
+      title: 'Podcast',
+      subtitle: 'Zwölftklässler über ihre Schulerfahrungen',
+      keywords: ['podcast','audio','interview','zwölftklässler','12.klasse','erfahrungen','berufsleben'],
+      imageKeywords: ['mikrofon','podcast','aufnahme'],
+      aliases: ['hörfunk','audio','interview','hören'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6c0 1.7 1.3 3 3 3s3-1.3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M8 9v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+    },
+    {
+      anchor: '#offene-stellen',
+      title: 'Stellenangebote',
+      subtitle: 'Lehrer, Praktikanten, Freiwilligendienste',
+      keywords: ['stellen','job','jobs','lehrer','lehrerin','praktikum','praktikant','freiwilligendienst','fsj','bewerbung','arbeit'],
+      imageKeywords: ['bewerbung','arbeit','schreibtisch'],
+      aliases: ['karriere','bewerben','offene stellen','stellenausschreibung','arbeitsplatz'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><rect x="3" y="5" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 5V4a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.3"/></svg>`,
+    },
+    {
+      anchor: '#numbers',
+      title: 'Die Schule in Zahlen',
+      subtitle: '450 Schüler · 40 Jahre · 120 Lehrkräfte',
+      keywords: ['zahlen','statistik','450','schüler','120 lehrer','40 jahre','98 prozent'],
+      imageKeywords: [],
+      aliases: ['fakten','daten','kennzahlen','über uns'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M3 12V9M6 12V6M9 12V4M12 12V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    },
+    {
+      anchor: '#stufen',
+      title: 'Schulstufen 1–13',
+      subtitle: 'Unterstufe · Mittelstufe · Oberstufe',
+      keywords: ['stufen','schulstufe','klassen','unterstufe','mittelstufe','oberstufe','klasse 1','klasse 13','grundschule','gymnasium','epochen'],
+      imageKeywords: ['kind','schüler','klasse','kinder natur','waldweg'],
+      aliases: ['klassen','schuljahr','klassenstufe','jahrgang'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M2 13h3V8h3v5h3V5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '#abschluesse',
+      title: 'Schulabschlüsse',
+      subtitle: 'Abitur · Fachhochschulreife · Realschulabschluss',
+      keywords: ['abitur','abschluss','realschulabschluss','hauptschulabschluss','fachhochschulreife','g9','hochschulreife','staatlich anerkannt','fremdsprachen','englisch','französisch'],
+      imageKeywords: ['abschluss','urkunde','diplom'],
+      aliases: ['zeugnis','schulabschluss','hochschule','studium','matura'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M2 10l6-5 6 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v3h6v-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '#termine',
+      title: 'Termine & Veranstaltungen',
+      subtitle: 'Klassenspiel · Tag der offenen Tür · Feste',
+      keywords: ['termine','veranstaltungen','tag der offenen tür','klassenspiel','praktikum','osterferien','frühlingsmarkt','mai 2026','shakespeare'],
+      imageKeywords: ['veranstaltung','fest','bühne','aufführung','markt'],
+      aliases: ['kalender','events','öffnungszeiten','schauspiel'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 2v3M11 2v3M2 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+    },
+    {
+      anchor: '#anmeldung',
+      title: 'Anmeldung',
+      subtitle: 'Ihr Kind anmelden – Frist 31. Oktober',
+      keywords: ['anmeldung','anmelden','einschreibung','formular','aufnahme','klasse 1','oktober','frist','anmeldefrist','hospitationstag','informationsabend'],
+      imageKeywords: ['formular','eltern','anmeldung'],
+      aliases: ['einschreiben','aufnahme','anmeldeformular','schulaufnahme','bewerben'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M8 2L3 5v5c0 3 2 5 5 6 3-1 5-3 5-6V5L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>`,
+    },
+    {
+      anchor: '#kontakt',
+      title: 'Kontakt',
+      subtitle: 'Albert-Schweitzer-Allee 42 · 0611 – 60 70 80',
+      keywords: ['kontakt','adresse','telefon','email','e-mail','sekretariat','öffnungszeiten','fax','instagram','spendenkonto','alumni'],
+      imageKeywords: ['karte','map','standort'],
+      aliases: ['kontaktdaten','anschrift','telefonnummer','erreichbarkeit','wegbeschreibung','impressum'],
+      icon: `<svg viewBox="0 0 16 16" fill="none"><path d="M12 10c-1 0-2-.3-2.5-.8L7.8 10.8C7 10.4 6 9.5 5.2 8.8L7 7c-.5-.5-.8-1.5-.8-2.5C6.2 3 5.4 2 4 2 2 2 1 4 1 5c0 5.5 5.5 10 11 10 1 0 3-1 3-3 0-1.4-1-2.2-3-2z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    },
+  ];
+
+  /* ── Synonyme (Deutsch) ───────────────────────
+     Erweitert die Suchanfrage um verwandte Begriffe
+  ──────────────────────────────────────────────*/
+  const SYNONYMS = {
+    'schule':    ['waldorfschule','freie schule','bildungseinrichtung','einrichtung'],
+    'lehrer':    ['lehrerin','lehrkraft','pädagoge','pädagogin','unterricht'],
+    'kind':      ['kinder','schüler','schülerin','jugendliche'],
+    'kunst':     ['malen','aquarell','plastizieren','formen','kreativ','künstlerisch','bild'],
+    'musik':     ['geige','eurythmie','singen','instrument','chor','klang'],
+    'natur':     ['garten','wald','baum','pflanze','outdoor','jahreszeiten','ernte'],
+    'handwerk':  ['werkstatt','holz','metall','bauen','zimmermann','hobeln','werken'],
+    'abitur':    ['hochschulreife','abschluss','matura','studium'],
+    'praktikum': ['praktika','fsj','freiwilligendienst','berufsleben','erfahrung'],
+    'kontakt':   ['adresse','anschrift','telefon','email','wegbeschreibung'],
+    'anmeldung': ['einschreibung','aufnahme','formular','einschreiben'],
+    'termine':   ['kalender','veranstaltungen','events','feste','aufführung'],
+  };
+
+  /* ── Normalisierung ────────────────────────── */
+  function normalize(str) {
+    return str.toLowerCase()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+      .replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+  }
+
+  /* ── Synonym-Expansion ─────────────────────── */
+  function expand(q) {
+    const terms = new Set(q.split(/\s+/).filter(t => t.length > 1));
+    for (const [key, syns] of Object.entries(SYNONYMS)) {
+      const nKey = normalize(key);
+      const hit  = q.includes(nKey) || syns.some(s => q.includes(normalize(s)));
+      if (hit) {
+        terms.add(nKey);
+        syns.forEach(s => terms.add(normalize(s)));
+      }
+    }
+    return [...terms];
+  }
+
+  /* ── Scoring eines Index-Eintrags ─────────── */
+  function scoreEntry(entry, terms) {
+    let s = 0;
+    const nTitle = normalize(entry.title);
+    const nSub   = normalize(entry.subtitle || '');
+    for (const t of terms) {
+      if (!t || t.length < 2) continue;
+      if (nTitle.includes(t))                                    s += 10;
+      if (nSub.includes(t))                                      s += 5;
+      (entry.keywords     || []).forEach(k => { if (normalize(k).includes(t)) s += 4; });
+      (entry.aliases      || []).forEach(k => { if (normalize(k).includes(t)) s += 3; });
+      (entry.imageKeywords|| []).forEach(k => { if (normalize(k).includes(t)) s += 2; });
+    }
+    return s;
+  }
+
+  /* ── Suche ─────────────────────────────────── */
+  function search(rawQuery) {
+    if (!rawQuery.trim()) return [];
+    const q     = normalize(rawQuery);
+    const terms = expand(q);
+    return INDEX
+      .map(entry => ({ entry, s: scoreEntry(entry, terms) }))
+      .filter(r => r.s > 0)
+      .sort((a, b) => b.s - a.s)
+      .slice(0, 6)
+      .map(r => r.entry);
+  }
+
+  /* ── DOM-Referenzen ────────────────────────── */
+  const toggle   = document.getElementById('searchToggle');
+  const box      = document.getElementById('searchBox');
+  const input    = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  const dropdown = document.getElementById('searchDropdown');
+  let   activeIdx = -1;
+
+  /* ── Dropdown rendern ──────────────────────── */
+  function render(results) {
+    activeIdx = -1;
+    dropdown.innerHTML = '';
+
+    if (!results.length) {
+      dropdown.innerHTML = `<div class="search-empty">Keine Ergebnisse für „${input.value}"</div>`;
+      dropdown.classList.add('visible');
+      return;
+    }
+
+    results.forEach((entry, i) => {
+      const el = document.createElement('div');
+      el.className   = 'search-result';
+      el.setAttribute('role', 'option');
+      el.setAttribute('tabindex', '-1');
+      el.innerHTML = `
+        <div class="sr-icon">${entry.icon}</div>
+        <div class="sr-body">
+          <div class="sr-title">${entry.title}</div>
+          <div class="sr-sub">${entry.subtitle}</div>
+        </div>
+        <div class="sr-arrow">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>`;
+      el.addEventListener('click', () => navigate(entry));
+      el.addEventListener('mouseenter', () => setActive(i));
+      dropdown.appendChild(el);
+    });
+
+    dropdown.classList.add('visible');
+  }
+
+  function setActive(i) {
+    activeIdx = i;
+    dropdown.querySelectorAll('.search-result').forEach((el, j) => {
+      el.classList.toggle('active', j === i);
+    });
+  }
+
+  /* ── Zu Sektion scrollen + highlighten ─────── */
+  function navigate(entry) {
+    closeSearch();
+    const target = document.querySelector(entry.anchor);
+    if (!target) return;
+    lenis.scrollTo(target, {
+      offset: -80,
+      duration: 1.8,
+      onComplete() { highlight(target); }
+    });
+  }
+
+  function highlight(el) {
+    el.classList.remove('search-highlight');
+    void el.offsetWidth; // reflow
+    el.classList.add('search-highlight');
+    setTimeout(() => el.classList.remove('search-highlight'), 2200);
+  }
+
+  /* ── Öffnen / Schließen ────────────────────── */
+  function openSearch() {
+    box.classList.add('open');
+    box.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-expanded', 'true');
+    setTimeout(() => input.focus(), 60);
+  }
+
+  function closeSearch() {
+    box.classList.remove('open');
+    box.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-expanded', 'false');
+    dropdown.classList.remove('visible');
+    input.value = '';
+    clearBtn.classList.remove('visible');
+    activeIdx = -1;
+  }
+
+  /* ── Events ────────────────────────────────── */
+  toggle.addEventListener('click', () => {
+    box.classList.contains('open') ? closeSearch() : openSearch();
+  });
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clearBtn.classList.toggle('visible', q.length > 0);
+    if (q.length < 2) { dropdown.classList.remove('visible'); return; }
+    render(search(q));
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    clearBtn.classList.remove('visible');
+    dropdown.classList.remove('visible');
+    input.focus();
+  });
+
+  /* Tastaturnavigation: Pfeiltasten, Enter, Escape */
+  input.addEventListener('keydown', e => {
+    const items = dropdown.querySelectorAll('.search-result');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(Math.min(activeIdx + 1, items.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(Math.max(activeIdx - 1, 0));
+    } else if (e.key === 'Enter') {
+      if (activeIdx >= 0 && items[activeIdx]) items[activeIdx].click();
+      else if (items.length === 1) items[0].click();
+    } else if (e.key === 'Escape') {
+      closeSearch();
+    }
+  });
+
+  /* Klick außerhalb schließt Dropdown */
+  document.addEventListener('click', e => {
+    if (!document.getElementById('navSearch').contains(e.target)) {
+      dropdown.classList.remove('visible');
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
