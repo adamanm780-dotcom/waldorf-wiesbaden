@@ -113,7 +113,8 @@ nav.solid {
   border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
   transform: rotate(45deg); vertical-align: middle; opacity: .5; transition: transform .2s;
 }
-.nav-links li.has-drop:hover > a::after { transform: rotate(-135deg); }
+.nav-links li.has-drop:hover > a::after,
+.nav-links li.has-drop.drop-open > a::after { transform: rotate(-135deg); }
 .nav-drop {
   position: absolute; top: calc(100% + 14px); left: 50%;
   background: #fff; border-radius: 16px;
@@ -123,7 +124,8 @@ nav.solid {
   transform: translateX(-50%) translateY(-8px);
   transition: opacity .2s, transform .2s;
 }
-.nav-links li.has-drop:hover .nav-drop { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+.nav-links li.has-drop:hover .nav-drop,
+.nav-links li.has-drop.drop-open .nav-drop { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
 .nav-drop li a {
   display: block; padding: 9px 22px; font-size: 12.5px !important; letter-spacing: .02em !important;
   color: var(--text2) !important; text-decoration: none; transition: background .15s, color .15s;
