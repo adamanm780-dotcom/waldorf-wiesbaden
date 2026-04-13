@@ -501,9 +501,9 @@ lenis.on('scroll', ({ scroll }) => { nav.classList.toggle('solid', scroll > 60);
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.utils.toArray('.r').forEach(el => {
-  gsap.fromTo(el, { opacity: 0, y: 36 }, {
-    opacity: 1, y: 0, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+  gsap.fromTo(el, { opacity: 0, y: 20 }, {
+    opacity: 1, y: 0, duration: 0.5, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none none' }
   });
 });
   </script>

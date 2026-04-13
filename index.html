@@ -849,13 +849,13 @@
   .ftr-copy { font-size:11px; color:rgba(255,255,255,.12); }
 
   /* ══ SCROLL REVEAL ═════════════════════════════ */
-  .r { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+  .r { opacity:0; transform:translateY(18px); transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1); }
   .r.v { opacity:1; transform:none; }
-  .rd1 { transition-delay:.12s; }
-  .rd2 { transition-delay:.24s; }
-  .rd3 { transition-delay:.36s; }
-  .rd4 { transition-delay:.48s; }
-  .rd5 { transition-delay:.60s; }
+  .rd1 { transition-delay:.05s; }
+  .rd2 { transition-delay:.10s; }
+  .rd3 { transition-delay:.15s; }
+  .rd4 { transition-delay:.20s; }
+  .rd5 { transition-delay:.25s; }
 
   /* ══ RESPONSIVE ════════════════════════════════ */
   @media(max-width:1024px){
@@ -1857,19 +1857,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ── Scroll reveal (.r elements) ── */
 gsap.utils.toArray('.r').forEach(el => {
-  const delay = el.classList.contains('rd1') ? 0.14
-              : el.classList.contains('rd2') ? 0.28
-              : el.classList.contains('rd3') ? 0.42
-              : el.classList.contains('rd4') ? 0.56
-              : el.classList.contains('rd5') ? 0.70 : 0;
+  const delay = el.classList.contains('rd1') ? 0.06
+              : el.classList.contains('rd2') ? 0.12
+              : el.classList.contains('rd3') ? 0.18
+              : el.classList.contains('rd4') ? 0.24
+              : el.classList.contains('rd5') ? 0.30 : 0;
   gsap.fromTo(el,
-    { opacity: 0, y: 36 },
+    { opacity: 0, y: 20 },
     {
       opacity: 1, y: 0, delay,
-      duration: 1.1, ease: 'power3.out',
+      duration: 0.5, ease: 'power2.out',
       scrollTrigger: {
         trigger: el,
-        start: 'top 88%',
+        start: 'top 95%',
         toggleActions: 'play none none none',
       }
     }
