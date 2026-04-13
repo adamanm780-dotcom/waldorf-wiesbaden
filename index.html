@@ -577,6 +577,43 @@
     color:rgba(166,118,173,.07); pointer-events:none; user-select:none; z-index:0;
   }
   .steiner-quote::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:400px; background:radial-gradient(ellipse, rgba(166,118,173,.07) 0%, transparent 70%); pointer-events:none; z-index:0; }
+
+  /* ── Aurora Background ── */
+  .aurora-wrap {
+    position:absolute; inset:-10px; overflow:hidden; pointer-events:none; z-index:0;
+  }
+  .aurora-glow {
+    --mauve-glow: #a676ad;
+    --lilac-glow: #c8a8d2;
+    --deep-glow:  #7a4e87;
+    --violet-glow:#5c2d82;
+    --dark-bg:    #0F0818;
+    position:absolute; inset:-10px;
+    background-image:
+      repeating-linear-gradient(100deg, var(--dark-bg) 0%, var(--dark-bg) 7%, transparent 10%, transparent 12%, var(--dark-bg) 16%),
+      repeating-linear-gradient(100deg, var(--mauve-glow) 10%, var(--lilac-glow) 15%, var(--deep-glow) 20%, var(--violet-glow) 25%, var(--mauve-glow) 30%);
+    background-size: 300% 200%;
+    background-position: 50% 50%;
+    filter: blur(14px);
+    opacity: .55;
+    will-change: transform;
+    animation: auroraMove 60s linear infinite;
+  }
+  .aurora-glow::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(100deg, var(--dark-bg) 0%, var(--dark-bg) 7%, transparent 10%, transparent 12%, var(--dark-bg) 16%),
+      repeating-linear-gradient(100deg, var(--mauve-glow) 10%, var(--lilac-glow) 15%, var(--deep-glow) 20%, var(--violet-glow) 25%, var(--mauve-glow) 30%);
+    background-size: 200% 100%;
+    background-attachment: fixed;
+    mix-blend-mode: difference;
+    animation: auroraMove 60s linear infinite;
+  }
+  @keyframes auroraMove {
+    from { background-position: 50% 50%, 50% 50%; }
+    to   { background-position: 350% 50%, 350% 50%; }
+  }
   .steiner-quote > * { position:relative; z-index:1; }
   .sq-inner { max-width:680px; }
   .sq-label { font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--mauve2); font-weight:400; margin-bottom:52px; display:flex; align-items:center; justify-content:center; gap:20px; }
@@ -849,13 +886,13 @@
   .ftr-copy { font-size:11px; color:rgba(255,255,255,.12); }
 
   /* ══ SCROLL REVEAL ═════════════════════════════ */
-  .r { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+  .r { opacity:0; transform:translateY(18px); transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1); }
   .r.v { opacity:1; transform:none; }
-  .rd1 { transition-delay:.12s; }
-  .rd2 { transition-delay:.24s; }
-  .rd3 { transition-delay:.36s; }
-  .rd4 { transition-delay:.48s; }
-  .rd5 { transition-delay:.60s; }
+  .rd1 { transition-delay:.05s; }
+  .rd2 { transition-delay:.10s; }
+  .rd3 { transition-delay:.15s; }
+  .rd4 { transition-delay:.20s; }
+  .rd5 { transition-delay:.25s; }
 
   /* ══ RESPONSIVE ════════════════════════════════ */
   @media(max-width:1024px){
@@ -1155,6 +1192,7 @@
 
 <!-- ══ STEINER QUOTE ══════════════════════════ -->
 <section class="steiner-quote">
+  <div class="aurora-wrap" aria-hidden="true"><div class="aurora-glow"></div></div>
   <div class="sq-canvas-wrap">
     <canvas id="sqCanvas" width="420" height="562" aria-hidden="true"></canvas>
   </div>
@@ -1203,7 +1241,7 @@
 <!-- ══ DOUBLE SPREAD ════════════════════════ -->
 <section class="double-spread">
   <div class="spread-panel">
-    <img src="bilder/be4567b0-e531-4494-a115-a1c28a177e11.png" alt="Handwerk — Meister beim Hobeln" />
+    <img src="bilder/handwerk.jpeg" alt="Handwerk — Schülerin beim Stricken" />
     <div class="spread-ov"></div>
     <div class="spread-label">
       <div class="spread-tag" style="color:var(--w-orange)">Werkstatt</div>
@@ -1213,7 +1251,7 @@
   </div>
 
   <div class="spread-panel">
-    <img src="bilder/01d5ae65-7a9c-4097-8f78-941f3fe6906f.png" alt="Zimmermann in der Werkstatt — Gemälde" />
+    <img src="bilder/kunst.jpeg" alt="Kunst — Aquarell-Spirale" />
     <div class="spread-ov"></div>
     <div class="spread-label">
       <div class="spread-tag" style="color:var(--lilac)">Kunstunterricht</div>
@@ -1790,8 +1828,8 @@
     <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
   </div>
   <ul class="ftr-links">
-    <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Impressum</a></li>
-    <li><a href="https://www.waldorfschule-wiesbaden.de/impressum-datenschutz" target="_blank">Datenschutz</a></li>
+    <li><a href="impressum.html">Impressum</a></li>
+    <li><a href="impressum.html">Datenschutz</a></li>
     <li><a href="https://www.instagram.com/freiewaldorfschulewiesbaden" target="_blank">Instagram</a></li>
     <li><a href="https://www.waldorfschule-wiesbaden.de/unsere-schule/podcast" target="_blank">Podcast</a></li>
     <li><a href="https://www.waldorfschule-wiesbaden.de/service-download/alumni" target="_blank">Alumni</a></li>
@@ -1857,19 +1895,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ── Scroll reveal (.r elements) ── */
 gsap.utils.toArray('.r').forEach(el => {
-  const delay = el.classList.contains('rd1') ? 0.14
-              : el.classList.contains('rd2') ? 0.28
-              : el.classList.contains('rd3') ? 0.42
-              : el.classList.contains('rd4') ? 0.56
-              : el.classList.contains('rd5') ? 0.70 : 0;
+  const delay = el.classList.contains('rd1') ? 0.06
+              : el.classList.contains('rd2') ? 0.12
+              : el.classList.contains('rd3') ? 0.18
+              : el.classList.contains('rd4') ? 0.24
+              : el.classList.contains('rd5') ? 0.30 : 0;
   gsap.fromTo(el,
-    { opacity: 0, y: 36 },
+    { opacity: 0, y: 20 },
     {
       opacity: 1, y: 0, delay,
-      duration: 1.1, ease: 'power3.out',
+      duration: 0.5, ease: 'power2.out',
       scrollTrigger: {
         trigger: el,
-        start: 'top 88%',
+        start: 'top 95%',
         toggleActions: 'play none none none',
       }
     }
@@ -2657,5 +2695,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 </script>
 <script src="nav-dropdown.js"></script>
+<script src="cookie-banner.js"></script>
 </body>
 </html>
