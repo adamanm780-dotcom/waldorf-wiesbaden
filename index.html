@@ -138,6 +138,7 @@
     background: rgba(250,248,245,.95); border-color: rgba(166,118,173,.28);
   }
   .search-box.open { width: 250px; opacity: 1; pointer-events: auto; }
+  nav.search-open .nav-cta { opacity: 0; pointer-events: none; transition: opacity .2s; }
 
   .search-input {
     flex: 1; border: none; background: transparent; outline: none;
@@ -2591,6 +2592,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     box.classList.add('open');
     box.setAttribute('aria-expanded', 'true');
     toggle.setAttribute('aria-expanded', 'true');
+    document.querySelector('nav').classList.add('search-open');
     setTimeout(() => { input.focus(); renderHistory(); }, 60);
   }
 
@@ -2598,6 +2600,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     box.classList.remove('open');
     box.setAttribute('aria-expanded', 'false');
     toggle.setAttribute('aria-expanded', 'false');
+    document.querySelector('nav').classList.remove('search-open');
     dropdown.classList.remove('visible');
     input.value = '';
     clearBtn.classList.remove('visible');
