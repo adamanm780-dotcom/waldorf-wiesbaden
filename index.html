@@ -579,16 +579,14 @@
   .steiner-quote::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:400px; background:radial-gradient(ellipse, rgba(166,118,173,.07) 0%, transparent 70%); pointer-events:none; z-index:0; }
 
   /* ── Aurora Background ── */
-  .aurora-wrap {
-    position:absolute; inset:-10px; overflow:hidden; pointer-events:none; z-index:0;
-  }
   .aurora-glow {
     --mauve-glow: #a676ad;
     --lilac-glow: #c8a8d2;
     --deep-glow:  #7a4e87;
     --violet-glow:#5c2d82;
     --dark-bg:    #0F0818;
-    position:absolute; inset:-10px;
+    position:absolute !important; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:0 !important;
     background-image:
       repeating-linear-gradient(100deg, var(--dark-bg) 0%, var(--dark-bg) 7%, transparent 10%, transparent 12%, var(--dark-bg) 16%),
       repeating-linear-gradient(100deg, var(--mauve-glow) 10%, var(--lilac-glow) 15%, var(--deep-glow) 20%, var(--violet-glow) 25%, var(--mauve-glow) 30%);
@@ -894,20 +892,53 @@
   .rd4 { transition-delay:.20s; }
   .rd5 { transition-delay:.25s; }
 
-  /* ══ RESPONSIVE ════════════════════════════════ */
+  /* ══ HAMBURGER MENU ═════════════════════════════ */
+  .burger { display:none; background:none; border:none; cursor:pointer; padding:8px; z-index:301; position:relative; }
+  .burger span { display:block; width:22px; height:2px; background:rgba(255,255,255,.8); border-radius:2px; transition:all .3s ease; }
+  .burger span + span { margin-top:5px; }
+  nav.solid .burger span { background:var(--text); }
+  .burger.open span:nth-child(1) { transform:rotate(45deg) translate(4px,4px); }
+  .burger.open span:nth-child(2) { opacity:0; }
+  .burger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+  .mobile-menu {
+    position:fixed; inset:0; z-index:299;
+    background:rgba(15,8,24,.97); backdrop-filter:blur(24px);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:0; padding:100px 32px 60px;
+    opacity:0; pointer-events:none; transition:opacity .35s ease;
+    overflow-y:auto;
+  }
+  .mobile-menu.open { opacity:1; pointer-events:auto; }
+  .mobile-menu a {
+    display:block; padding:14px 0; text-decoration:none; text-align:center;
+    font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300;
+    color:rgba(255,255,255,.7); transition:color .2s;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    width:100%; max-width:300px;
+  }
+  .mobile-menu a:hover,.mobile-menu a:active { color:#fff; }
+  .mobile-menu .mm-cta {
+    margin-top:28px; padding:13px 36px; border:1.5px solid var(--mauve);
+    border-radius:60px; font-family:'Lora',serif; font-style:italic;
+    font-size:15px; color:var(--mauve2); border-bottom:1.5px solid var(--mauve);
+  }
+  .mobile-menu .mm-cta:hover { background:var(--mauve); color:#fff; }
+
+  /* ══ RESPONSIVE — TABLET ═══════════════════════ */
   @media(max-width:1024px){
     nav { padding:0 24px; }
     .nav-links { display:none; }
+    .burger { display:flex; flex-direction:column; }
     .hero-content { padding:0 24px 60px; flex-direction:column; align-items:flex-start; gap:20px; }
     .hero-stats-wrap { display:none; }
     .manifesto { padding:80px 24px; }
     .mfst-top { flex-direction:column; gap:20px; }
     .mfst-grid { grid-template-columns:1fr; }
     .mword { padding:48px 28px 60px; }
-    .gemeinschaft { grid-template-columns:1fr; }
+    .gemeinschaft { grid-template-columns:1fr; margin:0 24px; }
     .gem-img { height:50vh; }
     .gem-content { padding:60px 24px; }
-    .double-spread { grid-template-columns:1fr; height:auto; }
+    .double-spread { grid-template-columns:1fr; height:auto; margin:0 24px; }
     .spread-panel { height:56vh; }
     .gallery-sec { padding:80px 24px; }
     .gal-head-sub { display:none; }
@@ -920,6 +951,7 @@
     .stufe { height:400px; }
     .stufe:nth-child(2),.stufe:nth-child(3) { margin-top:0; }
     .steiner-quote { padding:100px 24px; }
+    .sq-canvas-wrap { display:none; }
     .termine { padding:80px 24px; }
     .termin { margin:0; padding:16px 14px; grid-template-columns:100px 1fr; }
     .t-arrow { display:none; }
@@ -927,13 +959,68 @@
     .anm-left,.anm-right { padding:80px 24px; }
     .kontakt { grid-template-columns:1fr; padding:80px 24px; }
     .campus-text { left:24px; }
-    .campus-bleed { height:56vh; }
+    .campus-bleed { height:56vh; margin:0; }
     .abs-grid { grid-template-columns:1fr 1fr; }
     .abschluesse { padding:80px 24px; }
-    .service-cards { grid-template-columns:1fr 1fr; }
+    .service-cards { grid-template-columns:1fr 1fr; margin:0; }
     .sc-card { border-right:none; border-bottom:1px solid rgba(0,0,0,.07); }
     footer { flex-direction:column; gap:16px; padding:28px 24px; text-align:center; }
+    .ftr-links { flex-wrap:wrap; justify-content:center; }
     .marquee-label-row { padding:24px 24px 16px; }
+    .werte-grid { grid-template-columns:repeat(3,1fr); }
+    .werte-strip { padding:48px 24px; }
+  }
+
+  /* ══ RESPONSIVE — PHONE ════════════════════════ */
+  @media(max-width:480px){
+    nav { padding:0 16px; height:64px; }
+    .logo-img { width:36px; height:36px; }
+    .logo-text b { font-size:13px; }
+    .hero { min-height:100svh; }
+    .hero-content { padding:0 16px 48px; }
+    .hero-h1 { font-size:clamp(38px,10vw,64px); }
+    .hero-cta-row { flex-direction:column; gap:12px; align-items:flex-start; }
+    .btn-hero { padding:12px 28px; font-size:13px; }
+    .manifesto { padding:48px 16px; }
+    .mfst-top h2 { font-size:28px; }
+    .mword { padding:36px 20px 48px; }
+    .mword-de { font-size:clamp(42px,12vw,58px); }
+    .mword-en { font-size:clamp(11px,3vw,14px); }
+    .gemeinschaft { margin:0 12px; border-radius:20px; }
+    .gem-img { height:40vh; border-radius:16px 16px 0 0; }
+    .gem-content { padding:40px 20px; }
+    .double-spread { margin:0 12px; border-radius:20px; }
+    .spread-panel { height:44vh; }
+    .spread-title { font-size:clamp(24px,7vw,32px); }
+    .gallery-sec { padding:48px 16px; }
+    .gal-grid { grid-template-columns:1fr; }
+    .gi-1,.gi-2,.gi-3,.gi-4,.gi-5,.gi-6 { height:240px; }
+    .numbers { grid-template-columns:1fr; }
+    .num-item { padding:36px 20px; }
+    .stufen { padding:48px 16px 0; }
+    .stufe { height:340px; }
+    .steiner-quote { padding:64px 16px; flex-direction:column; gap:32px; text-align:center; }
+    .steiner-quote blockquote { font-size:clamp(24px,6.5vw,36px); }
+    .sq-label { flex-direction:column; gap:10px; }
+    .termine { padding:48px 16px; }
+    .termin { grid-template-columns:80px 1fr; padding:14px 10px; }
+    .anm-left,.anm-right { padding:48px 16px; }
+    .f-row { grid-template-columns:1fr; }
+    .kontakt { padding:48px 16px; }
+    .k-block h3 { font-size:18px; }
+    .campus-bleed { height:40vh; margin:0; }
+    .campus-text { left:16px; bottom:16px; }
+    .abs-grid { grid-template-columns:1fr; }
+    .abschluesse { padding:48px 16px; }
+    .service-cards { grid-template-columns:1fr; margin:0; }
+    .sc-card { padding:40px 24px; }
+    footer { padding:24px 16px; }
+    .ftr-links { gap:12px; }
+    .ftr-copy { font-size:10px; }
+    .werte-grid { grid-template-columns:1fr 1fr; }
+    .werte-strip { padding:36px 16px; }
+    .marquee-label-row { padding:16px 16px 12px; }
+    .search-dropdown { min-width:calc(100vw - 32px); right:-8px; }
   }
 
   </style>
@@ -1034,6 +1121,10 @@
     <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
   </ul>
 
+  <button class="burger" id="burgerBtn" aria-label="Menü öffnen">
+    <span></span><span></span><span></span>
+  </button>
+
   <!-- ── Suchleiste ── -->
   <div class="nav-search" id="navSearch">
     <button class="search-toggle" id="searchToggle" aria-label="Suche öffnen" aria-expanded="false">
@@ -1055,6 +1146,21 @@
   </div>
 </nav>
 
+<!-- ══ MOBILE MENU ═════════════════════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Startseite</a>
+  <a href="paedagogik.html">Waldorfpädagogik</a>
+  <a href="#stufen">Schulstufen 1–13</a>
+  <a href="schulleben.html">Schulleben</a>
+  <a href="leitung.html">Leitung</a>
+  <a href="termine.html">Termine</a>
+  <a href="service.html">Service</a>
+  <a href="offene-stellen.html">Offene Stellen</a>
+  <a href="presse.html">Presse</a>
+  <a href="foerdern.html">Fördern</a>
+  <a href="#kontakt">Kontakt</a>
+  <a href="service-anmeldung.html" class="mm-cta">Anmeldung</a>
+</div>
 
 <!-- ══ HERO ═════════════════════════════════ -->
 <section class="hero" id="hero">
@@ -1192,7 +1298,7 @@
 
 <!-- ══ STEINER QUOTE ══════════════════════════ -->
 <section class="steiner-quote">
-  <div class="aurora-wrap" aria-hidden="true"><div class="aurora-glow"></div></div>
+  <div class="aurora-glow" aria-hidden="true"></div>
   <div class="sq-canvas-wrap">
     <canvas id="sqCanvas" width="420" height="562" aria-hidden="true"></canvas>
   </div>
@@ -2693,6 +2799,25 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 
 })();
+</script>
+<script>
+/* ── Hamburger Menu ── */
+const burger = document.getElementById('burgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+if (burger && mobileMenu) {
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
 </script>
 <script src="nav-dropdown.js"></script>
 <script src="cookie-banner.js"></script>

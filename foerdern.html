@@ -157,7 +157,22 @@
       <li><a href="index.html#kontakt">Kontakt</a></li>
       <li><a href="service-anmeldung.html" class="nav-cta">Anmeldung</a></li>
     </ul>
+    <button class="burger" id="burgerBtn" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Startseite</a>
+    <a href="paedagogik.html">Waldorfpädagogik</a>
+    <a href="schulleben.html">Schulleben</a>
+    <a href="leitung.html">Leitung</a>
+    <a href="termine.html">Termine</a>
+    <a href="service.html">Service</a>
+    <a href="offene-stellen.html">Offene Stellen</a>
+    <a href="presse.html">Presse</a>
+    <a href="foerdern.html">Fördern</a>
+    <a href="service-anmeldung.html" class="mm-cta">Anmeldung</a>
+  </div>
 
   <section class="page-hero">
     <div class="page-hero-bg">
@@ -369,5 +384,23 @@ gsap.utils.toArray('.r').forEach(el => {
   </script>
 <script src="nav-dropdown.js"></script>
 <script src="cookie-banner.js"></script>
+<script>
+const burger = document.getElementById('burgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+if (burger && mobileMenu) {
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+</script>
 </body>
 </html>
