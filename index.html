@@ -741,8 +741,20 @@
   .num-label { font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.3); font-weight:300; margin-top:12px; line-height:1.6; }
 
   /* ══ SCHULSTUFEN ═══════════════════════════════ */
-  .stufen { padding:140px 72px 0; background:var(--cream); }
-  .stufen-head { max-width:520px; margin-bottom:72px; }
+  .stufen { padding:140px 72px 0; background:var(--cream); position:relative; }
+  .stufen-head { max-width:520px; margin-bottom:72px; position:relative; z-index:1; }
+  .stufen-video {
+    position:absolute; top:100px; right:72px; width:340px; border-radius:20px;
+    overflow:hidden; box-shadow:0 16px 64px rgba(0,0,0,.12);
+    z-index:1; opacity:0; transform:translateY(60px) rotate(2deg);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .stufen-video.v { opacity:1; transform:translateY(0) rotate(2deg); }
+  .stufen-video video { width:100%; height:auto; display:block; }
+  .stufen-video::after {
+    content:''; position:absolute; inset:0; border-radius:20px;
+    border:1px solid rgba(166,118,173,.15); pointer-events:none;
+  }
   .stufen-head h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(46px,6vw,80px); font-weight:300; color:var(--text); line-height:1.0; margin-top:14px; letter-spacing:-.02em; }
   .stufen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start; }
   .stufe { position:relative; overflow:hidden; height:600px; display:flex; flex-direction:column; justify-content:flex-end; border-radius:20px; background:var(--dark); transition:transform .5s cubic-bezier(.16,1,.3,1); }
@@ -947,6 +959,7 @@
     .numbers { grid-template-columns:1fr 1fr; }
     .num-item { border-right:none; border-bottom:1px solid rgba(255,255,255,.05); padding:52px 28px; }
     .stufen { padding:80px 24px 0; }
+    .stufen-video { display:none; }
     .stufen-grid { grid-template-columns:1fr; gap:10px; }
     .stufe { height:400px; }
     .stufe:nth-child(2),.stufe:nth-child(3) { margin-top:0; }
@@ -1008,6 +1021,7 @@
     .num-n { font-size:clamp(36px,10vw,50px); }
     .num-label { font-size:8px; letter-spacing:.12em; }
     .stufen { padding:48px 16px 0; }
+    .stufen-video { display:none; }
     .stufe { height:340px; }
     .steiner-quote { padding:64px 16px; flex-direction:column; gap:32px; text-align:center; }
     .steiner-quote blockquote { font-size:clamp(24px,6.5vw,36px); }
@@ -1568,6 +1582,11 @@
       <span class="s-tag-t" style="color:var(--lav)">Schulstufen</span>
     </div>
     <h2 class="r rd1">Von Klasse 1<br>bis zum Abitur</h2>
+  </div>
+  <div class="stufen-video" id="stufenVideo">
+    <video autoplay muted loop playsinline>
+      <source src="bilder/schulstufen-video.mp4" type="video/mp4">
+    </video>
   </div>
 
   <div class="stufen-grid">
@@ -2840,6 +2859,22 @@ if (burger && mobileMenu) {
       document.body.style.overflow = '';
     });
   });
+}
+/* ── Stufen Video Scroll Animation ── */
+const stufenVid = document.getElementById('stufenVideo');
+if (stufenVid && window.innerWidth > 1024) {
+  gsap.fromTo(stufenVid,
+    { opacity: 0, y: 60, rotation: 4 },
+    {
+      opacity: 1, y: 0, rotation: 2,
+      duration: 1, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.stufen',
+        start: 'top 75%',
+        toggleActions: 'play none none none'
+      }
+    }
+  );
 }
 </script>
 <script src="nav-dropdown.js"></script>
