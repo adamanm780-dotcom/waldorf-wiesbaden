@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Impressum — Freie Waldorfschule Wiesbaden</title>
+  <title>Impressum &amp; Datenschutz — Freie Waldorfschule Wiesbaden</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -80,10 +80,57 @@
       font-size: 13.5px; line-height: 1.85; color: var(--text2); font-weight: 300;
     }
 
+    /* ── DATENSCHUTZ SECTION ───────────────────── */
+    .dse-section {
+      margin-top: 96px;
+      padding-top: 64px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .dse-block {
+      margin-top: 48px;
+      padding: 0;
+    }
+    .dse-block h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 400; color: var(--text);
+      margin-bottom: 20px; line-height: 1.3;
+    }
+    .dse-block p {
+      font-size: 14.5px; line-height: 1.9; color: var(--text2);
+      font-weight: 300; margin-bottom: 16px;
+    }
+    .dse-block p:last-child { margin-bottom: 0; }
+    .dse-block ul {
+      list-style: none; padding: 0; margin: 0 0 16px;
+    }
+    .dse-block ul li {
+      font-size: 14.5px; line-height: 1.9; color: var(--text2);
+      font-weight: 300; padding-left: 20px; position: relative;
+    }
+    .dse-block ul li::before {
+      content: ''; position: absolute; left: 0; top: 12px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--mauve2);
+    }
+    .dse-block a {
+      color: var(--mauve-dk); text-decoration: none;
+      transition: color .25s;
+    }
+    .dse-block a:hover { color: var(--mauve); text-decoration: underline; }
+    .dse-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(166,118,173,.1); color: var(--mauve-dk);
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      margin-right: 12px; flex-shrink: 0;
+    }
+    .dse-block h3 { display: flex; align-items: center; }
+
     @media (max-width: 768px) {
       .impr-grid { grid-template-columns: 1fr; gap: 24px; }
       .impr-block { padding: 28px 24px; }
       .impr-block .impr-row { flex-direction: column; gap: 2px; }
+      .dse-section { margin-top: 64px; padding-top: 48px; }
     }
   </style>
 </head>
@@ -111,11 +158,11 @@
           <li><a href="index.html#stufen">Schulstufen 1–13</a></li>
           <li><a href="index.html#abschluesse">Abschlüsse</a></li>
           <div class="nav-drop-divider"></div>
-          <li><a href="schulleben.html">Projekte & Schulleben</a></li>
-          <li><a href="praktika-beruf.html">Praktika & Berufsleben</a></li>
-          <li><a href="foerdern.html">Unterstützen & Fördern</a></li>
+          <li><a href="schulleben.html">Projekte &amp; Schulleben</a></li>
+          <li><a href="praktika-beruf.html">Praktika &amp; Berufsleben</a></li>
+          <li><a href="foerdern.html">Unterstützen &amp; Fördern</a></li>
           <div class="nav-drop-divider"></div>
-          <li><a href="leitung.html">Leitung & Trägerschaft</a></li>
+          <li><a href="leitung.html">Leitung &amp; Trägerschaft</a></li>
         </ul>
       </li>
       <li><a href="termine.html">Termine</a></li>
@@ -150,7 +197,7 @@
         <div class="page-hero-line"></div>
         <span>Rechtliches</span>
       </div>
-      <h1>Impressum</h1>
+      <h1>Impressum &amp; <em>Datenschutz</em></h1>
     </div>
   </section>
   <div class="color-strip"></div>
@@ -160,7 +207,7 @@
     <div class="breadcrumb-inner">
       <a href="index.html">Startseite</a>
       <span>›</span>
-      <span class="bc-current">Impressum</span>
+      <span class="bc-current">Impressum &amp; Datenschutz</span>
     </div>
   </div>
 
@@ -168,9 +215,11 @@
   <div class="page-content">
     <div class="content-inner">
 
+      <!-- ══════════════════════════════════════════
+           IMPRESSUM
+      ══════════════════════════════════════════ -->
       <div class="sec-label">Angaben gemäß § 5 TMG</div>
       <h2 class="sec-h">Freie Waldorfschule<br>Wiesbaden <em>e.V.</em></h2>
-      <p class="sec-sub">Betreiber dieser Website und verantwortlich für den Inhalt.</p>
 
       <div class="impr-grid">
 
@@ -208,7 +257,7 @@
         <!-- Vorstand & Geschäftsführung -->
         <div class="impr-block r rd2">
           <div class="impr-block-label">Vertretung</div>
-          <h3>Vorstand (geschäftsführend)</h3>
+          <h3>Geschäftsführender Vorstand</h3>
           <p>Matthias Bruns, Johannes Feustel</p>
           <br>
           <h3>Geschäftsführung</h3>
@@ -270,6 +319,151 @@
         </div>
 
       </div>
+
+
+      <!-- ══════════════════════════════════════════
+           DATENSCHUTZERKLÄRUNG
+      ══════════════════════════════════════════ -->
+      <div class="dse-section" id="datenschutz">
+
+        <div class="sec-label">Datenschutzerklärung</div>
+        <h2 class="sec-h">Datenschutz<em>erklärung</em></h2>
+        <p class="sec-sub">Informationen zur Erhebung personenbezogener Daten gemäß der Datenschutz-Grundverordnung (DSGVO).</p>
+
+        <!-- 1. Information über die Erhebung personenbezogener Daten -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">1</span> Information über die Erhebung personenbezogener Daten</h3>
+
+          <p>a) Im Folgenden informieren wir über die Erhebung personenbezogener Daten bei Nutzung unserer Website. Personenbezogene Daten sind alle Daten, die auf Sie persönlich beziehbar sind, z.&nbsp;B. Name, Adresse, E-Mail-Adressen, Nutzerverhalten.</p>
+
+          <p>b) Verantwortlicher gem. Art. 4 Abs. 7 Datenschutz-Grundverordnung (DSGVO) ist:<br>
+          Freie Waldorfschule Wiesbaden e.V.<br>
+          Albert-Schweitzer-Allee 42<br>
+          65203 Wiesbaden<br>
+          Telefon: 0611-607080<br>
+          Fax: 0611-6070810<br>
+          Internet: <a href="https://www.waldorfschule-wiesbaden.de" target="_blank">www.waldorfschule-wiesbaden.de</a><br>
+          E-Mail: <a href="mailto:info@waldorfschule-wiesbaden.de">info@waldorfschule-wiesbaden.de</a></p>
+
+          <p>Unseren Datenschutzbeauftragten erreichen Sie unter:<br>
+          gds – Gesellschaft für Datenschutz Mittelhessen mbH<br>
+          E-Mail: <a href="mailto:datenschutz@gdsm.de">datenschutz@gdsm.de</a><br>
+          Tel.: 06421 80413-10</p>
+
+          <p>c) Bei Ihrer Kontaktaufnahme mit uns per E-Mail oder über ein Kontaktformular werden die von Ihnen mitgeteilten Daten (Ihre E-Mail-Adresse, ggf. Ihr Name und Ihre Telefonnummer) von uns gespeichert, um Ihre Fragen zu beantworten. Die in diesem Zusammenhang anfallenden Daten löschen wir, nachdem die Speicherung nicht mehr erforderlich ist, oder schränken die Verarbeitung ein, falls gesetzliche Aufbewahrungspflichten bestehen.</p>
+
+          <p>d) Falls wir für einzelne Funktionen unseres Angebots auf beauftragte Dienstleister zurückgreifen oder Ihre Daten für werbliche Zwecke nutzen möchten, werden wir Sie untenstehend im Detail über die jeweiligen Vorgänge informieren. Dabei nennen wir auch die festgelegten Kriterien der Speicherdauer.</p>
+        </div>
+
+        <!-- 2. Ihre Rechte -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">2</span> Ihre Rechte</h3>
+
+          <p>a) Sie haben gegenüber uns folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
+          <ul>
+            <li>Recht auf Auskunft</li>
+            <li>Recht auf Berichtigung oder Löschung</li>
+            <li>Recht auf Einschränkung der Verarbeitung</li>
+            <li>Recht auf Widerspruch gegen die Verarbeitung</li>
+            <li>Recht auf Datenübertragbarkeit</li>
+          </ul>
+
+          <p>b) Sie haben zudem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten durch uns zu beschweren.</p>
+        </div>
+
+        <!-- 3. Hosting -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">3</span> Hosting</h3>
+
+          <p>Die Webseite wird von dem nachfolgenden Dienstleister gehostet:</p>
+
+          <p>netclusive GmbH<br>
+          Robert-Bosch-Str. 10, Haus I<br>
+          56410 Montabaur</p>
+
+          <p>Die netclusive GmbH wird in diesem Rahmen auch automatisch die oben genannten personenbezogenen Daten verarbeiten. Dies erfolgt ausschließlich nach unserer Weisung und in unserem Auftrag gemäß eines Auftragsverarbeitungsvertrages nach Art. 28 DSGVO.</p>
+
+          <p>b) Zusätzlich zu den zuvor genannten Daten werden bei Ihrer Nutzung unserer Website Cookies auf Ihrem Rechner gespeichert. Bei Cookies handelt es sich um kleine Textdateien, die auf Ihrer Festplatte dem von Ihnen verwendeten Browser zugeordnet gespeichert werden und durch welche der Stelle, die den Cookie setzt (hier durch uns), bestimmte Informationen zufließen. Cookies können keine Programme ausführen oder Viren auf Ihren Computer übertragen. Sie dienen dazu, das Internetangebot insgesamt nutzerfreundlicher und effektiver zu machen. Der Einsatz dieser Cookies erfolgt auf Basis des Art. 6 Abs. 1 S. 1 lit. a bzw. c DSGVO.</p>
+        </div>
+
+        <!-- 5. Einsatz von Cookies -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">4</span> Einsatz von Cookies</h3>
+
+          <p>a) Diese Website nutzt folgende Arten von Cookies, deren Umfang und Funktionsweise im Folgenden erläutert werden:</p>
+          <ul>
+            <li>Transiente Cookies (dazu b)</li>
+            <li>Persistente Cookies (dazu c)</li>
+          </ul>
+
+          <p>b) Transiente Cookies werden automatisiert gelöscht, wenn Sie den Browser schließen. Dazu zählen insbesondere die Session-Cookies. Diese speichern eine sogenannte Session-ID, mit welcher sich verschiedene Anfragen Ihres Browsers der gemeinsamen Sitzung zuordnen lassen. Dadurch kann Ihr Rechner wiedererkannt werden, wenn Sie auf unsere Website zurückkehren. Die Session-Cookies werden gelöscht, wenn Sie sich ausloggen oder den Browser schließen.</p>
+
+          <p>c) Persistente Cookies werden automatisiert nach einer vorgegebenen Dauer gelöscht, die sich je nach Cookie unterscheiden kann. Sie können die Cookies in den Sicherheitseinstellungen Ihres Browsers jederzeit löschen.</p>
+
+          <p>d) Sie können Ihre Browser-Einstellung entsprechend Ihren Wünschen konfigurieren und z.&nbsp;B. die Annahme von Third-Party-Cookies oder allen Cookies ablehnen. Wir weisen Sie darauf hin, dass Sie eventuell nicht alle Funktionen dieser Website nutzen können.</p>
+        </div>
+
+        <!-- 6. Weitere Funktionen -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">5</span> Weitere Funktionen und Angebote unserer Website</h3>
+
+          <p>a) Neben der rein informatorischen Nutzung unserer Website bieten wir verschiedene Leistungen an, die Sie bei Interesse nutzen können. Dazu müssen Sie in der Regel weitere personenbezogene Daten angeben, die wir zur Erbringung der jeweiligen Leistung nutzen und für die die zuvor genannten Grundsätze zur Datenverarbeitung gelten.</p>
+
+          <p>b) Teilweise bedienen wir uns zur Verarbeitung Ihrer Daten externer Dienstleister. Diese wurden von uns sorgfältig ausgewählt und beauftragt, sind an unsere Weisungen gebunden und werden regelmäßig kontrolliert.</p>
+
+          <p>c) Weiterhin können wir Ihre personenbezogenen Daten an Dritte weitergeben, wenn Aktionsteilnahmen, Gewinnspiele, Vertragsabschlüsse oder ähnliche Leistungen von uns gemeinsam mit Partnern angeboten werden. Nähere Informationen hierzu erhalten Sie bei Angabe Ihrer personenbezogenen Daten oder untenstehend in der Beschreibung des Angebotes.</p>
+
+          <p>d) Soweit unsere Dienstleister oder Partner ihren Sitz in einem Staat außerhalb des Europäischen Wirtschaftsraumen (EWR) haben, informieren wir Sie über die Folgen dieses Umstands in der Beschreibung des Angebotes.</p>
+        </div>
+
+        <!-- 7. Widerspruch -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">6</span> Widerspruch oder Widerruf gegen die Verarbeitung Ihrer Daten</h3>
+
+          <p>a) Falls Sie eine Einwilligung zur Verarbeitung Ihrer Daten erteilt haben, können Sie diese jederzeit widerrufen. Ein solcher Widerruf beeinflusst die Zulässigkeit der Verarbeitung Ihrer personenbezogenen Daten, nachdem Sie ihn gegenüber uns ausgesprochen haben.</p>
+
+          <p>b) Soweit wir die Verarbeitung Ihrer personenbezogenen Daten auf die Interessenabwägung stützen, können Sie Widerspruch gegen die Verarbeitung einlegen. Dies ist der Fall, wenn die Verarbeitung insbesondere nicht zur Erfüllung eines Vertrags mit Ihnen erforderlich ist, was von uns jeweils bei der nachfolgenden Beschreibung der Funktionen dargestellt wird. Bei Ausübung eines solchen Widerspruchs bitten wir um Darlegung der Gründe, weshalb wir Ihre personenbezogenen Daten nicht wie von uns durchgeführt verarbeiten sollten. Im Falle Ihres begründeten Widerspruchs prüfen wir die Sachlage und werden entweder die Datenverarbeitung einstellen bzw. anpassen oder Ihnen unsere zwingenden schutzwürdigen Gründe aufzeigen, aufgrund derer wir die Verarbeitung fortführen.</p>
+
+          <p>c) Selbstverständlich können Sie der Verarbeitung Ihrer personenbezogenen Daten für Zwecke der Werbung und Datenanalyse jederzeit widersprechen. Über Ihren Werbewiderspruch können Sie uns unter folgenden Kontaktdaten informieren: <a href="mailto:info@waldorfschule-wiesbaden.de">info@waldorfschule-wiesbaden.de</a></p>
+        </div>
+
+        <!-- 8. Kontaktmöglichkeit via E-Mail -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">7</span> Kontaktmöglichkeit via E-Mail</h3>
+
+          <p>Sie haben die Möglichkeit, mit uns per E-Mail in Kontakt zu treten. Die entsprechenden Adressen finden Sie auf unserer Webseite unter Kontakt. Sofern eine Kontaktaufnahme über die von uns bereitgestellte E-Mail-Adresse erfolgt, werden die mit Ihrer E-Mail übermittelten personenbezogenen Daten gespeichert. Rechtsgrundlage für die Verarbeitung Ihrer Daten ist insoweit Art. 6 Abs. 1 lit. f) DSGVO, da unsererseits ein berechtigtes Interesse an der Kontaktaufnahme mit Ihnen als (potenziellen) Kunden besteht. Steht die Kontaktaufnahme via E-Mail im Zusammenhang mit dem Abschluss oder der Durchführung eines Vertrages zwischen Ihnen und uns, so ist zusätzlich Art. 6 Abs. 1 lit. b) DSGVO Rechtsgrundlage für die Verarbeitung.</p>
+
+          <p>Personenbezogene Daten, die wir im Zusammenhang mit Ihrer Kontaktaufnahme via E-Mail speichern, verarbeiten wir ausschließlich zur Bearbeitung Ihrer Kontaktaufnahme. Eine Weitergabe der Daten an Dritte erfolgt insoweit nicht. Wir löschen Ihre Daten, sobald sie für die Erreichung des jeweiligen Zweckes ihrer Erhebung nicht mehr erforderlich sind.</p>
+
+          <p>Für personenbezogene Daten, die per E-Mail übertragen wurden, tritt dieser Fall ein, wenn die jeweilige Korrespondenz mit Ihnen beendet ist und sich aus den Umständen entnehmen lässt, dass der betroffene Sachverhalt abschließend geklärt ist. Falls die Daten zur Erfüllung eines Vertrages oder zur Durchführung vorvertraglicher Maßnahmen erforderlich sind, kann eine Löschung nur erfolgen, soweit vertragliche oder gesetzliche Verpflichtungen dies zulassen.</p>
+
+          <p>Sie können Ihre Einwilligung zur Verarbeitung der personenbezogenen Daten jederzeit widerrufen. Im Falle einer Kontaktaufnahme per E-Mail können Sie der Speicherung Ihrer personenbezogenen Daten jederzeit widersprechen. Dazu richten Sie lediglich formlos eine entsprechende Nachricht an die zu Beginn dieser Datenschutzerklärung genannten Kontaktdaten.</p>
+        </div>
+
+        <!-- 9. Google reCAPTCHA -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">8</span> Google reCAPTCHA</h3>
+
+          <p>Wir nutzen „Google reCAPTCHA" (im Folgenden „reCAPTCHA") auf unseren Websites. Anbieter ist die Google Inc., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA („Google").</p>
+
+          <p>Mit reCAPTCHA soll überprüft werden, ob die Dateneingabe auf unseren Websites (z.B. in einem Kontaktformular) durch einen Menschen oder durch ein automatisiertes Programm erfolgt. Hierzu analysiert reCAPTCHA das Verhalten des Websitebesuchers anhand verschiedener Merkmale. Diese Analyse beginnt automatisch, sobald der Websitebesucher die Website betritt. Zur Analyse wertet reCAPTCHA verschiedene Informationen aus (z.B. IP-Adresse, Verweildauer des Websitebesuchers auf der Website oder vom Nutzer getätigte Mausbewegungen). Die bei der Analyse erfassten Daten werden an Google weitergeleitet.</p>
+
+          <p>Die reCAPTCHA-Analysen laufen vollständig im Hintergrund. Websitebesucher werden nicht darauf hingewiesen, dass eine Analyse stattfindet.</p>
+
+          <p>Die Datenverarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse daran, seine Webangebote vor missbräuchlicher automatisierter Ausspähung und vor SPAM zu schützen.</p>
+
+          <p>Weitere Informationen zu Google reCAPTCHA sowie die Datenschutzerklärung von Google entnehmen Sie folgenden Links: <a href="https://www.google.com/intl/de/policies/privacy/" target="_blank">Google Datenschutzerklärung</a> und <a href="https://www.google.com/recaptcha/intro/android.html" target="_blank">Google reCAPTCHA</a>.</p>
+        </div>
+
+        <!-- 10. Google Web Fonts -->
+        <div class="dse-block r">
+          <h3><span class="dse-num">9</span> Einbindung von Google Web Fonts</h3>
+
+          <p>Diese Seite nutzt zur einheitlichen Darstellung von Schriftarten so genannte Web Fonts. Diese Schriften sind lokal installiert.</p>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
