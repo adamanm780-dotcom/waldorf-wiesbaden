@@ -759,13 +759,17 @@ footer {
 
 /* ── RESPONSIVE — PHONE ────────────────────────────────────── */
 @media (max-width: 480px) {
-  nav { padding: 0 16px; height: 64px; }
-  .logo-img { width: 36px; height: 36px; }
-  .logo-text b { font-size: 13px; }
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  nav { padding: 0 12px; height: 64px; gap: 8px; }
+  .logo-img { width: 32px; height: 32px; }
+  .logo-text b { font-size: 12px; }
+  .logo-text span { font-size: 7px; letter-spacing: .15em; }
+  .nav-search { display: none; }
+  .burger { order: 3; }
   .page-hero { padding: 0 16px 28px; height: 200px; }
   .page-hero h1 { font-size:clamp(24px,6.5vw,36px); }
   .breadcrumb { padding: 10px 16px; }
-  .content-inner { padding: 36px 16px; }
+  .content-inner { padding: 36px 16px; overflow-x: hidden; }
   .sec-h { font-size:clamp(26px,6vw,36px); }
   .sec-sub { font-size: 14px; }
   .two-col-text p { font-size: 14px; }
@@ -774,6 +778,11 @@ footer {
   .job-card-header { flex-direction: column; gap: 12px; }
   .cards-grid { gap: 16px; }
   .card { padding: 28px 20px; }
+  .anm-sections { gap: 20px; }
+  .anm-card { padding: 24px 16px; border-radius: 16px; max-width: 100%; box-sizing: border-box; }
+  .anm-card h3 { font-size: 18px; }
+  .highlight-box { padding: 24px 16px; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+  .top-wave { display: none; }
   footer { padding: 24px 16px; }
   .ftr-links { gap: 10px; }
   .ftr-copy { font-size: 10px; }
