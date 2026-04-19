@@ -744,3 +744,40 @@ footer {
   .ftr-links { gap: 10px; }
   .ftr-copy { font-size: 10px; }
 }
+
+/* ─── Reusable White Wave Divider ──────────────────────────
+   Braucht Eltern-Section mit position: relative (oder .has-wave).
+   Variante 1 (Standard): Welle am unteren Rand einer farbigen
+   Section, z.B. unter dem Hero.
+   Variante 2 (.is-flipped): am oberen Rand, z.B. Übergang zum
+   farbigen Footer.
+                                                               */
+.has-wave { position: relative; }
+
+.wave-divider {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: clamp(64px, 8vw, 110px);
+  line-height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wave-divider.is-flipped {
+  top: -1px;
+  bottom: auto;
+  transform: scaleY(-1);
+}
+/* Footer mit Wave: Inhalte unter die Welle rutschen */
+footer.has-wave { padding-top: calc(56px + clamp(64px, 8vw, 110px)); }
+@media (max-width: 640px) {
+  .wave-divider { height: clamp(48px, 14vw, 80px); }
+  footer.has-wave { padding-top: calc(24px + clamp(48px, 14vw, 80px)); }
+}
