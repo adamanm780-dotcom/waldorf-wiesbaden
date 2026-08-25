@@ -1,0 +1,372 @@
+/* ═══════════════════════════════════════════════════════════════
+   WALDORF WIESBADEN — Dekor-Layer "Lazur & Kreide"
+   Wird NACH den Basis-Styles geladen und legt die Waldorf-eigene
+   Bildsprache über das bestehende Layout:
+     · Lazur-Wandmalerei als Flächen (statt flacher Volltöne)
+     · Formenzeichnen-Ornamente als Gliederung
+     · Kreide-Ikonografie statt generischer Icons
+     · Aquarellpapier als Grundton der ganzen Seite
+   Alle Deko-Assets liegen in bilder/deko/
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --deko-lazur-warm:   url("bilder/deko/lazur-warm.webp");
+  --deko-lazur-mauve:  url("bilder/deko/lazur-mauve.webp");
+  --deko-lazur-salbei: url("bilder/deko/lazur-salbei.webp");
+  --deko-papier:       url("bilder/deko/papier.webp");
+  --deko-licht:        url("bilder/deko/lichtstrahlen.webp");
+
+  /* wärmere Zwischentöne, damit das Mauve nicht kalt kippt */
+  --warm-sand:  #F3E7D8;
+  --warm-gold:  #C9A45C;
+  --warm-rose:  #E4BBA8;
+}
+
+/* ═══ 1 · PAPIERGRUND ══════════════════════════════════════════
+   Ersetzt das harte SVG-Rauschen durch echtes Aquarellpapier.
+   Sehr subtil (multiply, 5 %), gibt der Fläche Textur ohne Schmutz. */
+body::after {
+  background-image: var(--deko-papier) !important;
+  background-size: 620px 620px !important;
+  background-repeat: repeat !important;
+  opacity: .5 !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* ═══ 2 · HERO ═════════════════════════════════════════════════
+   Vorher: fast schwarzer Schleier über dem Foto — düster und für
+   eine Schule unpassend. Jetzt: warmer Lazur-Verlauf + Lichtstrahlen,
+   Text bleibt über einem gezielten Verlauf lesbar. */
+.hero-overlay {
+  background:
+    /* trägt Fließtext und Buttons am unteren Rand */
+    linear-gradient(to top,
+      rgba(22,10,32,.94) 0%,
+      rgba(30,14,42,.86) 20%,
+      rgba(48,24,60,.60) 42%,
+      rgba(86,48,88,.28) 64%,
+      rgba(150,100,110,.06) 86%,
+      rgba(200,150,120,.00) 100%),
+    /* trägt die Überschrift links */
+    linear-gradient(to right, rgba(20,8,32,.66) 0%, rgba(20,8,32,.34) 34%, rgba(20,8,32,.06) 58%, transparent 74%) !important;
+}
+
+/* warme Lazur-Lasur über dem Foto — nimmt den kalten Violettstich */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: var(--deko-lazur-warm) center/cover no-repeat;
+  mix-blend-mode: soft-light;
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* Lichtstrahlen-Effekt (schwarzer Grund verschwindet durch screen) */
+.hero::after {
+  content: '';
+  position: absolute; inset: -10% -10% auto -10%; height: 85%;
+  z-index: 3;
+  background: var(--deko-licht) top left/cover no-repeat;
+  mix-blend-mode: screen;
+  opacity: .30;
+  pointer-events: none;
+  animation: dekoLicht 14s ease-in-out infinite alternate;
+}
+@keyframes dekoLicht {
+  from { opacity: .22; transform: translate3d(0,0,0) scale(1); }
+  to   { opacity: .38; transform: translate3d(1.5%,1%,0) scale(1.04); }
+}
+
+/* Hero-Inhalt über die neuen Ebenen heben.
+   Achtung: position bleibt absolute — sonst verliert der Block
+   seine Verankerung am unteren Rand. */
+.hero-content { z-index: 6; }
+.wave-divider  { z-index: 7; }
+
+/* Lesbarkeit: Überschrift und Auszeichner bekommen mehr Kontrast.
+   Das kühle Lila der Kursivzeile ging vor dem hellen Himmel unter —
+   ein warmes Gold hält den Waldorf-Ton und bleibt lesbar. */
+.hero-h1 { text-shadow: 0 2px 44px rgba(18,6,28,.62), 0 1px 3px rgba(18,6,28,.35); }
+.hero-h1 em { color: #EBC98F !important; }
+.hero-tag span { color: rgba(255,255,255,.94) !important; }
+.hs-l { color: rgba(255,255,255,.62) !important; }
+.hs-n { text-shadow: 0 2px 24px rgba(18,6,28,.55); }
+
+/* Nav über dem Hero war kaum lesbar — dezenter Schleier trägt die Schrift */
+nav:not(.solid) {
+  background: linear-gradient(to bottom, rgba(24,8,36,.42), rgba(24,8,36,0));
+}
+nav:not(.solid) .nav-links > li > a { color: rgba(255,255,255,.88); }
+nav:not(.solid) .logo-text b    { text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+nav:not(.solid) .logo-text span { color: rgba(255,255,255,.72); }
+
+/* Kennzahlen im Hero standen am Bildrand — nach innen holen */
+.hero-stats-wrap { padding-right: 8px; }
+
+/* ═══ 3 · TICKER ═══════════════════════════════════════════════
+   Flaches Mauve → Lazur-Band mit Farbverlauf. */
+.ticker-wrap {
+  background: var(--mauve-dk) var(--deko-lazur-mauve) center/cover !important;
+  position: relative;
+}
+.ticker-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--mauve-dk) 0%, rgba(122,78,135,.55) 18%, rgba(122,78,135,.55) 82%, var(--mauve-dk) 100%);
+  pointer-events: none;
+}
+.ticker-track { position: relative; z-index: 1; }
+
+/* ═══ 4 · DUNKLE FLÄCHEN ALS LAZUR & TAFELBILD ═════════════════
+   Steiner-Zitat, Kennzahlen und Anmeldung waren flaches #0F0818.
+   Jetzt tragen sie echte Waldorf-Flächen: die Lazur-Wandmalerei
+   und das klassische Tafelbild.
+
+   WICHTIG: ::before/::after sind auf diesen Sektionen bereits
+   vergeben (großes Anführungszeichen, Glow-Ellipsen). Deshalb
+   werden die Ebenen über die background-Kurzschreibweise gestapelt
+   und NICHT über Pseudo-Elemente. */
+
+/* Kreidezeichnung hinter dem Steiner-Zitat — dunkel abgedeckt,
+   sodass sie als Textur wirkt und die Schrift führend bleibt */
+.steiner-quote {
+  background:
+    linear-gradient(rgba(16,8,26,.86), rgba(16,8,26,.90)),
+    url("bilder/deko/tafelbild.webp") center/cover no-repeat,
+    var(--dark) !important;
+}
+
+/* Kennzahlen auf Lazur statt auf Volltonschwarz */
+.numbers {
+  background:
+    linear-gradient(180deg, rgba(15,8,24,.72), rgba(15,8,24,.86)),
+    url("bilder/deko/lazur-mauve.webp") center/cover no-repeat,
+    var(--dark) !important;
+}
+
+/* Die Eurythmie-Sequenz war grell magenta und stand als Ausschnitt
+   auf der Fläche. Screen-Blend + gedämpfter Ton lassen sie ins
+   Tafelbild hineinleuchten statt darauf zu kleben. */
+#sqCanvas {
+  mix-blend-mode: screen;
+  filter: hue-rotate(48deg) saturate(.5) brightness(1.06) contrast(.94);
+  opacity: .8;
+}
+
+/* Anmeldeblock: Lazur mit heller Mitte hinter dem Formular */
+.anm-left {
+  background:
+    radial-gradient(130% 100% at 28% 42%, rgba(15,8,24,.55) 0%, rgba(15,8,24,.86) 100%),
+    url("bilder/deko/lazur-mauve.webp") center/cover no-repeat,
+    var(--dark) !important;
+}
+
+/* ═══ 6 · FORMENZEICHNEN-ORNAMENTE ═════════════════════════════
+   Wiederkehrendes Gliederungselement statt bloßer Abstände. */
+.deko-ornament {
+  display: block;
+  margin: 0 auto;
+  opacity: .28;
+  pointer-events: none;
+  user-select: none;
+}
+.deko-ornament--ranke   { width: min(420px, 62vw); height: auto; }
+.deko-ornament--rosette { width: 104px; height: 104px; opacity: .22; }
+.deko-ornament--sonne   { width: 76px;  height: 76px;  opacity: .30; }
+
+/* Rosette als stilles Wasserzeichen hinter großen Überschriften */
+.deko-watermark { position: relative; }
+.deko-watermark::before {
+  content: '';
+  position: absolute;
+  top: 50%; right: 4%;
+  width: min(340px, 34vw); aspect-ratio: 1;
+  transform: translateY(-50%);
+  background: url("bilder/deko/form-rosette.svg") center/contain no-repeat;
+  opacity: .09;
+  pointer-events: none;
+  z-index: 0;
+}
+.deko-watermark > * { position: relative; z-index: 1; }
+
+/* Eck-Zweig für ruhige, helle Blöcke */
+.deko-ecke { position: relative; }
+.deko-ecke::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: min(240px, 26vw); aspect-ratio: 1;
+  background: url("bilder/deko/ecke-zweig.svg") left bottom/contain no-repeat;
+  opacity: .12;
+  pointer-events: none;
+}
+
+/* ═══ 7 · AQUARELL-KANTE ALS SEKTIONSÜBERGANG ══════════════════ */
+.deko-wash-top { position: relative; }
+.deko-wash-top::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 0;
+  height: 190px;
+  background: var(--deko-lazur-warm) center top/cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 45%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.55) 45%, transparent 100%);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 0;
+}
+.deko-wash-top > * { position: relative; z-index: 1; }
+
+/* ═══ 8 · WERTE-STRIP MIT KREIDE-IKONOGRAFIE ═══════════════════
+   Die generischen Inline-SVGs werden durch die handgezeichneten
+   Motive ersetzt (multiply blendet das Weiß der Grafik weg). */
+.wert-icon {
+  width: 52px !important; height: 52px !important;
+  margin-bottom: 18px !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.wert-icon > svg { display: none; }         /* alte Icons ausblenden */
+
+.werte-grid > .wert-item:nth-child(1) .wert-icon { background-image: url("bilder/deko/icon-kopf.svg"); }
+.werte-grid > .wert-item:nth-child(2) .wert-icon { background-image: url("bilder/deko/icon-herz.svg"); }
+.werte-grid > .wert-item:nth-child(3) .wert-icon { background-image: url("bilder/deko/icon-hand.svg"); }
+.werte-grid > .wert-item:nth-child(4) .wert-icon { background-image: url("bilder/deko/icon-natur.svg"); }
+.werte-grid > .wert-item:nth-child(5) .wert-icon { background-image: url("bilder/deko/icon-gemeinschaft.svg"); }
+
+/* die dünnen Pinselstriche durch das Ranken-Ornament ersetzen */
+.werte-brush { height: auto !important; }
+.werte-brush > svg { display: none; }
+.werte-brush::before {
+  content: '';
+  display: block;
+  /* Seitenverhältnis der Ranke ist 5.3:1 — Höhe daraus ableiten,
+     sonst schrumpft sie durch contain auf einen Strich zusammen */
+  width: min(460px, 66vw); aspect-ratio: 5.31;
+  margin: 0 auto;
+  background: url("bilder/deko/ranke-divider.svg") center/contain no-repeat;
+  opacity: .42;
+}
+.werte-brush--bottom::before { transform: rotate(180deg); }
+
+.werte-strip { background: linear-gradient(180deg, var(--cream) 0%, #F3EBE0 100%); }
+.wert-item   { background: #FAF8F5; }
+.wert-item:hover { background: #FAF8F5; box-shadow: 0 10px 30px rgba(122,78,135,.10); }
+
+/* ═══ 9 · BUTTON-FIX ═══════════════════════════════════════════
+   .btn-bubble war nur in waldorf-shared.css definiert; die Startseite
+   lädt diese Datei nicht, dort rendern 6 Buttons als nackte Links. */
+.btn-bubble-wrap { text-align: center; margin: 48px 0; }
+.btn-bubble {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 32px; background: var(--mauve); color: #fff;
+  text-decoration: none; border-radius: 60px; border: none;
+  font-family: 'Lora', serif; font-size: 13px; font-style: italic; letter-spacing: .06em;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  box-shadow: 0 6px 24px rgba(166,118,173,.35);
+  cursor: pointer;
+}
+.btn-bubble:hover {
+  background: var(--mauve-dk); transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(166,118,173,.5);
+}
+
+/* ═══ 10 · LAGEPLAN ════════════════════════════════════════════
+   Der Screenshot-Lageplan war grell (Neongrün/Orange) und sprengte
+   die Palette. Entsättigen + warme Lasur holt ihn ins Bild zurück. */
+.cm-stage { position: relative; }
+.cm-img { filter: saturate(.42) contrast(.94) brightness(1.04); }
+.cm-stage::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(243,231,216,.30);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.cm-viewport {
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 1px rgba(122,78,135,.14);
+}
+
+/* ═══ 11 · FEINSCHLIFF ═════════════════════════════════════════ */
+
+/* Abschnittsmarken bekommen den Sonnen-Punkt statt nur eines Strichs */
+.s-tag { align-items: center; }
+
+/* Zitat-Typografie etwas luftiger */
+.steiner-quote { text-shadow: 0 2px 30px rgba(15,8,24,.5); }
+
+/* Fokus-Sichtbarkeit (Barrierefreiheit + SEO-Signal) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--mauve);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Sprungmarke für Screenreader/Tastatur */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100000;
+  background: var(--mauve-dk); color: #fff;
+  padding: 12px 22px; border-radius: 0 0 10px 0;
+  font-size: 13px; letter-spacing: .04em; text-decoration: none;
+}
+.skip-link:focus { left: 0; }
+
+/* Bilder nie über den Rahmen hinaus */
+img { max-width: 100%; }
+
+/* ═══ 12 · RESPONSIV ═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .deko-watermark::before { width: 220px; opacity: .05; right: -4%; }
+  .deko-ecke::after       { width: 150px; opacity: .07; }
+  .hero::after            { opacity: .22; }
+  .deko-ornament--ranke   { width: 74vw; }
+}
+@media (max-width: 560px) {
+  .deko-watermark::before { display: none; }
+  .werte-brush::before    { width: 72vw; }
+}
+
+/* ═══ 13 · REDUZIERTE BEWEGUNG ═════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .hero::after { animation: none; opacity: .26; }
+}
+
+/* ═══ 14 · KARTEN-EINWILLIGUNG (Zwei-Klick) ════════════════════ */
+.karte-consent {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 320px; padding: 32px;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(250,248,245,.86), rgba(250,248,245,.92)),
+    url("bilder/deko/lazur-salbei.webp") center/cover no-repeat;
+  border: 1px solid rgba(122,78,135,.16);
+}
+.karte-consent-inner { max-width: 420px; text-align: center; }
+.karte-consent-icon  { width: 30px; height: 30px; color: var(--mauve-dk); margin-bottom: 14px; }
+.karte-consent-text  {
+  font-size: 14px; line-height: 1.75; color: var(--text2);
+  font-weight: 300; margin-bottom: 20px;
+}
+.karte-consent-text strong { font-weight: 500; color: var(--text); }
+.karte-consent-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 30px; border: none; border-radius: 60px;
+  background: var(--mauve); color: #fff; cursor: pointer;
+  font-family: 'Lora', serif; font-size: 13px; font-style: italic; letter-spacing: .06em;
+  box-shadow: 0 6px 22px rgba(166,118,173,.32);
+  transition: background .3s, transform .3s, box-shadow .3s;
+}
+.karte-consent-btn:hover {
+  background: var(--mauve-dk); transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(166,118,173,.45);
+}
+.karte-consent-link {
+  display: block; margin-top: 14px;
+  font-size: 11px; letter-spacing: .04em; color: var(--muted);
+}
+.karte-consent-link:hover { color: var(--mauve-dk); }

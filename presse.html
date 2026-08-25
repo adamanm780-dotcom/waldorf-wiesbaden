@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Presse — Freie Waldorfschule Wiesbaden</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <title>Presse, Medien &amp; Berichte — Waldorfschule Wiesbaden</title>
+  <link rel="stylesheet" href="fonts.css" />
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
   <link rel="stylesheet" href="waldorf-shared.css" />
+  <link rel="stylesheet" href="waldorf-deko.css" />
   <style>
     .presseschau-section { padding: 80px 72px 0; }
     .pressemitteilungen-section { padding: 0 72px 80px; }
@@ -23,8 +22,147 @@
       .pressemitteilungen-section { padding: 0 20px 40px; }
     }
   </style>
+  <!-- ══ SEO / Meta ══ ═════════════════════════════════ -->
+  <meta name="description" content="Presse und Medien: Pressemitteilungen, Berichte und Bildmaterial der Freien Waldorfschule Wiesbaden für Redaktionen und Journalistinnen." />
+  <link rel="canonical" href="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="Freie Waldorfschule Wiesbaden" />
+  <meta name="publisher" content="Freie Waldorfschule Wiesbaden" />
+  <meta name="theme-color" content="#a676ad" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="geo.region" content="DE-HE" />
+  <meta name="geo.placename" content="Wiesbaden-Biebrich" />
+  <meta name="geo.position" content="50.0326;8.2254" />
+  <meta name="ICBM" content="50.0326, 8.2254" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Freie Waldorfschule Wiesbaden" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:title" content="Presse &amp; Medien" />
+  <meta property="og:description" content="Presse und Medien: Pressemitteilungen, Berichte und Bildmaterial der Freien Waldorfschule Wiesbaden für Redaktionen und Journalistinnen." />
+  <meta property="og:url" content="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html" />
+  <meta property="og:image" content="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Schulfest auf der Wiese vor dem Hauptgebäude der Freien Waldorfschule Wiesbaden" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Presse &amp; Medien" />
+  <meta name="twitter:description" content="Presse und Medien: Pressemitteilungen, Berichte und Bildmaterial der Freien Waldorfschule Wiesbaden für Redaktionen und Journalistinnen." />
+  <meta name="twitter:image" content="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg" />
+
+  <link rel="icon" href="bilder/logowaldifinal.png" type="image/png" />
+  <link rel="apple-touch-icon" href="bilder/logowaldifinal.png" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "School",
+        "EducationalOrganization"
+      ],
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#schule",
+      "name": "Freie Waldorfschule Wiesbaden",
+      "alternateName": "Waldorfschule Wiesbaden",
+      "description": "Freie Waldorfschule in Wiesbaden-Biebrich mit Waldorfpädagogik von Klasse 1 bis 13 und staatlich anerkanntem Abitur.",
+      "url": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/",
+      "logo": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/logowaldifinal.png",
+      "image": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg",
+      "telephone": "+49-611-607080",
+      "faxNumber": "+49-611-6070810",
+      "email": "info@waldorfschule-wiesbaden.de",
+      "foundingDate": "1985",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Albert-Schweitzer-Allee 42",
+        "postalCode": "65203",
+        "addressLocality": "Wiesbaden",
+        "addressRegion": "Hessen",
+        "addressCountry": "DE"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 50.0326,
+        "longitude": 8.2254
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Wiesbaden"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "12:00",
+          "description": "Sekretariat"
+        }
+      ],
+      "sameAs": [
+        "https://www.waldorfschule-wiesbaden.de/",
+        "https://www.instagram.com/freiewaldorfschulewiesbaden"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#website",
+      "url": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/",
+      "name": "Freie Waldorfschule Wiesbaden",
+      "inLanguage": "de-DE",
+      "publisher": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#schule"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html#webpage",
+      "url": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html",
+      "name": "Presse & Medien",
+      "description": "Presse und Medien: Pressemitteilungen, Berichte und Bildmaterial der Freien Waldorfschule Wiesbaden für Redaktionen und Journalistinnen.",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#website"
+      },
+      "about": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#schule"
+      },
+      "primaryImageOfPage": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg",
+      "breadcrumb": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Presse & Medien",
+          "item": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/presse.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="top-wave" aria-hidden="true">
@@ -36,7 +174,7 @@
     <nav id="mainNav">
     <a href="index.html" class="logo">
       <div class="logo-img">
-        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" loading="lazy" decoding="async" width="1039" height="947" />
       </div>
       <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
     </a>
@@ -121,9 +259,9 @@
     <a href="service-anmeldung.html" class="mm-cta">Anmeldung</a>
   </div>
 
-  <section class="page-hero">
+  <section class="page-hero" id="inhalt">
   <div class="page-hero-bg">
-    <img src="bilder/marken(otto-schulz).jpg" alt="Presse Waldorfschule Wiesbaden" />
+    <img src="bilder/marken(otto-schulz).jpg" alt="Presse Waldorfschule Wiesbaden" loading="lazy" decoding="async" width="900" height="1600" />
   </div>
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content">
@@ -208,7 +346,7 @@
             <p>Die Ausstellung war Teil der bundesweiten Feierlichkeiten zum 100-jährigen Bestehen der Waldorfschulbewegung und zog zahlreiche Besucherinnen und Besucher ins Museum Wiesbaden.</p>
           </div>
           <div class="press-release-img">
-            <img src="bilder/presse-fotoausstellung.png" alt="Fotoausstellung — Schüler mit Urkunden im Museum Wiesbaden" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" />
+            <img src="bilder/presse-fotoausstellung.webp" alt="Fotoausstellung — Schüler mit Urkunden im Museum Wiesbaden" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" loading="lazy" decoding="async" width="1018" height="444" />
           </div>
         </div>
 
@@ -221,7 +359,7 @@
             <p>Die Freie Waldorfschule Wiesbaden, gegründet 1985, gehört zu den lebendigen Vertreterinnen dieser traditionsreichen Pädagogik im Rhein-Main-Gebiet.</p>
           </div>
           <div class="press-release-img">
-            <img src="bilder/presse-staffellauf.png" alt="Staffelholzübergabe — Schüler mit Staffelholz" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" />
+            <img src="bilder/presse-staffellauf.webp" alt="Staffelholzübergabe — Schüler mit Staffelholz" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" loading="lazy" decoding="async" width="539" height="336" />
           </div>
         </div>
 
@@ -234,7 +372,7 @@
             <p>Der Herbstmarkt gehört zu den jährlichen Höhepunkten des Schullebens und bringt Schülerinnen, Schüler, Eltern, Lehrende und die Wiesbadener Öffentlichkeit zusammen.</p>
           </div>
           <div class="press-release-img">
-            <img src="bilder/presse-staffelholz.png" alt="Herbstmarkt — Oberbürgermeister zu Besuch" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" />
+            <img src="bilder/presse-staffelholz.webp" alt="Herbstmarkt — Oberbürgermeister zu Besuch" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" loading="lazy" decoding="async" width="1536" height="1024" />
           </div>
         </div>
 
@@ -268,7 +406,7 @@
     <footer>
     <div class="ftr-left">
       <div class="ftr-logo">
-        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" loading="lazy" decoding="async" width="1039" height="947" />
       </div>
       <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
     </div>

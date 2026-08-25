@@ -1,0 +1,6 @@
+# Abhängigkeiten der Build-Hilfsskripte (remove-bg.mjs) — gehören nicht ins Deployment
+node_modules/
+
+# Betriebssystem
+Thumbs.db
+.DS_Store

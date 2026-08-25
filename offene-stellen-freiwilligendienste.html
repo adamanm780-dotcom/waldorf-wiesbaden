@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Freiwilligendienste — Freie Waldorfschule Wiesbaden</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <title>Freiwilligendienste FSJ &amp; FÖJ — Waldorfschule Wiesbaden</title>
+  <link rel="stylesheet" href="fonts.css" />
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
   <link rel="stylesheet" href="waldorf-shared.css" />
+  <link rel="stylesheet" href="waldorf-deko.css" />
   <style>
     .dienst-card {
       background: #fff;
@@ -77,8 +76,153 @@
       .dienst-card { padding: 28px 24px; }
     }
   </style>
+  <!-- ══ SEO / Meta ══ ═════════════════════════════════ -->
+  <meta name="description" content="FSJ und FÖJ an der Freien Waldorfschule Wiesbaden: ein Freiwilligenjahr in Betreuung, Schulgarten, Werkstatt und Schulalltag." />
+  <link rel="canonical" href="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="Freie Waldorfschule Wiesbaden" />
+  <meta name="publisher" content="Freie Waldorfschule Wiesbaden" />
+  <meta name="theme-color" content="#a676ad" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="geo.region" content="DE-HE" />
+  <meta name="geo.placename" content="Wiesbaden-Biebrich" />
+  <meta name="geo.position" content="50.0326;8.2254" />
+  <meta name="ICBM" content="50.0326, 8.2254" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Freie Waldorfschule Wiesbaden" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:title" content="Freiwilligendienste — FSJ &amp; FÖJ" />
+  <meta property="og:description" content="FSJ und FÖJ an der Freien Waldorfschule Wiesbaden: ein Freiwilligenjahr in Betreuung, Schulgarten, Werkstatt und Schulalltag." />
+  <meta property="og:url" content="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html" />
+  <meta property="og:image" content="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Schulfest auf der Wiese vor dem Hauptgebäude der Freien Waldorfschule Wiesbaden" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Freiwilligendienste — FSJ &amp; FÖJ" />
+  <meta name="twitter:description" content="FSJ und FÖJ an der Freien Waldorfschule Wiesbaden: ein Freiwilligenjahr in Betreuung, Schulgarten, Werkstatt und Schulalltag." />
+  <meta name="twitter:image" content="https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg" />
+
+  <link rel="icon" href="bilder/logowaldifinal.png" type="image/png" />
+  <link rel="apple-touch-icon" href="bilder/logowaldifinal.png" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "School",
+        "EducationalOrganization"
+      ],
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#schule",
+      "name": "Freie Waldorfschule Wiesbaden",
+      "alternateName": "Waldorfschule Wiesbaden",
+      "description": "Freie Waldorfschule in Wiesbaden-Biebrich mit Waldorfpädagogik von Klasse 1 bis 13 und staatlich anerkanntem Abitur.",
+      "url": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/",
+      "logo": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/logowaldifinal.png",
+      "image": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg",
+      "telephone": "+49-611-607080",
+      "faxNumber": "+49-611-6070810",
+      "email": "info@waldorfschule-wiesbaden.de",
+      "foundingDate": "1985",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Albert-Schweitzer-Allee 42",
+        "postalCode": "65203",
+        "addressLocality": "Wiesbaden",
+        "addressRegion": "Hessen",
+        "addressCountry": "DE"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 50.0326,
+        "longitude": 8.2254
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Wiesbaden"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "12:00",
+          "description": "Sekretariat"
+        }
+      ],
+      "sameAs": [
+        "https://www.waldorfschule-wiesbaden.de/",
+        "https://www.instagram.com/freiewaldorfschulewiesbaden"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#website",
+      "url": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/",
+      "name": "Freie Waldorfschule Wiesbaden",
+      "inLanguage": "de-DE",
+      "publisher": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#schule"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html#webpage",
+      "url": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html",
+      "name": "Freiwilligendienste — FSJ & FÖJ",
+      "description": "FSJ und FÖJ an der Freien Waldorfschule Wiesbaden: ein Freiwilligenjahr in Betreuung, Schulgarten, Werkstatt und Schulalltag.",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#website"
+      },
+      "about": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/#schule"
+      },
+      "primaryImageOfPage": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/bilder/og-waldorfschule-wiesbaden.jpg",
+      "breadcrumb": {
+        "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Offene Stellen",
+          "item": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Freiwilligendienste",
+          "item": "https://adamanm780-dotcom.github.io/waldorf-wiesbaden/offene-stellen-freiwilligendienste.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 
   <div class="scroll-progress" id="scrollProgress"></div>
   <div class="top-wave" aria-hidden="true">
@@ -90,7 +234,7 @@
     <nav id="mainNav">
     <a href="index.html" class="logo">
       <div class="logo-img">
-        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" />
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Waldorfschule Wiesbaden Logo" style="border-radius:50%; object-fit:cover;" loading="lazy" decoding="async" width="1039" height="947" />
       </div>
       <div class="logo-text"><b>Waldorfschule Wiesbaden</b><span>Freie Waldorfschule</span></div>
     </a>
@@ -175,9 +319,9 @@
     <a href="service-anmeldung.html" class="mm-cta">Anmeldung</a>
   </div>
 
-  <section class="page-hero">
+  <section class="page-hero" id="inhalt">
   <div class="page-hero-bg">
-    <img src="bilder/impression5.jpg" alt="Freiwilligendienste" />
+    <img src="bilder/impression5.jpg" alt="Freiwilligendienste" loading="lazy" decoding="async" width="200" height="198" />
   </div>
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content">
@@ -263,7 +407,7 @@
     <footer>
     <div class="ftr-left">
       <div class="ftr-logo">
-        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" />
+        <img src="bilder/fede46d1-8f64-4da7-aa28-22671cf7b6a6.jpg" alt="Logo" style="border-radius:50%; object-fit:cover; width:100%; height:100%;" loading="lazy" decoding="async" width="1039" height="947" />
       </div>
       <span class="ftr-name">Freie Waldorfschule Wiesbaden</span>
     </div>

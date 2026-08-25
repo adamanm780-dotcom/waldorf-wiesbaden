@@ -1,0 +1,9 @@
+# robots.txt — Freie Waldorfschule Wiesbaden
+User-agent: *
+Allow: /
+
+# Interne Hilfsdateien nicht indexieren
+Disallow: /frames/
+Disallow: /*.mjs$
+
+Sitemap: https://adamanm780-dotcom.github.io/waldorf-wiesbaden/sitemap.xml

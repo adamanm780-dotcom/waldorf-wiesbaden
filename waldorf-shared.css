@@ -763,7 +763,7 @@ footer {
   height: clamp(64px, 8vw, 110px);
   line-height: 0;
   pointer-events: none;
-  z-index: 2;
+  z-index: 5;
 }
 .wave-divider svg {
   display: block;
