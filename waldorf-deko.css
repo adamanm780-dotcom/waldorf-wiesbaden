@@ -27,9 +27,12 @@
    Sehr subtil (multiply, 5 %), gibt der Fläche Textur ohne Schmutz. */
 body::after {
   background-image: var(--deko-papier) !important;
-  background-size: 620px 620px !important;
+  /* Die Kachel ist eine Spiegelkachel (920 px) und dadurch nahtlos.
+     Wird hier 1:1 dargestellt — jede Abweichung von 920 px waere egal,
+     aber so bleibt die Koernung knackig. */
+  background-size: 920px 920px !important;
   background-repeat: repeat !important;
-  opacity: .5 !important;
+  opacity: .42 !important;
   mix-blend-mode: multiply !important;
 }
 
@@ -61,7 +64,10 @@ body::after {
   pointer-events: none;
 }
 
-/* Lichtstrahlen-Effekt (schwarzer Grund verschwindet durch screen) */
+/* Lichtstrahlen-Effekt (schwarzer Grund verschwindet durch screen).
+   Bewusst ohne Maske: die Unterkante der Ebene liegt in einem Bereich,
+   in dem der Verlauf ohnehin fast schwarz ist — gemessen kein sichtbarer
+   Absatz. Eine Maske hier nimmt dem Hero nur das Leuchten. */
 .hero::after {
   content: '';
   position: absolute; inset: -10% -10% auto -10%; height: 85%;
